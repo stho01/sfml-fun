@@ -10,9 +10,9 @@ namespace Flocking
         //**********************************************************
 
         public float AlignmentAmount = 1f;
-        public float SeparationAmount = 1.2f;
+        public float SeparationAmount = 1.5f;
         public float CohesionAmount = 1f;
-        public float MaxSteeringForce = .75f;
+        public float MaxSteeringForce = .95f;
         private readonly FlockingBehaviour _flockingBehaviour;
           
         //**********************************************************
@@ -71,7 +71,7 @@ namespace Flocking
           
             alignment  = Steer(agent, (alignment / neighbors.Length).Normalize() * MaxSpeed);
             cohesion   = Steer(agent, ((cohesion / neighbors.Length) - agent.Pos).Normalize() * MaxSpeed);
-            separation = separationCount == 0 ? separation : Steer(agent, (separation / neighbors.Length).Normalize() * MaxSpeed);
+            separation = separationCount == 0 ? separation : Steer(agent, (separation / separationCount).Normalize() * MaxSpeed);
             
             return alignment  * AlignmentAmount 
                  + cohesion   * CohesionAmount 

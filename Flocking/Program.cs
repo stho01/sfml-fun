@@ -11,7 +11,7 @@ namespace Flocking
     {
         public const int ScreenWidth = 1600;
         public const int ScreenHeight = 900;
-        public const int DefaultNumberOfAgents = 1000;
+        public const int DefaultNumberOfAgents = 300;
 
 
         static void Main(string[] args)
