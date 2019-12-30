@@ -10,6 +10,7 @@ namespace FireWorks
         public byte B { get; set; } = 255;
         public Vector2f Position { get; set; }
         public Vector2f Velocity { get; set; }
+        public Vector2f Acceleration { get; set; }
         public float Age { get; set; }
         public float TotalLifetime { get; set; }
         public float Mass { get; set; }

@@ -23,8 +23,7 @@ namespace FireWorks
         private readonly ExplosionRenderer _explosionRenderer;
         private readonly ExplosionUpdater _explosionUpdater;
         private readonly ExplosionSpawner _explosionSpawner;
-        private readonly CircleShape _earth = new CircleShape(70, 60);
-        private Image _earthImage;
+        private readonly CircleShape _earth = new CircleShape(120, 60);
         private Sprite _earthSprite;
         
         //**********************************************************
@@ -63,15 +62,12 @@ namespace FireWorks
         public override void Initialize()
         {
             ShowFps = true;
-            // _earthImage = new Image("Assets/earth.png");
-            
             
             _earth.Origin = new Vector2f(_earth.Radius, _earth.Radius);
             _earth.Position = new Vector2f(WindowWidth/2, WindowHeight/2);
             _earth.FillColor = Color.Transparent;
             _earth.OutlineColor = Color.Green;
             _earth.OutlineThickness = -1;
-            
             
             var texture = new Texture("Assets/earth.png");
             _earthSprite = new Sprite(texture);
@@ -113,25 +109,9 @@ namespace FireWorks
 
         protected override void Render()
         {
-            // Window.Draw(_earth);
-            
             Window.Draw(_earthSprite);
             _rockets.ForEach(_rocketRenderer.Render);
             _explosions.ForEach(_explosionRenderer.Render);
-            
-            
-
-            // var b = _earthSprite.GetLocalBounds();
-            // var rect = new RectangleShape();
-            // rect.Size = new Vector2f(
-            //     _earthSprite.TextureRect.Width * _earthSprite.Scale.X, 
-            //     _earthSprite.TextureRect.Height * _earthSprite.Scale.Y);
-            // rect.Position = _earthSprite.Position;
-            // rect.OutlineColor = Color.Magenta;
-            // rect.OutlineThickness = -1;
-            // rect.FillColor = Color.Transparent;
-            //
-            // Window.Draw(rect);
         }
 
         public void SpawnRocket()

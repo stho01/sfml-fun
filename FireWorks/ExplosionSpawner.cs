@@ -33,6 +33,7 @@ namespace FireWorks
 
         public Range DensityRange { get; set; } = 150..250;
         public Range LifetimeRange { get; set; } = 1000..1500;
+        public Range StrengthRange { get; set; } = 40..80;
         
         //**********************************************************
         //** methods:
@@ -42,7 +43,7 @@ namespace FireWorks
         {
             var explosion = new Explosion(RandomNumber.Get(DensityRange))
             {
-                Strength = 40f,
+                Strength = RandomNumber.Get(StrengthRange),
                 Position = pos
             };
             
@@ -61,7 +62,7 @@ namespace FireWorks
                     (float)Math.Sin(angleOfVelocity)    
                 );
 
-                var variance = RandomNumber.Get(-40, 40);
+                var variance = RandomNumber.Get(-(int)explosion.Strength, 30);
                 var velocity = direction * (explosion.Strength + variance);
 
                 var color = _colorRange[RandomNumber.Get(0, _colorRange.Count)];
@@ -74,7 +75,7 @@ namespace FireWorks
                     Position = explosion.Position,
                     Velocity = velocity,
                     TotalLifetime = RandomNumber.Get(LifetimeRange),
-                    Mass = RandomNumber.GetFloat(.1f, .5f)
+                    Mass = RandomNumber.GetFloat(.75f, 1.25f)
                 };
             }
         }

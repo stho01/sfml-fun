@@ -25,7 +25,7 @@ namespace FireWorks
         //** props
         //**********************************************************
         
-        public float AirResistance { get; set; } = 1.7f;
+        public float AirResistance { get; set; } = 0.2f;
 
         //**********************************************************
         //** methods:
@@ -36,7 +36,12 @@ namespace FireWorks
             foreach (var explosionParticle in explosion.Particles)
             {
                 explosionParticle.Age += Timer.DeltaTimeMilliseconds;
-                explosionParticle.Velocity -= explosionParticle.Velocity.Normalize() * AirResistance * Timer.DeltaTimeSeconds;
+                
+                var gravityForce = (explosionParticle.Position - _game.Earth.Position).Normalize() * _game.Gravity * AirResistance;
+                var airResistanceDecay = -(explosionParticle.Velocity.Normalize() * AirResistance);
+                
+                explosionParticle.Acceleration += (gravityForce + airResistanceDecay) / explosionParticle.Mass * Timer.DeltaTimeSeconds;
+                explosionParticle.Velocity += explosionParticle.Acceleration;
                 explosionParticle.Position += explosionParticle.Velocity * Timer.DeltaTimeSeconds;
             }
         }
