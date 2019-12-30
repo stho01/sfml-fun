@@ -36,12 +36,14 @@ namespace FireWorks
             }
                 
             UpdatePosition(rocket);
+            UpdateTrail(rocket);
             
             if (IntersectsWithEarth(rocket)) 
                 HandleEarthIntersection(rocket);
             
             UseFuel(rocket);
         }
+
 
         private void UpdateAge(Rocket rocket)
         {
@@ -59,6 +61,26 @@ namespace FireWorks
             rocket.Acceleration = ((force + gravity) / rocket.Mass) * Timer.DeltaTimeSeconds;
             rocket.Velocity += rocket.Acceleration;
             rocket.Position += rocket.Velocity * Timer.DeltaTimeMilliseconds;
+        }
+
+        private void UpdateTrail(Rocket rocket)
+        {
+            rocket.Trail.ForEach(p => {
+                p.Age += Timer.DeltaTimeMilliseconds;
+            });
+            rocket.Trail.RemoveAll(p => p.IsDead);
+            rocket.TrailTimeSinceLastEmit += Timer.DeltaTimeMilliseconds;
+            
+            if (rocket.HasFuel && rocket.TrailTimeSinceLastEmit >= rocket.TrailEmitTime)
+            {
+                rocket.TrailTimeSinceLastEmit = 0;
+                rocket.Trail.Add(new Particle
+                {
+                    Position = rocket.Position,
+                    TotalLifetime = 150,
+                    Mass = 1f
+                });
+            }
         }
         
         private bool IntersectsWithEarth(Rocket rocket)

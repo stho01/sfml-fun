@@ -20,7 +20,6 @@ namespace FireWorks
         private readonly RocketSpawner _rocketSpawner;
         private readonly RocketUpdater _rocketUpdater;
         private readonly RocketRenderer _rocketRenderer;
-        private readonly ParticleRenderer _particleRenderer;
         private readonly ExplosionRenderer _explosionRenderer;
         private readonly ExplosionUpdater _explosionUpdater;
         private readonly ExplosionSpawner _explosionSpawner;
@@ -32,13 +31,13 @@ namespace FireWorks
         
         public Game(RenderWindow window) : base(window)
         {
-            _particleRenderer  = new ParticleRenderer(window);
-            _explosionRenderer = new ExplosionRenderer(window, _particleRenderer);
+            var particleRenderer = new ParticleRenderer(window);
+            _explosionRenderer = new ExplosionRenderer(window, particleRenderer);
             _explosionUpdater  = new ExplosionUpdater(this);
             _explosionSpawner  = new ExplosionSpawner(this);
             _rocketSpawner     = new RocketSpawner(this);
             _rocketUpdater     = new RocketUpdater(this, _explosionSpawner);
-            _rocketRenderer    = new RocketRenderer(window);
+            _rocketRenderer    = new RocketRenderer(window, particleRenderer);
         }
 
         //**********************************************************
@@ -47,8 +46,8 @@ namespace FireWorks
 
         public Rocket Rocket => _rockets.FirstOrDefault();
         public CircleShape Earth => _earth;
-        public Range RocketSpawnTimeRange { get; set; } = new Range(100, 1000);
-        public Range RocketSpawnRange { get; set; } = new Range(3, 20);
+        public Range RocketSpawnTimeRange { get; set; } = 100..1000;
+        public Range RocketSpawnRange { get; set; } = 3..20;
         public float CurrentSpawnTimeAccumulator { get; set; } = 0f;
         public float CurrentSpawnTimer { get; set; } = 0f;
         

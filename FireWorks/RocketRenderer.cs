@@ -11,6 +11,7 @@ namespace FireWorks
         //**********************************************************
         
         private readonly RenderTarget _renderTarget;
+        private readonly ParticleRenderer _particleRenderer;
 
         private readonly CircleShape _circleShape = new CircleShape(1f, 3)
         {
@@ -21,9 +22,10 @@ namespace FireWorks
         //** ctors:
         //**********************************************************
         
-        public RocketRenderer(RenderTarget renderTarget)
+        public RocketRenderer(RenderTarget renderTarget, ParticleRenderer particleRenderer)
         {
             _renderTarget = renderTarget;
+            _particleRenderer = particleRenderer;
         }
 
         //**********************************************************
@@ -39,6 +41,8 @@ namespace FireWorks
             _circleShape.Radius = radius;
             _circleShape.Origin = new Vector2f(radius, radius);
             _renderTarget.Draw(_circleShape);
+            
+            rocket.Trail.ForEach(_particleRenderer.Render);
         }
     }
 }

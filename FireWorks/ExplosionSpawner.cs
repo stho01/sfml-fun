@@ -31,8 +31,8 @@ namespace FireWorks
         //** props:
         //**********************************************************
 
-        public Range DensityRange { get; set; } = new Range(50, 150);
-        public Range LifetimeRange { get; set; } = new Range(700, 1000);
+        public Range DensityRange { get; set; } = 50..150;
+        public Range LifetimeRange { get; set; } = 1000..1500;
         
         //**********************************************************
         //** methods:

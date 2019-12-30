@@ -1,4 +1,5 @@
-﻿using SFML.Graphics;
+﻿using System;
+using SFML.Graphics;
 using SFML.Window;
 
 namespace Stho.SFML.Extensions
@@ -11,7 +12,7 @@ namespace Stho.SFML.Extensions
 
         public const int DefaultScreenWidth = 1200; 
         public const int DefaultScreenHeight = 675; 
-          
+        
         //**********************************************************
         //** methods:
         //**********************************************************

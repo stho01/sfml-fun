@@ -33,14 +33,14 @@ namespace FireWorks
             if (particle.IsDead)
                 return;
             
-            var opacity = (byte)((particle.Age / particle.TotalLifetime) * 255);
+            var opacity = 255 - ((particle.Age / particle.TotalLifetime) * 255);
             
             _particle.Position = particle.Position;
             _particle.FillColor = new Color(
                 particle.R, 
                 particle.G, 
                 particle.B, 
-                opacity);
+                (byte)opacity);
             
             _renderTarget.Draw(_particle);
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using SFML.Window;
 using Stho.SFML.Extensions;
 
@@ -18,6 +19,7 @@ namespace FireWorks
                     game.SpawnRocket();
             };
             
+            
             var debug = new DebugWindow<Game>(game);
             debug.Add(g => $"CurrentSpawnTimer: {g.CurrentSpawnTimer}");
             debug.Add(g => $"CurrentSpawnTimeAccumulator: {g.CurrentSpawnTimeAccumulator}");
@@ -28,6 +30,7 @@ namespace FireWorks
             debug.Add(g => $"Rocket fuel: {g.Rocket?.Fuel}");
             // debug.Add(g => $"Rocket force: {g.Rocket.Fuel}");
             debug.Show();
+            
             
             game.Initialize();
             game.Start();
