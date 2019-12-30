@@ -28,6 +28,8 @@ namespace FireWorks
         public bool Done { get; set; }
         
         public float Age { get; set; }
-        public float TotalLifeTime { get; set; }
+        public float TotalLifetime { get; set; }
+        public bool IsDead => Done || Age >= TotalLifetime;
+
     }
 }

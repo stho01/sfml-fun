@@ -44,7 +44,7 @@ namespace FireWorks
             var position = _game.Earth.Position + dir * (_game.Earth.Radius + 10);
 
             // Just to make it more interesting. 
-            var randomAngle = angle + RandomNumber.GetFloat(-1, 1) * Math.PI * .25f;
+            var randomAngle = angle + RandomNumber.GetFloat(-1, 1) * Math.PI * .13f;
             var randomDir = new Vector2f(
                 (float) Math.Cos(randomAngle),
                 (float) Math.Sin(randomAngle)
@@ -56,7 +56,7 @@ namespace FireWorks
                 Direction = randomDir,
                 Mass = RandomNumber.Get(MassRange),
                 Fuel = RandomNumber.Get(FuelRange),
-                TotalLifeTime = RandomNumber.Get(TotalLifeTime)
+                TotalLifetime = RandomNumber.Get(TotalLifeTime)
             }; 
             
             _game.AddRocket(rocket);

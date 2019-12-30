@@ -1,4 +1,5 @@
-﻿using SFML.System;
+﻿using System;
+using SFML.System;
 using Stho.SFML.Extensions;
 
 namespace FireWorks
@@ -34,6 +35,7 @@ namespace FireWorks
         {
             foreach (var explosionParticle in explosion.Particles)
             {
+                explosionParticle.Age += Timer.DeltaTimeMilliseconds;
                 explosionParticle.Velocity -= explosionParticle.Velocity.Normalize() * AirResistance * Timer.DeltaTimeSeconds;
                 explosionParticle.Position += explosionParticle.Velocity * Timer.DeltaTimeSeconds;
             }

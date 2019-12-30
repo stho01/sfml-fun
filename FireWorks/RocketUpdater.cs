@@ -9,14 +9,16 @@ namespace FireWorks
     public class RocketUpdater
     {
         private readonly Game _game;
+        private readonly ExplosionSpawner _explosionSpawner;
 
         //**********************************************************
         //** ctor:
         //**********************************************************
 
-        public RocketUpdater(Game game)
+        public RocketUpdater(Game game, ExplosionSpawner explosionSpawner)
         {
             _game = game;
+            _explosionSpawner = explosionSpawner;
         }
 
         //**********************************************************
@@ -26,14 +28,20 @@ namespace FireWorks
         public void Update(Rocket rocket)
         {
             UpdateAge(rocket);
-            if (rocket.Age >= rocket.TotalLifeTime)
+            
+            if (rocket.IsDead)
             {
                 Console.WriteLine("Explode!!");
-                rocket.Done = true;
+                _explosionSpawner.Spawn(rocket.Position);
                 return;
             }
                 
             UpdatePosition(rocket);
+            
+            if (IntersectsWithEarth(rocket)) 
+                HandleEarthIntersection(rocket);
+            
+            UseFuel(rocket);
         }
 
         private void UpdateAge(Rocket rocket)
@@ -52,11 +60,15 @@ namespace FireWorks
             rocket.Acceleration = ((force + gravity) / rocket.Mass) * Timer.DeltaTimeSeconds;
             rocket.Velocity += rocket.Acceleration;
             rocket.Position += rocket.Velocity * Timer.DeltaTimeMilliseconds;
-            rocket.Fuel = Math.Max(0f, rocket.Fuel - (200 * Timer.DeltaTimeSeconds)); // fuel lasts 1 sec
-
-            if (!IntersectsWithEarth(rocket)) 
-                return;
-            
+        }
+        
+        private bool IntersectsWithEarth(Rocket rocket)
+        {
+            return (rocket.Position - _game.Earth.Position).Length() <= _game.Earth.Radius;
+        }
+        
+        private void HandleEarthIntersection(Rocket rocket)
+        {
             var dotProduct = rocket.Velocity.Dot(_game.Earth.Position); // if rocket is moving away from earth then dotProduct > 0
             if (dotProduct > 0) 
                 rocket.Acceleration = new Vector2f();
@@ -66,12 +78,10 @@ namespace FireWorks
             rocket.Velocity = new Vector2f();
             rocket.Done = true;
         }
-        
-        private bool IntersectsWithEarth(Rocket rocket)
-        {
-            return (rocket.Position - _game.Earth.Position).Length() <= _game.Earth.Radius;
-        }
-        
 
+        private void UseFuel(Rocket rocket)
+        {
+            rocket.Fuel = Math.Max(0f, rocket.Fuel - (200 * Timer.DeltaTimeSeconds)); // fuel lasts 1 sec
+        }
     }
 }
