@@ -1,4 +1,5 @@
 ﻿using System;
+using SFML.Graphics;
 using SFML.System;
 
 namespace Stho.SFML.Extensions
@@ -28,9 +29,25 @@ namespace Stho.SFML.Extensions
             return new Vector2f(x, y);
         }
 
+        public static int Get(Range range)
+        {
+            return Get(range.Start.Value, range.End.Value);
+        }
+        
         public static int Get(int min, int max)
         {
             return Random.Next(min, max);
+        }
+
+        public static float GetFloat()
+        {
+            return (float)Random.NextDouble();
+        }
+
+        public static float GetFloat(float min, float max)
+        {
+            var totalRange = (max - min);
+            return (GetFloat() * totalRange) + min;
         }
     }
 }

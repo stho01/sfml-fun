@@ -83,7 +83,6 @@ namespace Stho.SFML.Extensions
 
         public Vector2i GetMousePosition() => Mouse.GetPosition(Window);
         
-        
         //**********************************************************
         //** event handlers:
         //**********************************************************
