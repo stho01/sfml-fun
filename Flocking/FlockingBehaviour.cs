@@ -68,8 +68,8 @@ namespace Flocking
         {
             _agents.Add(new Agent
             {
-                Pos = RandomVector.Get(0, Program.ScreenWidth, 0, Program.ScreenHeight),
-                Acceleration = RandomVector.GetAndReflect(1, 10).Normalize()
+                Pos = RandomNumber.Vector(0, Program.ScreenWidth, 0, Program.ScreenHeight),
+                Acceleration = RandomNumber.VectorAndReflect(1, 10).Normalize()
             });
         }
 

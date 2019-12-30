@@ -76,8 +76,8 @@ namespace RayCasting
             for (var i = 0; i < 3; i++)
             {
                 _shapes.Add(new LineShape(
-                    RandomVector.Get(400, 800, 157, 507),
-                    RandomVector.Get(400, 800, 157, 507)
+                    RandomNumber.Vector(400, 800, 157, 507),
+                    RandomNumber.Vector(400, 800, 157, 507)
                 ));
             }
             _shapes.Add(new LineShape(0, 0, Window.Size.X, 0));
@@ -90,7 +90,7 @@ namespace RayCasting
                 FillColor = Color.Red,
                 OutlineColor = Color.White,
                 OutlineThickness = 2,
-                Position = RandomVector.Get(  
+                Position = RandomNumber.Vector(  
                     100, 
                     (int) (Window.Size.X - 100),
                     100,
@@ -103,7 +103,7 @@ namespace RayCasting
             _circle.OutlineColor = Color.White;
             _circle.OutlineThickness = 2;
             _circle.Origin = new Vector2f(radius, radius);
-            _circle.Position = RandomVector.Get(
+            _circle.Position = RandomNumber.Vector(
                 radius, 
                 (int) (Window.Size.X - radius),
                 radius,

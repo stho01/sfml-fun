@@ -1,0 +1,14 @@
+﻿{
+  "author": "Sten Marius Holmen",
+  "classifications": [
+    "Console"
+  ],
+  "name": "STHO SFML Extension",
+  "identity": "Stho.SFML",
+  "shortName": "sthosfml",
+  "tags": {
+    "language": "C#"
+  },
+  "sourceName": "Stho.SFML",
+  "preferNameDirectory": "true"
+}

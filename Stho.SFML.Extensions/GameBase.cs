@@ -44,6 +44,9 @@ namespace Stho.SFML.Extensions
             get => _gameFpsRenderer.ShowFps;
             set => _gameFpsRenderer.ShowFps = value;
         }
+
+        public uint WindowWidth => Window.Size.X;
+        public uint WindowHeight => Window.Size.Y;
           
         //**********************************************************
         //** abstract methods:

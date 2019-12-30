@@ -47,7 +47,7 @@ namespace QTree
             
             for (var i = 0; i < _numberOfParticles; i++)
             {
-                var pos = RandomVector.Get(0, (int) Window.Size.X, 0, (int) Window.Size.Y);
+                var pos = RandomNumber.Vector(0, (int) Window.Size.X, 0, (int) Window.Size.Y);
                 _particles.Add(new Particle {
                     OriginalPosition = pos, 
                     Position = pos
@@ -70,7 +70,7 @@ namespace QTree
             {
                 _particles.ForEach(p =>
                 {
-                    p.Position = p.OriginalPosition + RandomVector.Get(-5, 5);
+                    p.Position = p.OriginalPosition + RandomNumber.Vector(-5, 5);
                 });
                 delay = 0;
             }

@@ -16,6 +16,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinearEquation", "LinearEqu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stho.SFML.Extensions.UnitTests", "Stho.SFML.Extensions.UnitTests\Stho.SFML.Extensions.UnitTests.csproj", "{8891FD02-778F-4ACC-9ED3-3A1443FFF47F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stho.SFML.Template", "Stho.SFML.Template\Stho.SFML.Template.csproj", "{3B734EBE-6E47-497F-8B24-C7DC044D5DCE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CirclePacking", "CirclePacking\CirclePacking.csproj", "{05B050D8-5B5C-4E8D-BB56-9741D71EA05D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,5 +58,13 @@ Global
 		{8891FD02-778F-4ACC-9ED3-3A1443FFF47F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8891FD02-778F-4ACC-9ED3-3A1443FFF47F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8891FD02-778F-4ACC-9ED3-3A1443FFF47F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B734EBE-6E47-497F-8B24-C7DC044D5DCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B734EBE-6E47-497F-8B24-C7DC044D5DCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B734EBE-6E47-497F-8B24-C7DC044D5DCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B734EBE-6E47-497F-8B24-C7DC044D5DCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05B050D8-5B5C-4E8D-BB56-9741D71EA05D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05B050D8-5B5C-4E8D-BB56-9741D71EA05D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05B050D8-5B5C-4E8D-BB56-9741D71EA05D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05B050D8-5B5C-4E8D-BB56-9741D71EA05D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
