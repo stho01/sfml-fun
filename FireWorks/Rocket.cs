@@ -1,4 +1,5 @@
-﻿using SFML.System;
+﻿using System.Collections.Generic;
+using SFML.System;
 
 namespace FireWorks
 {
@@ -26,10 +27,8 @@ namespace FireWorks
         public float Mass { get; set; }
         public float Strength { get; }
         public bool Done { get; set; }
-        
         public float Age { get; set; }
         public float TotalLifetime { get; set; }
         public bool IsDead => Done || Age >= TotalLifetime;
-
     }
 }

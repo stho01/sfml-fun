@@ -31,7 +31,6 @@ namespace FireWorks
             
             if (rocket.IsDead)
             {
-                Console.WriteLine("Explode!!");
                 _explosionSpawner.Spawn(rocket.Position);
                 return;
             }

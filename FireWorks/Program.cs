@@ -19,6 +19,8 @@ namespace FireWorks
             };
             
             var debug = new DebugWindow<Game>(game);
+            debug.Add(g => $"CurrentSpawnTimer: {g.CurrentSpawnTimer}");
+            debug.Add(g => $"CurrentSpawnTimeAccumulator: {g.CurrentSpawnTimeAccumulator}");
             debug.Add(g => $"Rocket pos : {g.Rocket?.Position}");
             debug.Add(g => $"Rocket vel : {g.Rocket?.Velocity}");
             debug.Add(g => $"Rocket acl : {g.Rocket?.Acceleration}");

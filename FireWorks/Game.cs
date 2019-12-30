@@ -47,6 +47,11 @@ namespace FireWorks
 
         public Rocket Rocket => _rockets.FirstOrDefault();
         public CircleShape Earth => _earth;
+        public Range RocketSpawnTimeRange { get; set; } = new Range(100, 1000);
+        public Range RocketSpawnRange { get; set; } = new Range(3, 20);
+        public float CurrentSpawnTimeAccumulator { get; set; } = 0f;
+        public float CurrentSpawnTimer { get; set; } = 0f;
+        
 
         //**********************************************************
         //** methods:
@@ -60,10 +65,6 @@ namespace FireWorks
             _earth.FillColor = Color.Transparent;
             _earth.OutlineColor = Color.Green;
             _earth.OutlineThickness = -1;
-            
-            SpawnRocket();
-            SpawnRocket();
-            SpawnRocket();
         }
 
         public void AddRocket(Rocket rocket) => _rockets.Add(rocket);
@@ -76,10 +77,25 @@ namespace FireWorks
             
             _rockets.ForEach(_rocketUpdater.Update);
             _explosions.ForEach(_explosionUpdater.Update);
-            
-            
             _rockets.RemoveAll(r => r.IsDead);
             _explosions.RemoveAll(r => r.Done);
+
+            SpawnRocketsIfTime();
+        }
+
+        private void SpawnRocketsIfTime()
+        {
+            CurrentSpawnTimeAccumulator += Timer.DeltaTimeMilliseconds;
+            if (CurrentSpawnTimeAccumulator >= CurrentSpawnTimer)
+            {
+                CurrentSpawnTimer = RandomNumber.Get(RocketSpawnTimeRange);
+                var spawnCount = RandomNumber.Get(RocketSpawnRange);
+                
+                for (var i = 0; i < spawnCount; i++) 
+                    SpawnRocket();
+
+                CurrentSpawnTimeAccumulator = 0;
+            }
         }
 
         protected override void Render()
