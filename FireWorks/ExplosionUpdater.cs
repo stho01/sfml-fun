@@ -1,4 +1,5 @@
 ﻿using SFML.System;
+using Stho.SFML.Extensions;
 
 namespace FireWorks
 {
@@ -23,7 +24,7 @@ namespace FireWorks
         //** props
         //**********************************************************
         
-        public Vector2f AirResistance { get; set; } = new Vector2f(2f, 2f);
+        public float AirResistance { get; set; } = 2f;
 
         //**********************************************************
         //** methods:
@@ -33,7 +34,8 @@ namespace FireWorks
         {
             foreach (var explosionParticle in explosion.Particles)
             {
-                
+                explosionParticle.Velocity -= explosionParticle.Velocity.Normalize() * AirResistance * Timer.DeltaTimeSeconds;
+                explosionParticle.Position += explosionParticle.Velocity * Timer.DeltaTimeSeconds;
             }
         }
     }
