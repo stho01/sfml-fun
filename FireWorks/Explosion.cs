@@ -24,7 +24,7 @@ namespace FireWorks
         public float Strength { get; set; } = 1f;
         public Vector2f Position { get; set; }
         public Particle[] Particles { get; }
-        public bool Done => Particles.All(p => p.TotalLifetime <= 0);
+        public bool Done => Particles.All(p => p.IsDead);
 
         //**********************************************************
         //** methods:

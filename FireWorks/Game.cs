@@ -50,7 +50,9 @@ namespace FireWorks
         public Range RocketSpawnRange { get; set; } = 3..20;
         public float CurrentSpawnTimeAccumulator { get; set; } = 0f;
         public float CurrentSpawnTimer { get; set; } = 0f;
-        
+
+        public int ExplosionCount => _explosions.Count;
+        public int RocketCount => _rockets.Count;
 
         //**********************************************************
         //** methods:
@@ -76,6 +78,7 @@ namespace FireWorks
             
             _rockets.ForEach(_rocketUpdater.Update);
             _explosions.ForEach(_explosionUpdater.Update);
+            
             _rockets.RemoveAll(r => r.IsDead);
             _explosions.RemoveAll(r => r.Done);
 
