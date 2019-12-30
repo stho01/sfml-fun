@@ -31,7 +31,7 @@ namespace FireWorks
         //** props:
         //**********************************************************
 
-        public Range DensityRange { get; set; } = 50..150;
+        public Range DensityRange { get; set; } = 150..250;
         public Range LifetimeRange { get; set; } = 1000..1500;
         
         //**********************************************************
@@ -61,7 +61,7 @@ namespace FireWorks
                     (float)Math.Sin(angleOfVelocity)    
                 );
 
-                var variance = RandomNumber.Get(-20, 20);
+                var variance = RandomNumber.Get(-40, 40);
                 var velocity = direction * (explosion.Strength + variance);
 
                 var color = _colorRange[RandomNumber.Get(0, _colorRange.Count)];

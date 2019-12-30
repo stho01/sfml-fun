@@ -24,6 +24,8 @@ namespace FireWorks
         private readonly ExplosionUpdater _explosionUpdater;
         private readonly ExplosionSpawner _explosionSpawner;
         private readonly CircleShape _earth = new CircleShape(70, 60);
+        private Image _earthImage;
+        private Sprite _earthSprite;
         
         //**********************************************************
         //** ctor:
@@ -46,8 +48,8 @@ namespace FireWorks
 
         public Rocket Rocket => _rockets.FirstOrDefault();
         public CircleShape Earth => _earth;
-        public Range RocketSpawnTimeRange { get; set; } = 100..1000;
-        public Range RocketSpawnRange { get; set; } = 3..20;
+        public Range RocketSpawnTimeRange { get; set; } = 50..300;
+        public Range RocketSpawnRange { get; set; } = 2..4;
         public float CurrentSpawnTimeAccumulator { get; set; } = 0f;
         public float CurrentSpawnTimer { get; set; } = 0f;
 
@@ -61,11 +63,20 @@ namespace FireWorks
         public override void Initialize()
         {
             ShowFps = true;
+            // _earthImage = new Image("Assets/earth.png");
+            
+            
             _earth.Origin = new Vector2f(_earth.Radius, _earth.Radius);
             _earth.Position = new Vector2f(WindowWidth/2, WindowHeight/2);
             _earth.FillColor = Color.Transparent;
             _earth.OutlineColor = Color.Green;
             _earth.OutlineThickness = -1;
+            
+            
+            var texture = new Texture("Assets/earth.png");
+            _earthSprite = new Sprite(texture);
+            _earthSprite.Scale = new Vector2f(_earth.Radius / texture.Size.X*2, _earth.Radius / texture.Size.Y*2);
+            _earthSprite.Position = _earth.Position - _earth.Origin;
         }
 
         public void AddRocket(Rocket rocket) => _rockets.Add(rocket);
@@ -102,15 +113,30 @@ namespace FireWorks
 
         protected override void Render()
         {
-            Window.Draw(_earth);
+            // Window.Draw(_earth);
+            
+            Window.Draw(_earthSprite);
             _rockets.ForEach(_rocketRenderer.Render);
             _explosions.ForEach(_explosionRenderer.Render);
+            
+            
+
+            // var b = _earthSprite.GetLocalBounds();
+            // var rect = new RectangleShape();
+            // rect.Size = new Vector2f(
+            //     _earthSprite.TextureRect.Width * _earthSprite.Scale.X, 
+            //     _earthSprite.TextureRect.Height * _earthSprite.Scale.Y);
+            // rect.Position = _earthSprite.Position;
+            // rect.OutlineColor = Color.Magenta;
+            // rect.OutlineThickness = -1;
+            // rect.FillColor = Color.Transparent;
+            //
+            // Window.Draw(rect);
         }
 
         public void SpawnRocket()
         {
             _rocketSpawner.SpawnOnEarthSurface();
-            
         }
     }
 }

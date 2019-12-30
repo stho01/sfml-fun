@@ -78,7 +78,10 @@ namespace FireWorks
                 {
                     Position = rocket.Position,
                     TotalLifetime = 150,
-                    Mass = 1f
+                    Mass = 1f,
+                    R = 255,
+                    G = 165,
+                    B = 74
                 });
             }
         }

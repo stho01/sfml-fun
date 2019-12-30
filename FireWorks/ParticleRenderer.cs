@@ -30,8 +30,7 @@ namespace FireWorks
 
         public void Render(Particle particle)
         {
-            if (particle.IsDead)
-                return;
+            if (particle.IsDead) return;
             
             var opacity = 255 - ((particle.Age / particle.TotalLifetime) * 255);
             

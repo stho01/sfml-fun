@@ -9,7 +9,7 @@ namespace FireWorks
     {
         static void Main(string[] args)
         {
-            var window = WindowFactory.CreateDefault(950, 950);
+            var window = WindowFactory.CreateDefault(1200, 950);
             window.SetTitle("Fireworks");
             var game = new Game(window);
 
@@ -25,11 +25,11 @@ namespace FireWorks
             debug.Add(g => $"CurrentSpawnTimeAccumulator: {g.CurrentSpawnTimeAccumulator}");
             debug.Add(g => $"Rocket count: {g.RocketCount}");
             debug.Add(g => $"Explosion count: {g.ExplosionCount}");
-            debug.Add(g => $"Rocket pos : {g.Rocket?.Position}");
-            debug.Add(g => $"Rocket vel : {g.Rocket?.Velocity}");
-            debug.Add(g => $"Rocket acl : {g.Rocket?.Acceleration}");
-            debug.Add(g => $"Rocket dir : {g.Rocket?.Direction}");
-            debug.Add(g => $"Rocket fuel: {g.Rocket?.Fuel}");
+            // debug.Add(g => $"Rocket pos : {g.Rocket?.Position}");
+            // debug.Add(g => $"Rocket vel : {g.Rocket?.Velocity}");
+            // debug.Add(g => $"Rocket acl : {g.Rocket?.Acceleration}");
+            // debug.Add(g => $"Rocket dir : {g.Rocket?.Direction}");
+            // debug.Add(g => $"Rocket fuel: {g.Rocket?.Fuel}");
             // debug.Add(g => $"Rocket force: {g.Rocket.Fuel}");
             debug.Show();
             
