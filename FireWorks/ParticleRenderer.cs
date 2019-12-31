@@ -1,8 +1,15 @@
-﻿using SFML.Graphics;
+﻿using System;
+using SFML.Graphics;
 using SFML.System;
 
 namespace FireWorks
 {
+    public enum ParticleFade
+    {
+        Linear,
+        Exponential
+    }
+    
     public class ParticleRenderer
     {
         //**********************************************************
@@ -23,6 +30,12 @@ namespace FireWorks
         {
             _renderTarget = renderTarget;
         }
+          
+        //**********************************************************
+        //** props:
+        //**********************************************************
+
+        public ParticleFade FadeMode { get; set; }
         
         //**********************************************************
         //** methods
@@ -31,9 +44,19 @@ namespace FireWorks
         public void Render(Particle particle)
         {
             if (particle.IsDead) return;
+
+            double opacity = 255f;
             
-            var opacity = 255 - ((particle.Age / particle.TotalLifetime) * 255);
-            
+            if (FadeMode == ParticleFade.Linear)
+            {
+                opacity = 255 - ((particle.Age / particle.TotalLifetime) * 255);    
+            }
+            else
+            {
+                var t = (particle.Age / particle.TotalLifetime);
+                opacity = 255 - (Math.Pow(2f, t) * 255);
+            }
+          
             _particle.Position = particle.Position;
             _particle.FillColor = new Color(
                 particle.R, 

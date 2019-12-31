@@ -25,7 +25,7 @@ namespace FireWorks
         //** props
         //**********************************************************
         
-        public float AirResistance { get; set; } = 0.2f;
+        public float AirResistance { get; set; } = 0.09f;
 
         //**********************************************************
         //** methods:

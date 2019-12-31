@@ -17,6 +17,8 @@ namespace FireWorks
             {
                 if (eventArgs.Code == Keyboard.Key.R)
                     game.SpawnRocket();
+                if (eventArgs.Code == Keyboard.Key.Tab)
+                    game.ExplosionParticleFadeMode = game.ExplosionParticleFadeMode == ParticleFade.Exponential ? ParticleFade.Linear : ParticleFade.Exponential;
             };
             
             
@@ -25,6 +27,8 @@ namespace FireWorks
             debug.Add(g => $"CurrentSpawnTimeAccumulator: {g.CurrentSpawnTimeAccumulator}");
             debug.Add(g => $"Rocket count: {g.RocketCount}");
             debug.Add(g => $"Explosion count: {g.ExplosionCount}");
+            debug.Add(g => $"Explosion Particle Fade Mode: {g.ExplosionParticleFadeMode.ToString()}");
+            
             // debug.Add(g => $"Rocket pos : {g.Rocket?.Position}");
             // debug.Add(g => $"Rocket vel : {g.Rocket?.Velocity}");
             // debug.Add(g => $"Rocket acl : {g.Rocket?.Acceleration}");

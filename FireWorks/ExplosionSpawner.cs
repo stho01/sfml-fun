@@ -54,6 +54,7 @@ namespace FireWorks
         
         private void InitializeParticles(Explosion explosion)
         {
+            var lifeTime = RandomNumber.Get(LifetimeRange);
             for (var i = 0; i < explosion.Particles.Length; i++)
             {
                 var angleOfVelocity = i / Math.PI * 2;
@@ -74,7 +75,7 @@ namespace FireWorks
                     B = color.B,
                     Position = explosion.Position,
                     Velocity = velocity,
-                    TotalLifetime = RandomNumber.Get(LifetimeRange),
+                    TotalLifetime = lifeTime,
                     Mass = RandomNumber.GetFloat(.75f, 1.25f)
                 };
             }

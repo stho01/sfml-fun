@@ -32,7 +32,7 @@ namespace FireWorks
         public bool IsDead => Done || Age >= TotalLifetime;
         
         public List<Particle> Trail { get; } = new List<Particle>();
-        public float TrailEmitTime { get; set; } = 10; // ms
+        public float TrailEmitTime { get; set; } = 20; // ms
         public float TrailTimeSinceLastEmit { get; set; } = 0;
     }
 }

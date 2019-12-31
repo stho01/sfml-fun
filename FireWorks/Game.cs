@@ -23,6 +23,7 @@ namespace FireWorks
         private readonly ExplosionRenderer _explosionRenderer;
         private readonly ExplosionUpdater _explosionUpdater;
         private readonly ExplosionSpawner _explosionSpawner;
+        private readonly ParticleRenderer _explosionParticleRenderer;
         private readonly CircleShape _earth = new CircleShape(120, 60);
         private Sprite _earthSprite;
         
@@ -32,13 +33,16 @@ namespace FireWorks
         
         public Game(RenderWindow window) : base(window)
         {
-            var particleRenderer = new ParticleRenderer(window);
-            _explosionRenderer = new ExplosionRenderer(window, particleRenderer);
+            _explosionParticleRenderer = new ParticleRenderer(Window)
+            {
+                FadeMode = ParticleFade.Exponential
+            };
+            _explosionRenderer = new ExplosionRenderer(window, _explosionParticleRenderer);
             _explosionUpdater  = new ExplosionUpdater(this);
             _explosionSpawner  = new ExplosionSpawner(this);
             _rocketSpawner     = new RocketSpawner(this);
             _rocketUpdater     = new RocketUpdater(this, _explosionSpawner);
-            _rocketRenderer    = new RocketRenderer(window, particleRenderer);
+            _rocketRenderer    = new RocketRenderer(window, new ParticleRenderer(Window));
         }
 
         //**********************************************************
@@ -54,6 +58,13 @@ namespace FireWorks
 
         public int ExplosionCount => _explosions.Count;
         public int RocketCount => _rockets.Count;
+
+        public ParticleFade ExplosionParticleFadeMode
+        {
+            get => _explosionParticleRenderer.FadeMode;
+            set => _explosionParticleRenderer.FadeMode = value;
+        }
+    
 
         //**********************************************************
         //** methods:
