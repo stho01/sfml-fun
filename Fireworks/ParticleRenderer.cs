@@ -2,7 +2,7 @@
 using SFML.Graphics;
 using SFML.System;
 
-namespace FireWorks
+namespace Fireworks
 {
     public enum ParticleFade
     {

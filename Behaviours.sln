@@ -20,7 +20,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stho.SFML.Template", "Stho.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CirclePacking", "CirclePacking\CirclePacking.csproj", "{05B050D8-5B5C-4E8D-BB56-9741D71EA05D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FireWorks", "FireWorks\FireWorks.csproj", "{EA1D3F44-60E9-4882-9905-E548DB2B63EB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fireworks", "Fireworks\Fireworks.csproj", "{EA1D3F44-60E9-4882-9905-E548DB2B63EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

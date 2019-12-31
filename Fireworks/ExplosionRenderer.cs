@@ -1,6 +1,6 @@
 ﻿using SFML.Graphics;
 
-namespace FireWorks
+namespace Fireworks
 {
     public class ExplosionRenderer
     {
