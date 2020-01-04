@@ -16,8 +16,7 @@ namespace Minesweeper
         private readonly Cell[,] _cells;
         private readonly uint _mineCount;
         private readonly MinesweeperRenderer _renderer;
-        private Vector2i _cellSize;
-        private bool _initialized = false;
+        private bool _initialized;
 
         //**********************************************************
         //** ctor:
@@ -40,7 +39,7 @@ namespace Minesweeper
         public Theme Theme { get; } = new Theme();
         public int BoardWidth { get; }
         public int BoardHeight { get; }
-        public Vector2i CellSize => _cellSize;
+        public Vector2i CellSize { get; private set; }
         public bool GameOver { get; private set; }
         public string GameStatus { get; private set; }
         
@@ -64,7 +63,8 @@ namespace Minesweeper
                 throw new Exception("Game not initialized...");
             
             GameOver = false;
-            CreateBoard();
+            InitializeBoard();
+            PlaceMines();
             ForeachCell((cell) => {
                 ScanAreaAround(cell, (neighbor) => {
                     if (neighbor.IsMine) 
@@ -73,13 +73,16 @@ namespace Minesweeper
             });
         }
 
-        private void CreateBoard()
+        private void InitializeBoard()
         {
             for (var x = 0; x < BoardWidth; x++)
             for (var y = 0; y < BoardHeight; y++) {
                 _cells[x, y] = new Cell(x, y);
-            }
+            }            
+        }
 
+        private void PlaceMines()
+        {
             if (BoardWidth * BoardHeight < _mineCount)
                 throw new InvalidOperationException("Mine count cannot be greater that max possible placements");
 
@@ -87,12 +90,12 @@ namespace Minesweeper
             while (placedMines < _mineCount && _mineCount > 0)
             {
                 Cell cell;
-                
                 do
                 {
-                    var x = RandomNumber.Get(0, BoardWidth);
-                    var y = RandomNumber.Get(0, BoardHeight);
-                    cell = _cells[x, y];
+                    cell = _cells[
+                        RandomNumber.Get(..BoardWidth), 
+                        RandomNumber.Get(..BoardHeight)
+                    ];
                 } while (cell.IsMine);
 
                 cell.IsMine = true;
@@ -158,7 +161,7 @@ namespace Minesweeper
 
         private void CalculateAndSetCellSize()
         {
-            _cellSize = new Vector2i(
+            CellSize = new Vector2i(
                 (int)(WindowWidth / BoardWidth),    
                 (int)(WindowHeight / BoardHeight)    
             );
@@ -168,7 +171,6 @@ namespace Minesweeper
         {
             Window.MouseButtonPressed -= HandleMouseClick;
         }
-        
           
         //**********************************************************
         //** event handlers
