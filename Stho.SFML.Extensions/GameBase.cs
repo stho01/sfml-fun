@@ -1,5 +1,6 @@
 ﻿using System;
 using SFML.Graphics;
+using SFML.Graphics.Glsl;
 using SFML.System;
 using SFML.Window;
 
@@ -47,6 +48,9 @@ namespace Stho.SFML.Extensions
 
         public uint WindowWidth => Window.Size.X;
         public uint WindowHeight => Window.Size.Y;
+        public Vector2f WindowCenter => new Vector2f(WindowWidth/2, WindowHeight/2);
+        public Color ClearColor { get; set; } = Color.Black;
+        public FloatRect WindowBounds => new FloatRect(0, 0, WindowWidth, WindowHeight);
           
         //**********************************************************
         //** abstract methods:
@@ -66,7 +70,7 @@ namespace Stho.SFML.Extensions
             {
                 Timer.Update();
                 _window.DispatchEvents();
-                _window.Clear();
+                _window.Clear(ClearColor);
                 Update();
                 OnUpdated?.Invoke(this, EventArgs.Empty);
                 Render();

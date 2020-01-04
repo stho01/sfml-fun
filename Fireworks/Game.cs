@@ -64,7 +64,6 @@ namespace Fireworks
             get => _explosionParticleRenderer.FadeMode;
             set => _explosionParticleRenderer.FadeMode = value;
         }
-    
 
         //**********************************************************
         //** methods:
@@ -73,6 +72,7 @@ namespace Fireworks
         public override void Initialize()
         {
             ShowFps = true;
+            ClearColor = new Color(0x000000AA);
             
             _earth.Origin = new Vector2f(_earth.Radius, _earth.Radius);
             _earth.Position = new Vector2f(WindowWidth/2, WindowHeight/2);
@@ -99,13 +99,18 @@ namespace Fireworks
             
             _rockets.RemoveAll(r => r.IsDead);
             _explosions.RemoveAll(r => r.Done);
-
+            
+            IncrementRocketSpawnTimer();
             SpawnRocketsIfTime();
         }
 
+        private void IncrementRocketSpawnTimer()
+        {
+            CurrentSpawnTimeAccumulator += Timer.DeltaTimeMilliseconds;   
+        }
+        
         private void SpawnRocketsIfTime()
         {
-            CurrentSpawnTimeAccumulator += Timer.DeltaTimeMilliseconds;
             if (CurrentSpawnTimeAccumulator >= CurrentSpawnTimer)
             {
                 CurrentSpawnTimer = RandomNumber.Get(RocketSpawnTimeRange);

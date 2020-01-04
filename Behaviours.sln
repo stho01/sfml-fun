@@ -22,6 +22,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CirclePacking", "CirclePack
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fireworks", "Fireworks\Fireworks.csproj", "{EA1D3F44-60E9-4882-9905-E548DB2B63EB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skate", "Skate\Skate.csproj", "{3D3B26A7-D879-4F7F-A340-8565486B1907}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Minesweeper", "Minesweeper\Minesweeper.csproj", "{1C7389CC-227C-41AB-A11C-071BB3EF5700}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,5 +76,13 @@ Global
 		{EA1D3F44-60E9-4882-9905-E548DB2B63EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA1D3F44-60E9-4882-9905-E548DB2B63EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA1D3F44-60E9-4882-9905-E548DB2B63EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D3B26A7-D879-4F7F-A340-8565486B1907}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D3B26A7-D879-4F7F-A340-8565486B1907}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D3B26A7-D879-4F7F-A340-8565486B1907}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D3B26A7-D879-4F7F-A340-8565486B1907}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C7389CC-227C-41AB-A11C-071BB3EF5700}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C7389CC-227C-41AB-A11C-071BB3EF5700}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C7389CC-227C-41AB-A11C-071BB3EF5700}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C7389CC-227C-41AB-A11C-071BB3EF5700}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

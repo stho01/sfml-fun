@@ -63,8 +63,8 @@ namespace Stho.SFML.Extensions
         {
             var circlePos = new Vector2f(circle.X, circle.Y);
             var r = circle.Radius;
-            var p1 = P1 - circlePos;
-            var p2 = P2 - circlePos;
+            var p1 = P1 - circlePos; // translate p1 to circle local space
+            var p2 = P2 - circlePos; // translate p2 to circle local space
             var d  = p2 - p1;
 
             var a = d.SqrLength();

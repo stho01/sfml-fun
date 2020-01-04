@@ -3,7 +3,7 @@ using SFML.System;
 
 namespace Stho.SFML.Extensions
 {
-    public static class Vector2fExtensions
+    public static class Vector2Extensions
     {
         public static readonly Vector2f Zero  = new Vector2f(0, 0);
         
@@ -70,6 +70,66 @@ namespace Stho.SFML.Extensions
             return (point - vec).Normalize();
         }
 
-       
+
+        public static Vector2f Multiply(this Vector2f vec, Vector2f scalar)
+        {
+            return new Vector2f(
+                vec.X * scalar.X,
+                vec.Y * scalar.Y
+            );
+        }
+
+        public static Vector2f Multiply(this Vector2f vec, Vector2i scalar)
+        {
+            return new Vector2f(
+                vec.X * scalar.X,
+                vec.Y * scalar.Y
+            );
+        }
+
+        public static Vector2i Multiply(this Vector2i vec, Vector2i scalar)
+        {
+            return new Vector2i(
+                vec.X * scalar.X,
+                vec.Y * scalar.Y
+            );
+        } 
+        
+        public static Vector2i Multiply(this Vector2i vec, Vector2f scalar)
+        {
+            return new Vector2i(
+                (int)(vec.X * scalar.X),
+                (int)(vec.Y * scalar.Y)
+            );
+        } 
+        
+        public static Vector2f Divide(this Vector2f vec, Vector2f divisor)
+        {
+            var x = divisor.X == 0 ? 0 : vec.X / divisor.X;
+            var y = divisor.Y == 0 ? 0 : vec.Y / divisor.Y;
+            return new Vector2f(x, y);
+        }
+
+        public static Vector2f Divide(this Vector2f vec, Vector2i divisor)
+        {
+            var x = divisor.X == 0 ? 0 : vec.X / divisor.X;
+            var y = divisor.Y == 0 ? 0 : vec.Y / divisor.Y;
+            return new Vector2f(x, y);
+        }
+
+        public static Vector2i Divide(this Vector2i vec, Vector2i divisor)
+        {
+            var x = divisor.X == 0 ? 0 : vec.X / divisor.X;
+            var y = divisor.Y == 0 ? 0 : vec.Y / divisor.Y;
+            return new Vector2i(x, y);
+        } 
+        
+        public static Vector2i Divide(this Vector2i vec, Vector2f divisor)
+        {
+            var x = divisor.X == 0 ? 0 : (int)(vec.X / divisor.X);
+            var y = divisor.Y == 0 ? 0 : (int)(vec.Y / divisor.Y);
+            return new Vector2i(x, y);
+        } 
+        
     }
 }
