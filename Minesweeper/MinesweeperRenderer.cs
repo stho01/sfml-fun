@@ -37,8 +37,11 @@ namespace Minesweeper
 
         public void Render()
         {
-            _minesweeperGame.ForeachCell((cell, x, y) =>
+            _minesweeperGame.ForeachCell((cell) =>
             {
+                var x = cell.X;
+                var y = cell.Y;
+                
                 var position = new Vector2f(
                     (x * _cellShape.Size.X),
                     (y * _cellShape.Size.Y)
