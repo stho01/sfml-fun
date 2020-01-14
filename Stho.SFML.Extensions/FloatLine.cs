@@ -103,7 +103,7 @@ namespace Stho.SFML.Extensions
             var delta = P2 - P1;
             var dir = delta.Normalize();
             var halfLength = delta.Length() * .5f;
-            
+
             return P1 + (dir * halfLength);
         }
 

@@ -178,7 +178,6 @@ namespace Stho.SFML.Extensions
         public static Vector2f Reflect(this Vector2f vec, Vector2f normal)
         {
             var d = vec.Normalize();
-            
             return d - 2 * d.Dot(normal) * normal;
         }
     }

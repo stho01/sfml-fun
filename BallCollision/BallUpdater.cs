@@ -55,6 +55,14 @@ namespace BallCollision
         {
             var radius = ball.Size / 2;
             
+            if (ball.Position.X - radius < 0
+             || ball.Position.X + radius > _game.WindowWidth
+             || ball.Position.Y + radius > _game.WindowHeight)
+            {
+                // ball.Velocity = ball.Velocity.Reflect()
+            }
+            
+            
             if (ball.Position.X - radius / 2 < 0)
             {
                 ball.Position = new Vector2f(radius, ball.Position.Y);
