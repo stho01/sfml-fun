@@ -17,7 +17,7 @@ namespace LinearEquation
         //** fields:
         //**********************************************************
 
-        private LineShape _lineShape;
+        private FloatLine _lineShape;
         private readonly CircleShape _intersection = new CircleShape();
           
         //**********************************************************
@@ -51,7 +51,7 @@ namespace LinearEquation
 
         public void GenerateLine()
         {
-            _lineShape = new LineShape(100, Window.Size.Y * .7f, 1100, Window.Size.Y * .3f);
+            _lineShape = new FloatLine(100, Window.Size.Y * .7f, 1100, Window.Size.Y * .3f);
         }
 
         protected override void Update()

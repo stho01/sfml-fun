@@ -49,21 +49,10 @@ namespace Stho.SFML.Extensions
             return new Vector2f(x, y);
         }
     }
-    
-    // public struct StandardForm
-    // {
-    //     public int A { get; set; }
-    //     public int B { get; set; }
-    //     public int C { get; set; }
-    //     public float X { get; set; }
-    //     public float Y { get; set; }
-    //     
-    //     
-    // }
-    
+   
     public static class LinearEquations
     {
-        public static SlopeInterceptForm GetSlopeInterceptForm(LineShape line)
+        public static SlopeInterceptForm GetSlopeInterceptForm(FloatLine line)
         {
             var x1 = line.P1.X;
             var y1 = line.P1.Y;
@@ -74,7 +63,7 @@ namespace Stho.SFML.Extensions
             return new SlopeInterceptForm {M = m, B = b};
         }
 
-        public static TwoPointForm GetTwoPointForm(LineShape line)
+        public static TwoPointForm GetTwoPointForm(FloatLine line)
         {
             var x1 = line.P1.X;
             var y1 = line.P1.Y;

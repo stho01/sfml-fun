@@ -8,7 +8,7 @@ namespace Stho.SFML.Extensions.UnitTests
         [Fact]
         public void GetSlopeIntercept_WhenCalled_ReturnCorrectSlopeAndIntercept()
         {
-            var line = new LineShape(1, 6, 3, -4);
+            var line = new FloatLine(1, 6, 3, -4);
             var result = LinearEquations.GetSlopeInterceptForm(line);
             Assert.Equal(-5, result.M);
             Assert.Equal(11, result.B);
@@ -17,7 +17,7 @@ namespace Stho.SFML.Extensions.UnitTests
         [Fact]
         public void GetTwoPointForm_WhenCalled_ReturnCorrectValues()
         {
-            var line = new LineShape(1, 6, 3, -4);
+            var line = new FloatLine(1, 6, 3, -4);
             var result = LinearEquations.GetTwoPointForm(line);
             Assert.Equal(-5, result.M);
             Assert.Equal(1, result.X1);
@@ -27,7 +27,7 @@ namespace Stho.SFML.Extensions.UnitTests
         [Fact]
         public void GetStandardForm_whenCalled_ReturnCorrectStandardForm()
         {
-            var line = new LineShape(1,6,3,-4);
+            var line = new FloatLine(1,6,3,-4);
 
             // var result = LinearEquations.GetStandardFrom(line);
         }

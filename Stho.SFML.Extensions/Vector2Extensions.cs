@@ -1,4 +1,5 @@
 ﻿using System;
+using SFML.Graphics;
 using SFML.System;
 
 namespace Stho.SFML.Extensions
@@ -79,6 +80,15 @@ namespace Stho.SFML.Extensions
             );
         }
 
+        public static Vector2f Multiply(this Vector2f vec, float x, float y)
+        {
+            return new Vector2f(
+                vec.X * x,
+                vec.Y * y
+            );
+        }
+
+        
         public static Vector2f Multiply(this Vector2f vec, Vector2i scalar)
         {
             return new Vector2f(
@@ -129,7 +139,47 @@ namespace Stho.SFML.Extensions
             var x = divisor.X == 0 ? 0 : (int)(vec.X / divisor.X);
             var y = divisor.Y == 0 ? 0 : (int)(vec.Y / divisor.Y);
             return new Vector2i(x, y);
-        } 
+        }
+
+        public static (Vector2f, Vector2f) Normal(Vector2f p1, Vector2f p2)
+        {
+            var d = p2 - p1;
+            var n1 = new Vector2f(-d.Y, d.X);
+            var n2 = new Vector2f(d.Y, -d.X);
+            return (n1, n2);
+        }
+
+        public static Vector2f NormalDirection(Vector2f p1, Vector2f p2)
+        {
+            var n = Normal(p1, p2);
+
+            return (n.Item2 - n.Item1).Normalize();
+        }
+
+        public static FloatLine Normal(this FloatLine line)
+        {
+            var normal = Normal(line.P1, line.P2);
+            
+            return new FloatLine(normal.Item1, normal.Item2); 
+        }
         
+        public static Vector2f NormalDirection(this FloatLine line)
+        {
+            return NormalDirection(line.P1, line.P2);
+        }
+
+        
+        
+        public static Vector2f Reflect(this Vector2f vec, FloatLine mirror)
+        {
+            return vec.Reflect(mirror.NormalDirection());
+        }
+        
+        public static Vector2f Reflect(this Vector2f vec, Vector2f normal)
+        {
+            var d = vec.Normalize();
+            
+            return d - 2 * d.Dot(normal) * normal;
+        }
     }
 }

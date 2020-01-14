@@ -6,6 +6,7 @@ namespace Stho.SFML.Extensions
 {
     public class LineShape : Shape
     {
+        public LineShape() : this(0, 0, 0, 0) { }
         public LineShape(float x1, float y1, float x2, float y2) 
         {
             P1 = new Vector2f(x1, y1);

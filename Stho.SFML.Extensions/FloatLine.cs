@@ -92,5 +92,31 @@ namespace Stho.SFML.Extensions
             
             return new[] { intersection1, intersection2 };
         }
+
+        public float Length()
+        {
+            return (P2 - P1).Length();
+        }
+
+        public Vector2f Center()
+        {
+            var delta = P2 - P1;
+            var dir = delta.Normalize();
+            var halfLength = delta.Length() * .5f;
+            
+            return P1 + (dir * halfLength);
+        }
+
+        public Vector2f Direction()
+        {
+            return (P2 - P1).Normalize();
+        }
+
+        public Vector2f Reflect(FloatLine mirror)
+        {
+            var n = mirror.NormalDirection();
+            
+            return Direction().Reflect(n);
+        }
     }
 }
