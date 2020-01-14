@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using SFML.Graphics;
 using SFML.System;
+using SFML.Window;
 using Stho.SFML.Extensions;
 
 namespace BallCollision
@@ -38,22 +39,25 @@ namespace BallCollision
 
         public override void Initialize()
         {
-            _balls.Add(new Ball
+            for (var i = 0; i < 12; i++)
             {
-                Position = new Vector2f(100, 100),
-                Mass = 10
-            });
+                _balls.Add(new Ball
+                {
+                    Position = new Vector2f(50 + i * 100, 100),
+                    Mass = RandomNumber.Get(10..50)
+                });
+            }
             
-            _balls.Add(new Ball
-            {
-                Position = new Vector2f(200, 100),
-                Mass = 20
-            });
         }
 
         protected override void Update()
         {
             _balls.ForEach(_updater.Update);
+            if (Keyboard.IsKeyPressed(Keyboard.Key.R))
+                for (var i = 0; i < _balls.Count; i++) {
+                    _balls[i].Position = new Vector2f(50 + i * 100, 100);
+                    _balls[i].Velocity = new Vector2f();
+                }
         }
 
         protected override void Render()
