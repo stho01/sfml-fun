@@ -1,6 +1,4 @@
-﻿using System;
-using System.Runtime.Intrinsics.X86;
-using SFML.System;
+﻿using SFML.System;
 using SFML.Window;
 using Stho.SFML.Extensions;
 
@@ -88,8 +86,8 @@ namespace BallCollision
                     var velocityLength = ball.Velocity.Length();
 
                     var totalMass = ball.Mass + other.Mass;
-                    ball.Velocity *= (((ball.Mass - other.Mass) / totalMass) + ((2 * other.Mass) / totalMass)); // elastic collision
-                    ball.Velocity = (ball.Velocity.Reflect(deltaNormalized) * velocityLength * Restitution);           // reflect current velocity against other ball
+                    ball.Velocity *= (((ball.Mass - other.Mass) / totalMass) + ((2 * other.Mass) / totalMass));  // elastic collision
+                    ball.Velocity = (ball.Velocity.Reflect(deltaNormalized) * velocityLength * Restitution);     // reflect current velocity against other ball
                     
                     var intersectionAmount = (delta.Length() - (ball.Radius + other.Radius)) / 2;          // calculate amount of intersection 
                     ball.Position += deltaNormalized * intersectionAmount;                                      // set position back to avoid objects to be glued together. 

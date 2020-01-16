@@ -34,7 +34,7 @@ namespace BallCollision
             _shape.Radius = radius;
             _shape.Position = ball.Position;
             _shape.Origin = new Vector2f(radius, radius);
-            _shape.FillColor = Color.Cyan;
+            _shape.FillColor = ball.Selected ? Color.Green : Color.Cyan;
             _shape.OutlineColor = Color.Black;
             _shape.OutlineThickness = -1;
             _renderTarget.Draw(_shape);

@@ -11,6 +11,7 @@ namespace BallCollision
         public Vector2f Position { get; set; }
         public float Size => Mass * 2;
         public float Radius => Mass;
+        public bool Selected { get; set; }
 
         public void ApplyForce(Vector2f force)
         {
@@ -21,5 +22,8 @@ namespace BallCollision
         {
             Acceleration = new Vector2f();
         }
+
+        public void Select() => Selected = true;
+        public void Deselect() => Selected = false;
     }
 }
