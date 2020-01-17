@@ -43,8 +43,10 @@ namespace TankGame
 
         public void ApplyFriction(Tank tank)
         {
-            var friction = -tank.Velocity * 0.01f;
-
+            var velDir = tank.Velocity.Normalize();
+            var w = (tank.Mass * 9.8f);
+            var friction = velDir * -0.1f * w;
+            
             tank.Acceleration += friction / tank.Mass;
         }
         

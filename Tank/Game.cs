@@ -23,6 +23,8 @@ namespace TankGame
             
             _tank = new Tank {
                 Position = WindowCenter,
+                EngineStrength = 2f,
+                Mass = 1,
                 BodySteeringStrength = 180, // 180 degrees each sec
                 Barrel = { Angle = 45 },
                 Body = { Angle = -45 }
@@ -34,12 +36,12 @@ namespace TankGame
             _tankController.BarrelLookAtMousePosition(_tank);
             
             if (Keyboard.IsKeyPressed(Keyboard.Key.A))
-                _tankController.RotateBodyClockWise(_tank);
-            
-            if (Keyboard.IsKeyPressed(Keyboard.Key.D))
                 _tankController.RotateBodyAntiClockWise(_tank);
             
-            if (Keyboard.IsKeyPressed(Keyboard.Key.Space))
+            if (Keyboard.IsKeyPressed(Keyboard.Key.D))
+                _tankController.RotateBodyClockWise(_tank);
+            
+            if (Keyboard.IsKeyPressed(Keyboard.Key.W))
                 _tankController.MoveForward(_tank);
             
             if (Keyboard.IsKeyPressed(Keyboard.Key.R))
