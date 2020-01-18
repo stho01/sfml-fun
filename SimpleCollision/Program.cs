@@ -50,34 +50,32 @@ namespace SimpleCollision
         public override void Initialize()
         {
             _block1.Position = new Vector2f(400, WindowHeight/2);
-            _block2.Position = new Vector2f(800, WindowHeight/2);
+            _block2.Position = new Vector2f(550, WindowHeight/2);
             _block2.Velocity = new Vector2f(-100, 0);
         }
 
         protected override void Update()
         {
-            _block1.Update();
-            _block2.Update();
-
             var bounds1 = _block1.Bounds();
             var bounds2 = _block2.Bounds();
-
+            
             if (bounds1.Intersects(bounds2))
             {
-                // var overlap = (_block1.Position.X + _block2.Position.X) -
-                              // (_block1.Bounds() + _block2.Bounds());
-                // _block1.Position = 
-                
-                _block1.Velocity = CalculateElasticCollision(_block1, _block2);
-                _block2.Velocity = CalculateElasticCollision(_block2, _block1);
+                var vel1 = CalculateElasticCollision(_block1, _block2); 
+                var vel2 = CalculateElasticCollision(_block2, _block1); 
+                _block1.Velocity = vel1;
+                _block2.Velocity = vel2;
             }
+            
+            _block1.Update();
+            _block2.Update();
         }
 
         public Vector2f CalculateElasticCollision(Block b1, Block b2)
         {
-            var totalMass = _block1.Mass + _block2.Mass;
-            var a = ((b1.Mass - b2.Mass) / totalMass) * b1.Velocity;
-            var b = (2 * b2.Mass / totalMass) * b2.Velocity;
+            var sumM = b1.Mass + b2.Mass;
+            var a = (b1.Mass - b2.Mass) / sumM * b1.Velocity;
+            var b = (2 * b2.Mass / sumM) * b2.Velocity;
 
             return a + b;
         }

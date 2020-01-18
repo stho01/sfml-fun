@@ -36,10 +36,12 @@ namespace AngularRotation
                 
                 if (floatRect.Contains(mousePos.X, mousePos.Y))
                 {
-                    var distanceFromCenter = _pointOnShape - _shape.Position;
-                    var direction = (mousePos - _pointOnShape)?.ToPolarCoordinates();
                     
+                    
+                    // var distanceFromCenter = _pointOnShape - _shape.Position;
+                    // var direction = (mousePos - _pointOnShape)?.ToPolarCoordinates();
                     // _angularAcceleration = direction?.Angle
+                    
                 }
             }
             else
