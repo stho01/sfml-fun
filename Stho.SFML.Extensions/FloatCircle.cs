@@ -1,4 +1,5 @@
-﻿using SFML.System;
+﻿using System;
+using SFML.System;
 
 namespace Stho.SFML.Extensions
 {
@@ -28,13 +29,21 @@ namespace Stho.SFML.Extensions
         //** methods:
         //**********************************************************
 
-        public bool Intersects(FloatCircle circle)
+        public bool Intersects(FloatCircle circle) => Intersects(circle, out _);
+        
+        public bool Intersects(FloatCircle circle, out float overlap)
         {
             var dx = circle.X - X;
             var dy = circle.Y - Y;
-            var m = dx * dx + dy * dy;
-            var r = (Radius + circle.Radius) * (Radius + circle.Radius);
-            return m <= r;
+            var mSquared = dx * dx + dy * dy;
+            var r = Radius + circle.Radius;
+            var rSquared = (r) * (r);
+
+            
+            
+            overlap = r - (float)Math.Sqrt(mSquared);
+            
+            return mSquared <= rSquared;
         }
 
         public bool Contains(float x, float y)
