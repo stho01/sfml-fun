@@ -7,7 +7,11 @@ namespace Stho.SFML.Extensions
     public static class Vector2Extensions
     {
         public static readonly Vector2f Zero  = new Vector2f(0, 0);
-        
+        public static readonly Vector2f Right = new Vector2f(1, 0);
+        public static readonly Vector2f Left = new Vector2f(-1, 0);
+        public static readonly Vector2f Up = new Vector2f(1, -1);
+        public static readonly Vector2f Down = new Vector2f(1, 1);
+
         public static PolarVector2f ToPolarCoordinates(this Vector2f vector)
         {
             if (vector == Zero)

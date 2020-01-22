@@ -1,6 +1,7 @@
 ﻿using System;
 using SFML.Graphics;
 using SFML.System;
+using SFML.Window;
 using Stho.SFML.Extensions;
 
 namespace LinearEquation
@@ -26,7 +27,19 @@ namespace LinearEquation
         
         public Game(RenderWindow window) : base(window)
         {
-            
+            Window.KeyPressed += (sender, args) =>
+            {
+                Console.WriteLine("Pressed");
+                var displacement = _lineShape.P2 - _lineShape.P1;
+                var dir = displacement.Normalize();
+                var dirNew = new Vector2f(-dir.Y, dir.X);
+
+                var length = displacement.Length();
+                var center = displacement / 2;
+
+                _lineShape.P2 = dirNew * length;
+
+            };
         }
           
         //**********************************************************
@@ -47,6 +60,9 @@ namespace LinearEquation
             _intersection.Radius = 5f;
             _intersection.Origin = new Vector2f(_intersection.Radius, _intersection.Radius);
             _intersection.FillColor = Color.Red;
+
+
+           
         }
 
         public void GenerateLine()
