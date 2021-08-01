@@ -51,7 +51,7 @@ namespace SATCollision
             }
             
             return PrimaryCollisionCheck(box1, box2) 
-                || PrimaryCollisionCheck(box2, box1);
+                && PrimaryCollisionCheck(box2, box1);
         }
     }
 }

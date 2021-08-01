@@ -28,9 +28,7 @@ namespace SATCollision
         {
             var mousePos = GetMousePosition();
             _box2.Position = new Vector2f(mousePos.X, mousePos.Y);
-            
             _boxController.Rotate(_box1, 10 * Timer.DeltaTimeSeconds);
-            
             _box2.Intersected = _boxController.SatCollision(_box1, _box2);
         }
 
