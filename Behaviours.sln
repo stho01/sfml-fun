@@ -44,6 +44,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleCollision", "SimpleCo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BallCollisionSimple", "BallCollisionSimple\BallCollisionSimple.csproj", "{2D5C7FB9-E2F0-4A6B-8EBE-7FFDB1FEBD0A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SATCollision", "SATCollision\SATCollision.csproj", "{F1672597-E763-4CC3-BCA3-1B6FDD62D745}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -138,5 +140,9 @@ Global
 		{2D5C7FB9-E2F0-4A6B-8EBE-7FFDB1FEBD0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D5C7FB9-E2F0-4A6B-8EBE-7FFDB1FEBD0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D5C7FB9-E2F0-4A6B-8EBE-7FFDB1FEBD0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1672597-E763-4CC3-BCA3-1B6FDD62D745}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1672597-E763-4CC3-BCA3-1B6FDD62D745}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1672597-E763-4CC3-BCA3-1B6FDD62D745}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1672597-E763-4CC3-BCA3-1B6FDD62D745}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

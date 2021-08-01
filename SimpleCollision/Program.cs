@@ -73,11 +73,17 @@ namespace SimpleCollision
 
         public Vector2f CalculateElasticCollision(Block b1, Block b2)
         {
-            var sumM = b1.Mass + b2.Mass;
-            var a = (b1.Mass - b2.Mass) / sumM * b1.Velocity;
-            var b = (2 * b2.Mass / sumM) * b2.Velocity;
-
-            return a + b;
+            return CollisionHelper.CalculateElasticCollision(
+                b1.Mass,
+                b1.Velocity,
+                b2.Mass,
+                b2.Velocity
+            );
+            
+            // var sumM = b1.Mass + b2.Mass;
+            // var a = (b1.Mass - b2.Mass) / sumM * b1.Velocity;
+            // var b = (2 * b2.Mass / sumM) * b2.Velocity;
+            // return a + b;
         }
 
         protected override void Render()

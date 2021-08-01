@@ -1,4 +1,6 @@
-﻿using SFML.System;
+﻿using System.Collections.Generic;
+using SFML.Graphics;
+using SFML.System;
 using SFML.Window;
 using Stho.SFML.Extensions;
 
@@ -77,6 +79,11 @@ namespace BallCollision
 
         private void CheckBallCollisions(Ball ball)
         {
+            // We need to delay mutation of the velocities until after 
+            // the elastic collision calculation in order to use the correct variables for 
+            // the other ball. 
+            var updatedVelocities = new List<(Ball, Vector2f)>();
+            
             foreach (var other in _game.Balls)
             {
                 if (other != ball && Intersects(ball, other))
@@ -85,14 +92,30 @@ namespace BallCollision
                     var deltaNormalized = delta.Normalize();
                     var velocityLength = ball.Velocity.Length();
 
-                    var totalMass = ball.Mass + other.Mass;
-                    ball.Velocity *= (((ball.Mass - other.Mass) / totalMass) + ((2 * other.Mass) / totalMass));  // elastic collision
-                    ball.Velocity = (ball.Velocity.Reflect(deltaNormalized) * velocityLength * Restitution);     // reflect current velocity against other ball
+                    ball.Velocity = ball.Velocity.Multiply(CalculateElasticCollision(ball, other));
+                    var newVelocity = (ball.Velocity.Reflect(deltaNormalized) * velocityLength * Restitution);     // reflect current velocity against other ball
                     
-                    var intersectionAmount = (delta.Length() - (ball.Radius + other.Radius)) / 2;          // calculate amount of intersection 
-                    ball.Position += deltaNormalized * intersectionAmount;                                      // set position back to avoid objects to be glued together. 
+                    updatedVelocities.Add( 
+                        (ball, newVelocity) 
+                    );
+                    
+                    var overlap = (delta.Length() - (ball.Radius + other.Radius)) / 2;          // calculate amount of intersection 
+                    ball.Position += deltaNormalized * overlap;                                      // set position back to avoid objects to be glued together. 
                 }    
             }
+            
+            // We can now update velocities for colliding objects. 
+            updatedVelocities.ForEach((tuple => { tuple.Item1.Velocity = tuple.Item2; }));
+        }
+
+        public Vector2f CalculateElasticCollision(Ball b1, Ball b2)
+        {
+            return CollisionHelper.CalculateElasticCollision(
+                b1.Mass,
+                b1.Velocity,
+                b2.Mass,
+                b2.Velocity
+            );
         }
 
         private bool Intersects(Ball b1, Ball b2)

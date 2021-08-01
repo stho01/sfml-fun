@@ -1,7 +1,5 @@
-﻿using System;
-using SFML.Graphics;
+﻿using SFML.Graphics;
 using SFML.System;
-using SFML.Window;
 using Stho.SFML.Extensions;
 
 namespace Sandbox
@@ -25,8 +23,6 @@ namespace Sandbox
         {
             
         }
-
-       
     }
     
     class Program
