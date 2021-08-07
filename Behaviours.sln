@@ -46,6 +46,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BallCollisionSimple", "Ball
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SATCollision", "SATCollision\SATCollision.csproj", "{F1672597-E763-4CC3-BCA3-1B6FDD62D745}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chains", "Chains\Chains.csproj", "{478714D1-2CDC-49E0-A6DE-9B9D80CA9AC9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -144,5 +146,9 @@ Global
 		{F1672597-E763-4CC3-BCA3-1B6FDD62D745}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1672597-E763-4CC3-BCA3-1B6FDD62D745}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1672597-E763-4CC3-BCA3-1B6FDD62D745}.Release|Any CPU.Build.0 = Release|Any CPU
+		{478714D1-2CDC-49E0-A6DE-9B9D80CA9AC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{478714D1-2CDC-49E0-A6DE-9B9D80CA9AC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{478714D1-2CDC-49E0-A6DE-9B9D80CA9AC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{478714D1-2CDC-49E0-A6DE-9B9D80CA9AC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
