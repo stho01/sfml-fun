@@ -26,7 +26,6 @@ namespace SATCollision
         public Vector2f Position { get; set; }
         public float Rotation { get; set; }
         
-        
         public Vector2f[] GetPoints()
         {
             var radians = (float)MathUtils.DegreeToRadian(Rotation);
@@ -39,7 +38,6 @@ namespace SATCollision
                 RotateVector(new(Left, Bottom), radians) + Position
             };
         }
-        
         
         private Vector2f RotateVector(Vector2f vec, float radians)
         {

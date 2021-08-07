@@ -42,20 +42,6 @@ namespace SATCollision
                 new Vertex(box.Position, color),
                 new Vertex(first, color)
             }, 0, 2, PrimitiveType.Lines);
-
-
-            var points = box.GetPoints();
-            for(var i = 0; i < points.Length; i++)
-            {
-                var p1 = points[i];
-                var p2 = points[(i + 1) % points.Length];
-                
-                _renderTarget.Draw(new[]
-                {
-                    new Vertex(p1, Color.Yellow),
-                    new Vertex(p2, Color.Yellow)
-                },0, 2, PrimitiveType.Lines);
-            }
         }
 
         private Vector2f RotateVector(Vector2f vec, Vector2f origin, float radians)
