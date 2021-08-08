@@ -48,6 +48,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SATCollision", "SATCollisio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chains", "Chains\Chains.csproj", "{478714D1-2CDC-49E0-A6DE-9B9D80CA9AC9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameOfLife", "GameOfLife\GameOfLife.csproj", "{85BA6E53-4A6F-4A14-9CBB-EB1E27CAB83B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -150,5 +152,9 @@ Global
 		{478714D1-2CDC-49E0-A6DE-9B9D80CA9AC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{478714D1-2CDC-49E0-A6DE-9B9D80CA9AC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{478714D1-2CDC-49E0-A6DE-9B9D80CA9AC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85BA6E53-4A6F-4A14-9CBB-EB1E27CAB83B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85BA6E53-4A6F-4A14-9CBB-EB1E27CAB83B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85BA6E53-4A6F-4A14-9CBB-EB1E27CAB83B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85BA6E53-4A6F-4A14-9CBB-EB1E27CAB83B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
