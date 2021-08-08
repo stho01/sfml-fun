@@ -107,7 +107,7 @@ namespace GameOfLife
                 var neighboursAlive = CountAliveNeighbors(_grid, x, y);
                 var current = _grid[x, y];
                 
-                if (!current && neighboursAlive == 3) nextGen[x, y] = true;
+                if (!current && neighboursAlive is 3) nextGen[x, y] = true;
                 else if (current && neighboursAlive is < 2 or > 3) nextGen[x, y] = false;
                 else nextGen[x, y] = _grid[x, y];
             }
