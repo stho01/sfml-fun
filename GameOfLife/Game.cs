@@ -31,8 +31,8 @@ namespace GameOfLife
             { -1, -1 } // North East
         };
 
-        private const int DrawFrequency = 50; // ms
-        private readonly static Mode Mode = Mode.MouseInput;
+        private const int Frequency = 50; // ms
+        private static readonly Mode Mode = Mode.MouseInput;
         private Timer.Interval _gameOfLifeUpdateInterval;
             
         public Game(RenderWindow window) : base(window)
@@ -46,25 +46,30 @@ namespace GameOfLife
         public override void Initialize()
         {
             _shape = new RectangleShape(new Vector2f(CellSize, CellSize));
-            
+            InitGrid();
+            _gameOfLifeUpdateInterval = Timer.SetInterval(Frequency, NextGeneration);
+            Window.KeyPressed += OnKeyPressed;
+        }
+
+        private void InitGrid()
+        {
             _grid = new bool[GridWidth,GridHeight];
+            
             for (var x = 0; x < _grid.GetLength(0); x++)
             for (var y = 0; y < _grid.GetLength(1); y++)
             {
                 if (Mode == Mode.Random) _grid[x, y] = RandomNumber.Get(0, 100) > 85;
                 else _grid[x, y] = false;
             }
-
-            _gameOfLifeUpdateInterval = Timer.SetInterval(DrawFrequency, UpdateGameOfLife);
-
-            Window.KeyPressed += (sender, args) =>
+        }
+        
+        private void OnKeyPressed(object sender, KeyEventArgs args)
+        {
+            switch (args)
             {
-                switch (args)
-                {
-                    case { Code: Keyboard.Key.Space }:
-                        _gameOfLifeUpdateInterval.Pause = !_gameOfLifeUpdateInterval.Pause;
+                case { Code: Keyboard.Key.Space }:
+                    _gameOfLifeUpdateInterval.Pause = !_gameOfLifeUpdateInterval.Pause;
                     break;
-                };
             };
         }
 
@@ -90,15 +95,16 @@ namespace GameOfLife
             }
         }
 
-        private void UpdateGameOfLife()
+        private void NextGeneration()
         {
             var nextGen = new bool[GridWidth,GridHeight];
             
             for (var x = 0; x < _grid.GetLength(0); x++)
             for (var y = 0; y < _grid.GetLength(1); y++)
             {
+                nextGen[x, y] = false; // clear previous calculations
+                
                 var neighboursAlive = CountAliveNeighbors(_grid, x, y);
-
                 var current = _grid[x, y];
                 
                 if (!current && neighboursAlive == 3) nextGen[x, y] = true;
