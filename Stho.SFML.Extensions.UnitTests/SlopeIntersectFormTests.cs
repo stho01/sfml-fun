@@ -10,7 +10,8 @@ public class SlopeIntersectFormTests
             var slopeIntersect = new SlopeInterceptForm
             {
                 M = -5,  // slope
-                B = 11   // y intercept      };
+                B = 11   // y intercept
+            };
 
             var result1 = slopeIntersect.PointOnLineX(0);
             Assert.Equal(0, result1.X);
@@ -32,7 +33,8 @@ public class SlopeIntersectFormTests
             var slopeIntersect = new SlopeInterceptForm
             {
                 M = -5,  // slope
-                B = 11   // y intercept      };
+                B = 11   // y intercept
+            };
 
             var result1 = slopeIntersect.PointOnLineY(6);
             Assert.Equal(1, result1.X);

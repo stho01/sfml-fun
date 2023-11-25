@@ -43,7 +43,9 @@ public class RocketSpawner
             );
             var position = _game.Earth.Position + dir * (_game.Earth.Radius + 10);
 
-            // Just to make it more interesting.      var randomAngle = angle + RandomNumber.GetFloat(-1, 1) * Math.PI * .13f;
+            var randomAngle = angle + RandomNumber.GetFloat(-1, 1) * Math.PI * .13f;
+            
+            // Just to make it more interesting.      
             var randomDir = new Vector2f(
                 (float) Math.Cos(randomAngle),
                 (float) Math.Sin(randomAngle)
