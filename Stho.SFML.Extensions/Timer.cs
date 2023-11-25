@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Stho.SFML.Extensions
 {
@@ -28,16 +29,15 @@ namespace Stho.SFML.Extensions
 
         public static void Update()
         {
-            _previous ??= DateTime.UtcNow.Ticks;
-            var now = DateTime.UtcNow.Ticks;
-            var dt = (now - _previous.Value); 
-            DeltaTime = dt;
+            var now = Stopwatch.GetTimestamp();
+            
+            DeltaTime = now - _previous.GetValueOrDefault(now);
+            
             _previous = now;
             
             Fps = (int)(1f / DeltaTimeSeconds);
             
-            _intervals.ForEach(x =>
-            {
+            _intervals.ForEach(x =>{
                 if (!x.Pause) x.UpdateInterval();
             });
         }
