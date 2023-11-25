@@ -3,27 +3,27 @@ using SFML.Graphics;
 using SFML.System;
 using Stho.SFML.Extensions;
 
-namespace Minesweeper
+namespace Minesweeper;
+
+public class MinesweeperRenderer
 {
-    public class MinesweeperRenderer
-    {
           
-        //**********************************************************
-        //** fields:
-        //**********************************************************
+    //**********************************************************
+    //** fields:
+    //**********************************************************
 
-        private readonly MinesweeperGame _minesweeperGame;
-        private readonly RenderTarget _renderTarget;
-        private readonly RectangleShape _cellShape = new RectangleShape();
-        private readonly CircleShape _mineShape = new CircleShape();
-        private readonly Text _text = new Text();
+    private readonly MinesweeperGame _minesweeperGame;
+    private readonly RenderTarget _renderTarget;
+    private readonly RectangleShape _cellShape = new RectangleShape();
+    private readonly CircleShape _mineShape = new CircleShape();
+    private readonly Text _text = new Text();
 
-        //**********************************************************
-        //** ctor:
-        //**********************************************************
+    //**********************************************************
+    //** ctor:
+    //**********************************************************
 
-        public MinesweeperRenderer(MinesweeperGame minesweeperGame, RenderTarget renderTarget)
-        {
+    public MinesweeperRenderer(MinesweeperGame minesweeperGame, RenderTarget renderTarget)
+    {
             _minesweeperGame = minesweeperGame;
             _renderTarget = renderTarget;
             _mineShape.OutlineThickness = -2;
@@ -31,12 +31,12 @@ namespace Minesweeper
             _text.Font = Fonts.Roboto;
         }
           
-        //**********************************************************
-        //** methods
-        //**********************************************************
+    //**********************************************************
+    //** methods
+    //**********************************************************
 
-        public void Render()
-        {
+    public void Render()
+    {
             _minesweeperGame.ForeachCell((cell) =>
             {
                 var x = cell.X;
@@ -55,8 +55,8 @@ namespace Minesweeper
                 RenderEndGameStatus(_minesweeperGame.GameStatus);
         }
         
-        private void RenderCell(Cell cell, Vector2f position)
-        {
+    private void RenderCell(Cell cell, Vector2f position)
+    {
             _cellShape.Size = (Vector2f)_minesweeperGame.CellSize;
             _cellShape.FillColor = cell.Revelead ? _minesweeperGame.Theme.RevealedCellColor : _minesweeperGame.Theme.UnrevealedCellColor;
             _cellShape.OutlineThickness = _minesweeperGame.Theme.CellStrokeWidth;
@@ -65,8 +65,8 @@ namespace Minesweeper
             _renderTarget.Draw(_cellShape);
         }
 
-        public void RenderCellContent(Cell cell, Vector2f position)
-        {
+    public void RenderCellContent(Cell cell, Vector2f position)
+    {
             if (!cell.Revelead)
                 return;
             
@@ -80,8 +80,8 @@ namespace Minesweeper
                 RenderMineNeighborCount(cell.NeighborMines, position);
         }
 
-        private void RenderMine(Vector2f position)
-        {
+    private void RenderMine(Vector2f position)
+    {
             _mineShape.Radius = (Math.Min(_minesweeperGame.CellSize.X, _minesweeperGame.CellSize.Y) * 0.25f);
             _mineShape.Origin = new Vector2f(_mineShape.Radius, _mineShape.Radius);
             _mineShape.Position = position + ((Vector2f)_minesweeperGame.CellSize) / 2;
@@ -91,8 +91,8 @@ namespace Minesweeper
             _renderTarget.Draw(_mineShape);
         }
 
-        private void RenderMineNeighborCount(int neighborMines, Vector2f position)
-        {
+    private void RenderMineNeighborCount(int neighborMines, Vector2f position)
+    {
             _text.DisplayedString = neighborMines.ToString();
             _text.FillColor = _minesweeperGame.Theme.TextColor;
             _text.CharacterSize = (uint)(_minesweeperGame.CellSize.Y * 0.8);
@@ -103,8 +103,8 @@ namespace Minesweeper
             _renderTarget.Draw(_text);
         }
 
-        private void RenderEndGameStatus(string status)
-        {
+    private void RenderEndGameStatus(string status)
+    {
             var overlay = new RectangleShape((Vector2f) _renderTarget.Size) {FillColor = new Color(0x000000AA)};
             _renderTarget.Draw(overlay);
             var text = new Text(status, Fonts.Roboto) {CharacterSize = 60, FillColor = Color.White};
@@ -115,5 +115,4 @@ namespace Minesweeper
             );
             _renderTarget.Draw(text);
         }
-    }
 }

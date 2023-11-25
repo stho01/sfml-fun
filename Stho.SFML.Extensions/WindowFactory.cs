@@ -2,23 +2,23 @@
 using SFML.Graphics;
 using SFML.Window;
 
-namespace Stho.SFML.Extensions
-{
-    public class WindowFactory
-    {
-        //**********************************************************
-        //** fields:
-        //**********************************************************
+namespace Stho.SFML.Extensions;
 
-        public const int DefaultScreenWidth = 1200; 
-        public const int DefaultScreenHeight = 675; 
+public class WindowFactory
+{
+    //**********************************************************
+    //** fields:
+    //**********************************************************
+
+    public const int DefaultScreenWidth = 1200; 
+    public const int DefaultScreenHeight = 675; 
         
-        //**********************************************************
-        //** methods:
-        //**********************************************************
+    //**********************************************************
+    //** methods:
+    //**********************************************************
         
-        public static RenderWindow CreateDefault(uint width = DefaultScreenWidth, uint height = DefaultScreenHeight)
-        {
+    public static RenderWindow CreateDefault(uint width = DefaultScreenWidth, uint height = DefaultScreenHeight)
+    {
             var videoMode = new VideoMode(width, height);
             var settings = new ContextSettings
             {
@@ -28,5 +28,4 @@ namespace Stho.SFML.Extensions
 
             return window;
         }
-    }
 }

@@ -3,52 +3,52 @@ using System.Collections.Generic;
 using SFML.Graphics;
 using SFML.System;
 
-namespace Stho.SFML.Extensions
+namespace Stho.SFML.Extensions;
+
+public class QuadTree<T>
 {
-    public class QuadTree<T>
+    //**********************************************************
+    //** fields:
+    //**********************************************************
+
+    private readonly FloatRect _boundary;
+    private readonly List<DataHolder> _data = new List<DataHolder>();
+    private QuadTree<T> _northWest;
+    private QuadTree<T> _northEast;
+    private QuadTree<T> _southEast;
+    private QuadTree<T> _southWest;
+          
+    //**********************************************************
+    //** inner classes:
+    //**********************************************************
+
+    class DataHolder
     {
-        //**********************************************************
-        //** fields:
-        //**********************************************************
-
-        private readonly FloatRect _boundary;
-        private readonly List<DataHolder> _data = new List<DataHolder>();
-        private QuadTree<T> _northWest;
-        private QuadTree<T> _northEast;
-        private QuadTree<T> _southEast;
-        private QuadTree<T> _southWest;
+        public Vector2f Point { get; set; }
+        public T Data { get; set; }
+    }
           
-        //**********************************************************
-        //** inner classes:
-        //**********************************************************
+    //**********************************************************
+    //** ctor:
+    //**********************************************************
 
-        class DataHolder
-        {
-            public Vector2f Point { get; set; }
-            public T Data { get; set; }
-        }
-          
-        //**********************************************************
-        //** ctor:
-        //**********************************************************
-
-        public QuadTree(FloatRect boundary)
-        {
+    public QuadTree(FloatRect boundary)
+    {
             _boundary = boundary;
         }
           
-        //**********************************************************
-        //** props:
-        //**********************************************************
+    //**********************************************************
+    //** props:
+    //**********************************************************
 
-        public uint BoundaryCapacity { get; set; } = 4;
+    public uint BoundaryCapacity { get; set; } = 4;
         
-        //**********************************************************
-        //** methods:
-        //**********************************************************
+    //**********************************************************
+    //** methods:
+    //**********************************************************
         
-        public bool Insert(Vector2f vector, T data)
-        {
+    public bool Insert(Vector2f vector, T data)
+    {
             if (!_boundary.Contains(vector.X, vector.Y))
                 return false;
 
@@ -72,8 +72,8 @@ namespace Stho.SFML.Extensions
             return false;
         }
 
-        private void Subdivide()
-        {
+    private void Subdivide()
+    {
             var width = _boundary.Width / 2;
             var height = _boundary.Height / 2;
 
@@ -98,8 +98,8 @@ namespace Stho.SFML.Extensions
             };
         }
 
-        public T[] QueryRange(FloatCircle boundary)
-        {
+    public T[] QueryRange(FloatCircle boundary)
+    {
             var rect = new FloatRect(
                 boundary.X - boundary.Radius, 
                 boundary.Y - boundary.Radius, 
@@ -128,8 +128,8 @@ namespace Stho.SFML.Extensions
             return inRange.ToArray();
         }
         
-        public T[] QueryRange(FloatRect boundary)
-        {
+    public T[] QueryRange(FloatRect boundary)
+    {
             if (!_boundary.Intersects(boundary)) return Array.Empty<T>();
 
             var inRange = new List<T>();
@@ -151,8 +151,8 @@ namespace Stho.SFML.Extensions
             return inRange.ToArray();
         }
 
-        public FloatRect[] GetBoundaries()
-        {
+    public FloatRect[] GetBoundaries()
+    {
             var boundaries = new List<FloatRect>();
             boundaries.Add(_boundary);
 
@@ -166,5 +166,4 @@ namespace Stho.SFML.Extensions
 
             return boundaries.ToArray();
         }
-    }
 }

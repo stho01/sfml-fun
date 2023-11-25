@@ -4,42 +4,42 @@ using SFML.System;
 using SFML.Window;
 using Stho.SFML.Extensions;
 
-namespace BallCollision
+namespace BallCollision;
+
+public class Game : GameBase
 {
-    public class Game : GameBase
-    {
-        //**********************************************************
-        //** fields:
-        //**********************************************************
+    //**********************************************************
+    //** fields:
+    //**********************************************************
 
-        private readonly BallUpdater _updater;
-        private readonly BallRenderer _renderer;
-        private readonly List<Ball> _balls;
-        private Ball _selected;
+    private readonly BallUpdater _updater;
+    private readonly BallRenderer _renderer;
+    private readonly List<Ball> _balls;
+    private Ball _selected;
   
-        //**********************************************************
-        //** ctors:
-        //**********************************************************
+    //**********************************************************
+    //** ctors:
+    //**********************************************************
 
-        public Game(RenderWindow window) : base(window)
-        {
+    public Game(RenderWindow window) : base(window)
+    {
             _updater = new BallUpdater(this);
             _renderer = new BallRenderer(window);
             _balls = new List<Ball>();
         }
           
-        //**********************************************************
-        //** props
-        //**********************************************************
+    //**********************************************************
+    //** props
+    //**********************************************************
 
-        public Ball[] Balls => _balls.ToArray();
+    public Ball[] Balls => _balls.ToArray();
   
-        //**********************************************************
-        //** methods:
-        //**********************************************************
+    //**********************************************************
+    //** methods:
+    //**********************************************************
 
-        public override void Initialize()
-        {
+    public override void Initialize()
+    {
             for (var i = 0; i < 12; i++)
             {
                 _balls.Add(new Ball
@@ -51,8 +51,8 @@ namespace BallCollision
             
         }
 
-        protected override void Update()
-        {
+    protected override void Update()
+    {
             UpdateSelectedBallState();
             
             _balls.ForEach(_updater.Update);
@@ -63,8 +63,8 @@ namespace BallCollision
                 }
         }
 
-        private void UpdateSelectedBallState()
-        {
+    private void UpdateSelectedBallState()
+    {
             if (Mouse.IsButtonPressed(Mouse.Button.Left))
             {
                 var mousePos = GetMousePosition();
@@ -91,8 +91,8 @@ namespace BallCollision
             }
         }
 
-        private Ball GetBallFromPoint(int x, int y)
-        {
+    private Ball GetBallFromPoint(int x, int y)
+    {
             
             foreach (var ball in _balls)
             {
@@ -106,8 +106,8 @@ namespace BallCollision
             return null;
         }
         
-        protected override void Render()
-        {
+    protected override void Render()
+    {
             _balls.ForEach(_renderer.Render);
 
             if (_selected != null)
@@ -121,5 +121,4 @@ namespace BallCollision
                 }, 0, 2, PrimitiveType.Lines);   
             }
         }
-    }
 }

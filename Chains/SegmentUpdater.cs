@@ -1,19 +1,19 @@
 ﻿using SFML.System;
 using Stho.SFML.Extensions;
 
-namespace Chains
-{
-    public class SegmentUpdater
-    {
-        private readonly Game _game;
+namespace Chains;
 
-        public SegmentUpdater(Game game)
-        {
+public class SegmentUpdater
+{
+    private readonly Game _game;
+
+    public SegmentUpdater(Game game)
+    {
             _game = game;
         }
         
-        public static void SetPosition(Segment segment, Vector2f pos)
-        {
+    public static void SetPosition(Segment segment, Vector2f pos)
+    {
             segment.P1 = pos;
             
             var d = segment.P2 - segment.P1;
@@ -25,5 +25,4 @@ namespace Chains
             if (segment.Child != null)
                 SetPosition(segment.Child, segment.P2);
         }
-    }
 }

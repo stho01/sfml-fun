@@ -2,29 +2,29 @@
 using SFML.System;
 using Stho.SFML.Extensions;
 
-namespace Fireworks
+namespace Fireworks;
+
+public class RocketUpdater
 {
-    public class RocketUpdater
+    private readonly Game _game;
+    private readonly ExplosionSpawner _explosionSpawner;
+
+    //**********************************************************
+    //** ctor:
+    //**********************************************************
+
+    public RocketUpdater(Game game, ExplosionSpawner explosionSpawner)
     {
-        private readonly Game _game;
-        private readonly ExplosionSpawner _explosionSpawner;
-
-        //**********************************************************
-        //** ctor:
-        //**********************************************************
-
-        public RocketUpdater(Game game, ExplosionSpawner explosionSpawner)
-        {
             _game = game;
             _explosionSpawner = explosionSpawner;
         }
 
-        //**********************************************************
-        //** methods:
-        //**********************************************************
+    //**********************************************************
+    //** methods:
+    //**********************************************************
 
-        public void Update(Rocket rocket)
-        {
+    public void Update(Rocket rocket)
+    {
             UpdateAge(rocket);
             
             if (rocket.IsDead)
@@ -43,13 +43,13 @@ namespace Fireworks
         }
 
 
-        private void UpdateAge(Rocket rocket)
-        {
+    private void UpdateAge(Rocket rocket)
+    {
             rocket.Age += Timer.DeltaTimeMilliseconds;
         }
         
-        private void UpdatePosition(Rocket rocket)
-        {
+    private void UpdatePosition(Rocket rocket)
+    {
             var gravity = (rocket.Position - _game.Earth.Position).Normalize() * _game.Gravity;
             
             var force = new Vector2f();
@@ -61,8 +61,8 @@ namespace Fireworks
             rocket.Position += rocket.Velocity * Timer.DeltaTimeMilliseconds;
         }
 
-        private void UpdateTrail(Rocket rocket)
-        {
+    private void UpdateTrail(Rocket rocket)
+    {
             rocket.Trail.ForEach(p => {
                 p.Age += Timer.DeltaTimeMilliseconds;
             });
@@ -84,13 +84,13 @@ namespace Fireworks
             }
         }
         
-        private bool IntersectsWithEarth(Rocket rocket)
-        {
+    private bool IntersectsWithEarth(Rocket rocket)
+    {
             return (rocket.Position - _game.Earth.Position).Length() <= _game.Earth.Radius;
         }
         
-        private void HandleEarthIntersection(Rocket rocket)
-        {
+    private void HandleEarthIntersection(Rocket rocket)
+    {
             var dotProduct = rocket.Velocity.Dot(_game.Earth.Position); // if rocket is moving away from earth then dotProduct > 0
             if (dotProduct > 0) 
                 rocket.Acceleration = new Vector2f();
@@ -101,9 +101,8 @@ namespace Fireworks
             rocket.Done = true;
         }
 
-        private void UseFuel(Rocket rocket)
-        {
+    private void UseFuel(Rocket rocket)
+    {
             rocket.Fuel = Math.Max(0f, rocket.Fuel - (200 * Timer.DeltaTimeSeconds)); // fuel lasts 1 sec
         }
-    }
 }

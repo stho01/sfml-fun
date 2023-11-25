@@ -1,12 +1,12 @@
 ﻿using System;
 using Stho.SFML.Extensions;
 
-namespace CirclePacking
+namespace CirclePacking;
+
+class Program
 {
-    class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
             var win = WindowFactory.CreateDefault();
             win.SetTitle("Circle Packing");
             var game = new Game(win);
@@ -18,5 +18,4 @@ namespace CirclePacking
             game.Initialize();
             game.Start();
         }
-    }
 }

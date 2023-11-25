@@ -4,29 +4,29 @@ using SFML.System;
 using SFML.Window;
 using Stho.SFML.Extensions;
 
-namespace LinearEquation
-{
-    public enum IntersectionMode
-    {
-        X,
-        Y
-    }
-    
-    public class Game : GameBase
-    {
-        //**********************************************************
-        //** fields:
-        //**********************************************************
+namespace LinearEquation;
 
-        private FloatLine _lineShape;
-        private readonly CircleShape _intersection = new CircleShape();
+public enum IntersectionMode
+{
+    X,
+    Y
+}
+    
+public class Game : GameBase
+{
+    //**********************************************************
+    //** fields:
+    //**********************************************************
+
+    private FloatLine _lineShape;
+    private readonly CircleShape _intersection = new CircleShape();
           
-        //**********************************************************
-        //** ctor:
-        //**********************************************************
+    //**********************************************************
+    //** ctor:
+    //**********************************************************
         
-        public Game(RenderWindow window) : base(window)
-        {
+    public Game(RenderWindow window) : base(window)
+    {
             Window.KeyPressed += (sender, args) =>
             {
                 Console.WriteLine("Pressed");
@@ -42,19 +42,19 @@ namespace LinearEquation
             };
         }
           
-        //**********************************************************
-        //** props:
-        //**********************************************************
+    //**********************************************************
+    //** props:
+    //**********************************************************
 
-        public Vector2f Intersection { get; set; }
-        public IntersectionMode IntersectionMode { get; set; }
+    public Vector2f Intersection { get; set; }
+    public IntersectionMode IntersectionMode { get; set; }
           
-        //**********************************************************
-        //** methods:
-        //**********************************************************
+    //**********************************************************
+    //** methods:
+    //**********************************************************
 
-        public override void Initialize()
-        {
+    public override void Initialize()
+    {
             GenerateLine();
             
             _intersection.Radius = 5f;
@@ -65,13 +65,13 @@ namespace LinearEquation
            
         }
 
-        public void GenerateLine()
-        {
+    public void GenerateLine()
+    {
             _lineShape = new FloatLine(100, Window.Size.Y * .7f, 1100, Window.Size.Y * .3f);
         }
 
-        protected override void Update()
-        {
+    protected override void Update()
+    {
             var mousePos = GetMousePosition();
             
             if (IntersectionMode == IntersectionMode.X)
@@ -86,8 +86,8 @@ namespace LinearEquation
             }
         }
 
-        protected override void Render()
-        {
+    protected override void Render()
+    {
             Window.Draw(new []
             {
                 new Vertex(_lineShape.P1), 
@@ -97,5 +97,4 @@ namespace LinearEquation
             _intersection.Position = Intersection;
             Window.Draw(_intersection);
         }
-    }
 }

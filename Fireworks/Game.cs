@@ -6,33 +6,33 @@ using SFML.System;
 using SFML.Window;
 using Stho.SFML.Extensions;
 
-namespace Fireworks
-{
-    public class Game : GameBase
-    {
-        //**********************************************************
-        //** fields
-        //**********************************************************
+namespace Fireworks;
 
-        public readonly float Gravity = -9.81f * .75f;
-        private readonly List<Rocket> _rockets = new List<Rocket>();
-        private readonly List<Explosion> _explosions = new List<Explosion>();
-        private readonly RocketSpawner _rocketSpawner;
-        private readonly RocketUpdater _rocketUpdater;
-        private readonly RocketRenderer _rocketRenderer;
-        private readonly ExplosionRenderer _explosionRenderer;
-        private readonly ExplosionUpdater _explosionUpdater;
-        private readonly ExplosionSpawner _explosionSpawner;
-        private readonly ParticleRenderer _explosionParticleRenderer;
-        private readonly CircleShape _earth = new CircleShape(120, 60);
-        private Sprite _earthSprite;
+public class Game : GameBase
+{
+    //**********************************************************
+    //** fields
+    //**********************************************************
+
+    public readonly float Gravity = -9.81f * .75f;
+    private readonly List<Rocket> _rockets = new List<Rocket>();
+    private readonly List<Explosion> _explosions = new List<Explosion>();
+    private readonly RocketSpawner _rocketSpawner;
+    private readonly RocketUpdater _rocketUpdater;
+    private readonly RocketRenderer _rocketRenderer;
+    private readonly ExplosionRenderer _explosionRenderer;
+    private readonly ExplosionUpdater _explosionUpdater;
+    private readonly ExplosionSpawner _explosionSpawner;
+    private readonly ParticleRenderer _explosionParticleRenderer;
+    private readonly CircleShape _earth = new CircleShape(120, 60);
+    private Sprite _earthSprite;
         
-        //**********************************************************
-        //** ctor:
-        //**********************************************************
+    //**********************************************************
+    //** ctor:
+    //**********************************************************
         
-        public Game(RenderWindow window) : base(window)
-        {
+    public Game(RenderWindow window) : base(window)
+    {
             _explosionParticleRenderer = new ParticleRenderer(Window)
             {
                 FadeMode = ParticleFade.Exponential
@@ -45,32 +45,32 @@ namespace Fireworks
             _rocketRenderer    = new RocketRenderer(window, new ParticleRenderer(Window));
         }
 
-        //**********************************************************
-        //** props:
-        //**********************************************************
+    //**********************************************************
+    //** props:
+    //**********************************************************
 
-        public Rocket Rocket => _rockets.FirstOrDefault();
-        public CircleShape Earth => _earth;
-        public Range RocketSpawnTimeRange { get; set; } = 50..300;
-        public Range RocketSpawnRange { get; set; } = 2..4;
-        public float CurrentSpawnTimeAccumulator { get; set; } = 0f;
-        public float CurrentSpawnTimer { get; set; } = 0f;
+    public Rocket Rocket => _rockets.FirstOrDefault();
+    public CircleShape Earth => _earth;
+    public Range RocketSpawnTimeRange { get; set; } = 50..300;
+    public Range RocketSpawnRange { get; set; } = 2..4;
+    public float CurrentSpawnTimeAccumulator { get; set; } = 0f;
+    public float CurrentSpawnTimer { get; set; } = 0f;
 
-        public int ExplosionCount => _explosions.Count;
-        public int RocketCount => _rockets.Count;
+    public int ExplosionCount => _explosions.Count;
+    public int RocketCount => _rockets.Count;
 
-        public ParticleFade ExplosionParticleFadeMode
-        {
-            get => _explosionParticleRenderer.FadeMode;
-            set => _explosionParticleRenderer.FadeMode = value;
-        }
+    public ParticleFade ExplosionParticleFadeMode
+    {
+        get => _explosionParticleRenderer.FadeMode;
+        set => _explosionParticleRenderer.FadeMode = value;
+    }
 
-        //**********************************************************
-        //** methods:
-        //**********************************************************
+    //**********************************************************
+    //** methods:
+    //**********************************************************
         
-        public override void Initialize()
-        {
+    public override void Initialize()
+    {
             ShowFps = true;
             ClearColor = new Color(0x000000AA);
             
@@ -86,11 +86,11 @@ namespace Fireworks
             _earthSprite.Position = _earth.Position - _earth.Origin;
         }
 
-        public void AddRocket(Rocket rocket) => _rockets.Add(rocket);
-        public void AddExplosion(Explosion explosion) => _explosions.Add(explosion);
+    public void AddRocket(Rocket rocket) => _rockets.Add(rocket);
+    public void AddExplosion(Explosion explosion) => _explosions.Add(explosion);
         
-        protected override void Update()
-        {
+    protected override void Update()
+    {
             if (Keyboard.IsKeyPressed(Keyboard.Key.Space))
                 _explosionSpawner.Spawn(new Vector2f(WindowWidth/2, WindowHeight/2));
             
@@ -104,13 +104,13 @@ namespace Fireworks
             SpawnRocketsIfTime();
         }
 
-        private void IncrementRocketSpawnTimer()
-        {
+    private void IncrementRocketSpawnTimer()
+    {
             CurrentSpawnTimeAccumulator += Timer.DeltaTimeMilliseconds;   
         }
         
-        private void SpawnRocketsIfTime()
-        {
+    private void SpawnRocketsIfTime()
+    {
             if (CurrentSpawnTimeAccumulator >= CurrentSpawnTimer)
             {
                 CurrentSpawnTimer = RandomNumber.Get(RocketSpawnTimeRange);
@@ -123,16 +123,15 @@ namespace Fireworks
             }
         }
 
-        protected override void Render()
-        {
+    protected override void Render()
+    {
             Window.Draw(_earthSprite);
             _rockets.ForEach(_rocketRenderer.Render);
             _explosions.ForEach(_explosionRenderer.Render);
         }
 
-        public void SpawnRocket()
-        {
+    public void SpawnRocket()
+    {
             _rocketSpawner.SpawnOnEarthSurface();
         }
-    }
 }

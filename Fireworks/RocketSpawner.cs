@@ -2,40 +2,40 @@
 using SFML.System;
 using Stho.SFML.Extensions;
 
-namespace Fireworks
-{
-    public class RocketSpawner
-    {
-        //**********************************************************
-        //** fields:
-        //**********************************************************
-        
-        private readonly Game _game;
+namespace Fireworks;
 
-        //**********************************************************
-        //** ctor:
-        //**********************************************************
+public class RocketSpawner
+{
+    //**********************************************************
+    //** fields:
+    //**********************************************************
+        
+    private readonly Game _game;
+
+    //**********************************************************
+    //** ctor:
+    //**********************************************************
                 
-        public RocketSpawner(Game game)
-        {
+    public RocketSpawner(Game game)
+    {
             _game = game;
         }
 
-        //**********************************************************
-        //** props:
-        //**********************************************************
+    //**********************************************************
+    //** props:
+    //**********************************************************
 
-        public Range StrengthRange { get; set; } = new Range(22, 27);
-        public Range MassRange { get; set; } = new Range(10, 15);
-        public Range FuelRange { get; set; } = new Range(50, 75);
-        public Range TotalLifeTime { get; set; } = new Range(500, 1500);
+    public Range StrengthRange { get; set; } = new Range(22, 27);
+    public Range MassRange { get; set; } = new Range(10, 15);
+    public Range FuelRange { get; set; } = new Range(50, 75);
+    public Range TotalLifeTime { get; set; } = new Range(500, 1500);
 
-        //**********************************************************
-        //** methods:
-        //**********************************************************
+    //**********************************************************
+    //** methods:
+    //**********************************************************
 
-        public void SpawnOnEarthSurface()
-        {
+    public void SpawnOnEarthSurface()
+    {
             var angle = MathUtils.DegreeToRadian(RandomNumber.Get(0, 360));
             var dir = new Vector2f(
                 (float) Math.Cos(angle),
@@ -43,8 +43,7 @@ namespace Fireworks
             );
             var position = _game.Earth.Position + dir * (_game.Earth.Radius + 10);
 
-            // Just to make it more interesting. 
-            var randomAngle = angle + RandomNumber.GetFloat(-1, 1) * Math.PI * .13f;
+            // Just to make it more interesting.      var randomAngle = angle + RandomNumber.GetFloat(-1, 1) * Math.PI * .13f;
             var randomDir = new Vector2f(
                 (float) Math.Cos(randomAngle),
                 (float) Math.Sin(randomAngle)
@@ -61,5 +60,4 @@ namespace Fireworks
             
             _game.AddRocket(rocket);
         }
-    }
 }

@@ -1,36 +1,36 @@
 ﻿using Stho.SFML.Extensions;
 
-namespace Fireworks
+namespace Fireworks;
+
+public class ExplosionUpdater
 {
-    public class ExplosionUpdater
-    {
-        //**********************************************************
-        //** fields:
-        //**********************************************************
+    //**********************************************************
+    //** fields:
+    //**********************************************************
         
-        private readonly Game _game;
+    private readonly Game _game;
 
-        //**********************************************************
-        //** ctor
-        //**********************************************************
+    //**********************************************************
+    //** ctor
+    //**********************************************************
 
-        public ExplosionUpdater(Game game)
-        {
+    public ExplosionUpdater(Game game)
+    {
             _game = game;
         }
 
-        //**********************************************************
-        //** props
-        //**********************************************************
+    //**********************************************************
+    //** props
+    //**********************************************************
         
-        public float AirResistance { get; set; } = 0.09f;
+    public float AirResistance { get; set; } = 0.09f;
 
-        //**********************************************************
-        //** methods:
-        //**********************************************************
+    //**********************************************************
+    //** methods:
+    //**********************************************************
 
-        public void Update(Explosion explosion)
-        {
+    public void Update(Explosion explosion)
+    {
             foreach (var explosionParticle in explosion.Particles)
             {
                 explosionParticle.Age += Timer.DeltaTimeMilliseconds;
@@ -43,5 +43,4 @@ namespace Fireworks
                 explosionParticle.Position += explosionParticle.Velocity * Timer.DeltaTimeSeconds;
             }
         }
-    }
 }

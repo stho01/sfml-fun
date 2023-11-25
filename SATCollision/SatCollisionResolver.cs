@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using SFML.System;
 using Stho.SFML.Extensions;
 
-namespace SATCollision
+namespace SATCollision;
+
+public class SatCollisionResolver
 {
-    public class SatCollisionResolver
+    public static bool Intersects(Vector2f[] p, Vector2f[] q)
     {
-        public static bool Intersects(Vector2f[] p, Vector2f[] q)
-        {
             return PrimaryCollisionCheck(p, q) 
                 && PrimaryCollisionCheck(q, p);
         }
         
-        /// <summary>Checking collisions for primary</summary>
-        /// <param name="primary"></param>
-        /// <param name="secondary"></param>
-        /// <returns>True if primary points check evaluates true</returns>
-        private static bool PrimaryCollisionCheck(Vector2f[] primary, Vector2f[] secondary)
-        {
+    /// <summary>Checking collisions for primary</summary>
+    /// <param name="primary"></param>
+    /// <param name="secondary"></param>
+    /// <returns>True if primary points check evaluates true</returns>
+    private static bool PrimaryCollisionCheck(Vector2f[] primary, Vector2f[] secondary)
+    {
             for (var i = 0; i < primary.Length; i++)
             {
                 var p1 = primary[i];
@@ -36,8 +36,8 @@ namespace SATCollision
             return true;
         }
 
-        private static (float min, float max) GetMinMax(Vector2f normal, IEnumerable<Vector2f> points)
-        {
+    private static (float min, float max) GetMinMax(Vector2f normal, IEnumerable<Vector2f> points)
+    {
             var max = float.MinValue;
             var min = float.MaxValue;
 
@@ -50,5 +50,4 @@ namespace SATCollision
 
             return (min, max);
         }
-    }
 }

@@ -1,34 +1,33 @@
 ﻿using SFML.Graphics;
 
-namespace Fireworks
+namespace Fireworks;
+
+public class ExplosionRenderer
 {
-    public class ExplosionRenderer
-    {
-        //**********************************************************
-        //** fields:
-        //**********************************************************
+    //**********************************************************
+    //** fields:
+    //**********************************************************
 
-        private readonly RenderTarget _target;
-        private readonly ParticleRenderer _particleRenderer;
+    private readonly RenderTarget _target;
+    private readonly ParticleRenderer _particleRenderer;
           
-        //**********************************************************
-        //** ctor:
-        //**********************************************************
+    //**********************************************************
+    //** ctor:
+    //**********************************************************
 
-        public ExplosionRenderer(RenderTarget target, ParticleRenderer particleRenderer)
-        {
+    public ExplosionRenderer(RenderTarget target, ParticleRenderer particleRenderer)
+    {
             _target = target;
             _particleRenderer = particleRenderer;
         }
           
-        //**********************************************************
-        //** methods:
-        //**********************************************************
+    //**********************************************************
+    //** methods:
+    //**********************************************************
 
-        public void Render(Explosion explosion)
-        {
+    public void Render(Explosion explosion)
+    {
             foreach (var explosionParticle in explosion.Particles)
                 _particleRenderer.Render(explosionParticle);
         }
-    }
 }

@@ -2,38 +2,38 @@
 using SFML.System;
 using Stho.SFML.Extensions;
 
-namespace Fireworks
-{
-    public class RocketRenderer
-    {
-        //**********************************************************
-        //** fields:
-        //**********************************************************
-        
-        private readonly RenderTarget _renderTarget;
-        private readonly ParticleRenderer _particleRenderer;
+namespace Fireworks;
 
-        private readonly CircleShape _circleShape = new CircleShape(1f, 3)
-        {
-            FillColor = Color.White
-        };
+public class RocketRenderer
+{
+    //**********************************************************
+    //** fields:
+    //**********************************************************
         
-        //**********************************************************
-        //** ctors:
-        //**********************************************************
+    private readonly RenderTarget _renderTarget;
+    private readonly ParticleRenderer _particleRenderer;
+
+    private readonly CircleShape _circleShape = new CircleShape(1f, 3)
+    {
+        FillColor = Color.White
+    };
         
-        public RocketRenderer(RenderTarget renderTarget, ParticleRenderer particleRenderer)
-        {
+    //**********************************************************
+    //** ctors:
+    //**********************************************************
+        
+    public RocketRenderer(RenderTarget renderTarget, ParticleRenderer particleRenderer)
+    {
             _renderTarget = renderTarget;
             _particleRenderer = particleRenderer;
         }
 
-        //**********************************************************
-        //** methods:
-        //**********************************************************
+    //**********************************************************
+    //** methods:
+    //**********************************************************
         
-        public void Render(Rocket rocket)
-        {
+    public void Render(Rocket rocket)
+    {
             var radius = rocket.Mass * 0.25f;
             _circleShape.Position = rocket.Position;
             _circleShape.Scale = new Vector2f(.5f, 1f);
@@ -44,5 +44,4 @@ namespace Fireworks
             
             rocket.Trail.ForEach(_particleRenderer.Render);
         }
-    }
 }

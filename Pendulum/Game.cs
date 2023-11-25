@@ -3,36 +3,35 @@ using SFML.Graphics;
 using SFML.System;
 using Stho.SFML.Extensions;
 
-namespace Pendulum
+namespace Pendulum;
+// public class Arm
+// {
+//     
+// }
+//
+// public class Bob
+// {
+//     
+// }
+
+public class Game : GameBase
 {
-    // public class Arm
-    // {
-    //     
-    // }
-    //
-    // public class Bob
-    // {
-    //     
-    // }
-    
-    public class Game : GameBase
+    private Vector2f _origin;
+    private float _armLength;
+    private float _angle;
+    private float _angularVelocity;
+    private float _angularAcceleration;
+    private float _bobMass;
+        
+    private Vector2f _bobPosition;
+        
+    public Game(RenderWindow window) : base(window)
     {
-        private Vector2f _origin;
-        private float _armLength;
-        private float _angle;
-        private float _angularVelocity;
-        private float _angularAcceleration;
-        private float _bobMass;
-        
-        private Vector2f _bobPosition;
-        
-        public Game(RenderWindow window) : base(window)
-        {
             
         }
 
-        public override void Initialize()
-        {
+    public override void Initialize()
+    {
             _origin = new Vector2f(WindowWidth/2, 0);
             _armLength = 300f;
             _angle = (float)(Math.PI / 4);
@@ -42,8 +41,8 @@ namespace Pendulum
             _bobMass = 50;
         }
 
-        protected override void Update()
-        {
+    protected override void Update()
+    {
             _angularAcceleration = (float)(-0.01f * Math.Sin(_angle)); 
             _angularVelocity += _angularAcceleration;
             _angle += _angularVelocity * Timer.DeltaTimeSeconds;
@@ -54,8 +53,8 @@ namespace Pendulum
             _bobPosition = new Vector2f(bobX, bobY);
         }
 
-        protected override void Render()
-        {
+    protected override void Render()
+    {
             Window.Draw(new []
             {
                 new Vertex(_origin),
@@ -72,5 +71,4 @@ namespace Pendulum
             };
             Window.Draw(bob);
         }
-    }
 }

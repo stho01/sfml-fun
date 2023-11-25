@@ -5,19 +5,19 @@ using SFML.Graphics;
 using SFML.System;
 using Stho.SFML.Extensions;
 
-namespace Flocking
-{
-    public class FlockingBehaviour : GameBase
-    {
-        private readonly int _numberOfAgents;
-        private readonly AgentUpdater _agentUpdater;
-        private readonly AgentRenderer _agentRenderer;
-        private readonly List<Agent> _agents;
-        private readonly GameFpsRenderer _gameFpsRenderer;
-        private QuadTree<Agent> _qtree;
+namespace Flocking;
 
-        public FlockingBehaviour(RenderWindow window, int numberOfAgents) : base(window)
-        {
+public class FlockingBehaviour : GameBase
+{
+    private readonly int _numberOfAgents;
+    private readonly AgentUpdater _agentUpdater;
+    private readonly AgentRenderer _agentRenderer;
+    private readonly List<Agent> _agents;
+    private readonly GameFpsRenderer _gameFpsRenderer;
+    private QuadTree<Agent> _qtree;
+
+    public FlockingBehaviour(RenderWindow window, int numberOfAgents) : base(window)
+    {
             _numberOfAgents = numberOfAgents;
             _agentUpdater = new AgentUpdater(this);
             _agentRenderer = new AgentRenderer(this, window);
@@ -25,47 +25,47 @@ namespace Flocking
             _gameFpsRenderer = new GameFpsRenderer(window);
         }
 
-        public bool ShowCollider { get; set; }
-        public bool ShowNeighborhood { get; set; } = true;
-        public Agent SelectedAgent { get; private set; }
-        public List<Agent> Agents => _agents;
-        public bool RenderQuadTree { get; set; }
-        public bool UseQuadTree { get; set; } = true;
-        public uint QuadTreeCapacity { get; set; } = 4;
+    public bool ShowCollider { get; set; }
+    public bool ShowNeighborhood { get; set; } = true;
+    public Agent SelectedAgent { get; private set; }
+    public List<Agent> Agents => _agents;
+    public bool RenderQuadTree { get; set; }
+    public bool UseQuadTree { get; set; } = true;
+    public uint QuadTreeCapacity { get; set; } = 4;
 
-        public bool ShowFps
-        {
-            get => _gameFpsRenderer.ShowFps;
-            set => _gameFpsRenderer.ShowFps = value;
-        }
+    public bool ShowFps
+    {
+        get => _gameFpsRenderer.ShowFps;
+        set => _gameFpsRenderer.ShowFps = value;
+    }
 
-        public float AgentSpeed
-        {
-            get => _agentUpdater.MaxSpeed;
-            set => _agentUpdater.MaxSpeed = value;
-        }
+    public float AgentSpeed
+    {
+        get => _agentUpdater.MaxSpeed;
+        set => _agentUpdater.MaxSpeed = value;
+    }
         
-        public override void Initialize()
-        {
+    public override void Initialize()
+    {
             ApplyRandomPositionAndDirectionToAgents();
         }
 
-        public void Reset()
-        {
+    public void Reset()
+    {
             ShowCollider = false;
             AgentSpeed = 20f;
             _agents.Clear();
             ApplyRandomPositionAndDirectionToAgents();
         }
 
-        private void ApplyRandomPositionAndDirectionToAgents()
-        {
+    private void ApplyRandomPositionAndDirectionToAgents()
+    {
             for (var i = 0; i < _numberOfAgents; i++)
                 SpawnAgent();
         }
 
-        public void SpawnAgent()
-        {
+    public void SpawnAgent()
+    {
             _agents.Add(new Agent
             {
                 Pos = RandomNumber.Vector(0, Program.ScreenWidth, 0, Program.ScreenHeight),
@@ -73,13 +73,13 @@ namespace Flocking
             });
         }
 
-        public void RemoveLastAgent()
-        {
+    public void RemoveLastAgent()
+    {
             _agents.Remove(_agents.Last());
         }
         
-        public Agent[] GetNeighbors(Agent a)
-        {
+    public Agent[] GetNeighbors(Agent a)
+    {
             if (UseQuadTree)
             {
                 return _qtree
@@ -92,26 +92,26 @@ namespace Flocking
         }
         
         
-        public Agent[] FindNeighbors(Agent agent)
-        {
+    public Agent[] FindNeighbors(Agent agent)
+    {
             return Agents
                 .Where(potentialNeighbor => IsNeighbor(agent, potentialNeighbor))
                 .ToArray();
         }
 
-        public bool IsNeighbor(Agent agent, Agent potentialNeighbor)
-        {
+    public bool IsNeighbor(Agent agent, Agent potentialNeighbor)
+    {
             return potentialNeighbor != agent
                    && (potentialNeighbor.Pos - agent.Pos).SqrLength() < agent.NeighborhoodRadius * agent.NeighborhoodRadius;
         }
 
-        protected override void Update()
-        {
+    protected override void Update()
+    {
             UpdateAgents();
         }
 
-        protected override void Render()
-        {
+    protected override void Render()
+    {
             if (RenderQuadTree && UseQuadTree)
             {
                 var boundaries = _qtree.GetBoundaries();
@@ -131,8 +131,8 @@ namespace Flocking
             }
         }
 
-        private void UpdateAgents()
-        {
+    private void UpdateAgents()
+    {
             if (UseQuadTree)
             {
                 _qtree = new QuadTree<Agent>(new FloatRect(0, 0, Window.Size.X, Window.Size.Y))
@@ -149,12 +149,11 @@ namespace Flocking
             });
         }
 
-        public void SelectAgent(int index)
-        {
+    public void SelectAgent(int index)
+    {
             if (index < 0 && index > _agents.Count - 1)
                 throw new InvalidOperationException();
 
             SelectedAgent = _agents[index];
         }
-    }
 }

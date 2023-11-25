@@ -2,12 +2,12 @@
 using System.Linq;
 using Stho.SFML.Extensions;
 
-namespace BallCollision
+namespace BallCollision;
+
+static class Program
 {
-    static class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
             var window = WindowFactory.CreateDefault();
             var game = new Game(window);
             
@@ -19,5 +19,4 @@ namespace BallCollision
             game.Initialize();
             game.Start();
         }
-    }
 }

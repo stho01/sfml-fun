@@ -5,32 +5,32 @@ using SFML.Graphics;
 using SFML.System;
 using Stho.SFML.Extensions;
 
-namespace Maze
+namespace Maze;
+
+public class MazeRenderer
 {
-    public class MazeRenderer
-    {
-        //**********************************************************
-        //** fields:
-        //**********************************************************
+    //**********************************************************
+    //** fields:
+    //**********************************************************
 
-        private readonly Game _game;
-        private readonly RenderTarget _target;
-        private readonly RectangleShape _cellShape = new RectangleShape();
-        private readonly Dictionary<Cell.WallIndex, WallRenderFunction> _wallRenderFunctions;
-        private Vector2f _currentCellSize;
+    private readonly Game _game;
+    private readonly RenderTarget _target;
+    private readonly RectangleShape _cellShape = new RectangleShape();
+    private readonly Dictionary<Cell.WallIndex, WallRenderFunction> _wallRenderFunctions;
+    private Vector2f _currentCellSize;
               
-        //**********************************************************
-        //** delegates
-        //**********************************************************
+    //**********************************************************
+    //** delegates
+    //**********************************************************
 
-        delegate (Vector2f, Vector2f) WallRenderFunction(Cell cell, Vector2f position);
+    delegate (Vector2f, Vector2f) WallRenderFunction(Cell cell, Vector2f position);
           
-        //**********************************************************
-        //** ctor:
-        //**********************************************************
+    //**********************************************************
+    //** ctor:
+    //**********************************************************
 
-        public MazeRenderer(Game game, RenderTarget target)
-        {
+    public MazeRenderer(Game game, RenderTarget target)
+    {
             _game = game;
             _target = target;
             _wallRenderFunctions = new Dictionary<Cell.WallIndex, WallRenderFunction>();
@@ -40,21 +40,21 @@ namespace Maze
             _wallRenderFunctions.Add(Cell.WallIndex.Right, GetRightWallPoints);
         }
             
-        //**********************************************************
-        //** props
-        //**********************************************************
+    //**********************************************************
+    //** props
+    //**********************************************************
 
-        public Color CellFillColor { get; set; } = new Color(0xeaeaeaff);
-        public Color WallColor { get; set; } = Color.Black;
-        public Color ActiveCellFillColor { get; set; } = Color.Magenta;
-        public Color VisitedCellFillColor { get; set; } = Color.Cyan;
+    public Color CellFillColor { get; set; } = new Color(0xeaeaeaff);
+    public Color WallColor { get; set; } = Color.Black;
+    public Color ActiveCellFillColor { get; set; } = Color.Magenta;
+    public Color VisitedCellFillColor { get; set; } = Color.Cyan;
         
-        //**********************************************************
-        //** methods:
-        //**********************************************************
+    //**********************************************************
+    //** methods:
+    //**********************************************************
 
-        public void Render(Maze maze)
-        {
+    public void Render(Maze maze)
+    {
             _currentCellSize = GetCellSize(maze);
             
             for (var x = 0; x < maze.Width; x++)
@@ -67,8 +67,8 @@ namespace Maze
             }
         }
 
-        private void RenderSquare(Cell cell, Vector2f position)
-        {
+    private void RenderSquare(Cell cell, Vector2f position)
+    {
             _cellShape.Size = _currentCellSize;
             _cellShape.Position = position;
             
@@ -80,8 +80,8 @@ namespace Maze
             _target.Draw(_cellShape);
         }
 
-        private void RenderWalls(Cell cell, Vector2f position)
-        {
+    private void RenderWalls(Cell cell, Vector2f position)
+    {
             for (var i = 0; i < cell.Walls.Length; i++)
                 if (cell.Walls[i] && _wallRenderFunctions.TryGetValue((Cell.WallIndex) i, out var renderFunction))
                 {
@@ -94,36 +94,36 @@ namespace Maze
                 }
         }
 
-        private (Vector2f, Vector2f) GetTopWallPoints(Cell cell, Vector2f position)
-        {
+    private (Vector2f, Vector2f) GetTopWallPoints(Cell cell, Vector2f position)
+    {
             var p1 = position;
             var p2 = position + new Vector2f(_currentCellSize.X, 0);
             return (p1, p2);
         }
         
-        private (Vector2f, Vector2f) GetRightWallPoints(Cell cell, Vector2f position)
-        {
+    private (Vector2f, Vector2f) GetRightWallPoints(Cell cell, Vector2f position)
+    {
             var p1 = position + new Vector2f(_currentCellSize.X, 0);
             var p2 = position + _currentCellSize;
             return (p1, p2);
         }
         
-        public (Vector2f, Vector2f) GetBottomWallPoints(Cell cell, Vector2f position)
-        {
+    public (Vector2f, Vector2f) GetBottomWallPoints(Cell cell, Vector2f position)
+    {
             var p1 = position + _currentCellSize;
             var p2 = position + new Vector2f(0, _currentCellSize.Y);
             return (p1, p2);
         }
         
-        public (Vector2f, Vector2f) RenderLeftWall(Cell cell, Vector2f position)
-        {
+    public (Vector2f, Vector2f) RenderLeftWall(Cell cell, Vector2f position)
+    {
             var p1 = position + new Vector2f(0, _currentCellSize.Y);
             var p2 = position;
             return (p1, p2);
         }
         
-        private Vector2f GetCellSize(Maze maze)
-        {
+    private Vector2f GetCellSize(Maze maze)
+    {
             var size = new Vector2f(
                 _target.Size.X / maze.Width,
                 _target.Size.Y / maze.Height
@@ -132,5 +132,4 @@ namespace Maze
             return size;
         }
         
-    }
 }

@@ -2,32 +2,32 @@
 using SFML.System;
 using Stho.SFML.Extensions;
 
-namespace Skate
+namespace Skate;
+
+public class SkaterRenderer
 {
-    public class SkaterRenderer
-    {
-        //**********************************************************
-        //** fields:
-        //**********************************************************
+    //**********************************************************
+    //** fields:
+    //**********************************************************
 
-        private readonly RenderTarget _renderTarget;
-        private readonly CircleShape _skaterShape = new CircleShape(10, 3);
+    private readonly RenderTarget _renderTarget;
+    private readonly CircleShape _skaterShape = new CircleShape(10, 3);
   
-        //**********************************************************
-        //** ctor:
-        //**********************************************************
+    //**********************************************************
+    //** ctor:
+    //**********************************************************
 
-        public SkaterRenderer(RenderTarget renderTarget)
-        {
+    public SkaterRenderer(RenderTarget renderTarget)
+    {
             _renderTarget = renderTarget;
         }
   
-        //**********************************************************
-        //** methods:
-        //**********************************************************
+    //**********************************************************
+    //** methods:
+    //**********************************************************
         
-        public void Render(Skater skater)
-        {
+    public void Render(Skater skater)
+    {
             var radius = skater.Mass * .9f;
             _skaterShape.Radius = radius;
             _skaterShape.Scale = new Vector2f(.6f, 1f);
@@ -38,5 +38,4 @@ namespace Skate
             
             _renderTarget.Draw(_skaterShape);
         }
-    }
 }

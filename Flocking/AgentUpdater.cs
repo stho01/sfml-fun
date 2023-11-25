@@ -1,41 +1,41 @@
 ﻿using SFML.System;
 using Stho.SFML.Extensions;
 
-namespace Flocking
+namespace Flocking;
+
+public class AgentUpdater 
 {
-    public class AgentUpdater 
-    {
-        //**********************************************************
-        //** fields:
-        //**********************************************************
+    //**********************************************************
+    //** fields:
+    //**********************************************************
 
-        public float AlignmentAmount = 1f;
-        public float SeparationAmount = 1.5f;
-        public float CohesionAmount = 1f;
-        public float MaxSteeringForce = .95f;
-        private readonly FlockingBehaviour _flockingBehaviour;
+    public float AlignmentAmount = 1f;
+    public float SeparationAmount = 1.5f;
+    public float CohesionAmount = 1f;
+    public float MaxSteeringForce = .95f;
+    private readonly FlockingBehaviour _flockingBehaviour;
           
-        //**********************************************************
-        //** ctor:
-        //**********************************************************
+    //**********************************************************
+    //** ctor:
+    //**********************************************************
 
-        public AgentUpdater(FlockingBehaviour flockingBehaviour)
-        {
+    public AgentUpdater(FlockingBehaviour flockingBehaviour)
+    {
             _flockingBehaviour = flockingBehaviour;
         }
           
-        //**********************************************************
-        //** props:
-        //**********************************************************
+    //**********************************************************
+    //** props:
+    //**********************************************************
 
-        public float MaxSpeed { get; set; } = 150f;
+    public float MaxSpeed { get; set; } = 150f;
           
-        //**********************************************************
-        //** methods:
-        //**********************************************************
+    //**********************************************************
+    //** methods:
+    //**********************************************************
 
-        public void Update(Agent agent)
-        {
+    public void Update(Agent agent)
+    {
             agent.Acceleration = Flock(agent);
             agent.Velocity = LimitMagnitude(agent.Acceleration + agent.Velocity, MaxSpeed);
             agent.Pos += agent.Velocity * Timer.DeltaTimeSeconds;
@@ -43,8 +43,8 @@ namespace Flocking
             Wraparound(agent);
         }
 
-        public Vector2f Flock(Agent agent)
-        {
+    public Vector2f Flock(Agent agent)
+    {
             var neighbors = _flockingBehaviour.GetNeighbors(agent);
             
             if (neighbors.Length == 0)
@@ -79,8 +79,8 @@ namespace Flocking
         }
 
 
-        public void Wraparound(Agent agent)
-        {
+    public void Wraparound(Agent agent)
+    {
             var x = agent.Pos.X;
             var y = agent.Pos.Y;
 
@@ -92,8 +92,8 @@ namespace Flocking
             agent.Pos = new Vector2f(x, y);
         }
     
-        private Vector2f Steer(Agent agent, Vector2f desired)
-        {
+    private Vector2f Steer(Agent agent, Vector2f desired)
+    {
             var steer = desired - agent.Velocity;
             
             steer = LimitMagnitude(steer, MaxSteeringForce);
@@ -101,13 +101,12 @@ namespace Flocking
             return steer;
         }
         
-        private Vector2f LimitMagnitude(Vector2f baseVector, float maxMagnitude)
-        {
+    private Vector2f LimitMagnitude(Vector2f baseVector, float maxMagnitude)
+    {
             if (baseVector.SqrLength() > maxMagnitude * maxMagnitude)
             {
                 baseVector = baseVector.Normalize() * maxMagnitude;
             }
             return baseVector;
         }
-    }
 }

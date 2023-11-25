@@ -2,47 +2,47 @@
 using SFML.Graphics;
 using SFML.System;
 
-namespace Fireworks
-{
-    public enum ParticleFade
-    {
-        Linear,
-        Exponential
-    }
-    
-    public class ParticleRenderer
-    {
-        //**********************************************************
-        //** fields:
-        //**********************************************************
-    
-        private readonly RenderTarget _renderTarget;
-        public readonly CircleShape _particle = new CircleShape(1f)
-        {
-            Origin = new Vector2f(1f, 1f)
-        };
-          
-        //**********************************************************
-        //** ctor:
-        //**********************************************************
+namespace Fireworks;
 
-        public ParticleRenderer(RenderTarget renderTarget)
-        {
+public enum ParticleFade
+{
+    Linear,
+    Exponential
+}
+    
+public class ParticleRenderer
+{
+    //**********************************************************
+    //** fields:
+    //**********************************************************
+    
+    private readonly RenderTarget _renderTarget;
+    public readonly CircleShape _particle = new CircleShape(1f)
+    {
+        Origin = new Vector2f(1f, 1f)
+    };
+          
+    //**********************************************************
+    //** ctor:
+    //**********************************************************
+
+    public ParticleRenderer(RenderTarget renderTarget)
+    {
             _renderTarget = renderTarget;
         }
           
-        //**********************************************************
-        //** props:
-        //**********************************************************
+    //**********************************************************
+    //** props:
+    //**********************************************************
 
-        public ParticleFade FadeMode { get; set; }
+    public ParticleFade FadeMode { get; set; }
         
-        //**********************************************************
-        //** methods
-        //**********************************************************
+    //**********************************************************
+    //** methods
+    //**********************************************************
 
-        public void Render(Particle particle)
-        {
+    public void Render(Particle particle)
+    {
             if (particle.IsDead) return;
 
             double opacity = 255f;
@@ -66,5 +66,4 @@ namespace Fireworks
             
             _renderTarget.Draw(_particle);
         }
-    }
 }

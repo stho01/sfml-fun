@@ -2,30 +2,30 @@
 using SFML.System;
 using Stho.SFML.Extensions;
 
-namespace Flocking
+namespace Flocking;
+
+public struct AgentGeometry
 {
-    public struct AgentGeometry
-    {
-        public float Radius { get; set; }
-        public Vector2f Origin { get; set; }
-    }
+    public float Radius { get; set; }
+    public Vector2f Origin { get; set; }
+}
     
-    public class AgentRenderer
-    {
-        private readonly FlockingBehaviour _flockingBehaviour;
-        private readonly RenderTarget _renderTarget;
-        private static readonly CircleShape Ship = new CircleShape(24f, 3);
-        private static readonly CircleShape Collider = new CircleShape(24f);
-        private static readonly CircleShape Neighborhood = new CircleShape(24f);
+public class AgentRenderer
+{
+    private readonly FlockingBehaviour _flockingBehaviour;
+    private readonly RenderTarget _renderTarget;
+    private static readonly CircleShape Ship = new CircleShape(24f, 3);
+    private static readonly CircleShape Collider = new CircleShape(24f);
+    private static readonly CircleShape Neighborhood = new CircleShape(24f);
         
-        public AgentRenderer(FlockingBehaviour flockingBehaviour, RenderTarget renderTarget)
-        {
+    public AgentRenderer(FlockingBehaviour flockingBehaviour, RenderTarget renderTarget)
+    {
             _flockingBehaviour = flockingBehaviour;
             _renderTarget = renderTarget;
         }
         
-        public void Render(Agent agent)
-        {
+    public void Render(Agent agent)
+    {
             var geometry = GetGeometry(agent);
 
             if (_flockingBehaviour.ShowCollider)
@@ -37,8 +37,8 @@ namespace Flocking
             DrawAgent(agent, geometry);
         }
 
-        private AgentGeometry GetGeometry(Agent agent)
-        {
+    private AgentGeometry GetGeometry(Agent agent)
+    {
             var radius = agent.Size * .5f;
             return new AgentGeometry
             {
@@ -47,8 +47,8 @@ namespace Flocking
             };   
         }
 
-        private void DrawAgent(Agent agent, AgentGeometry geometry)
-        {
+    private void DrawAgent(Agent agent, AgentGeometry geometry)
+    {
             Ship.Radius = geometry.Radius;
             Ship.Position = agent.Pos;
             Ship.Scale = new Vector2f(.75f, 1f);
@@ -59,8 +59,8 @@ namespace Flocking
             _renderTarget.Draw(Ship);
         }
 
-        public void DrawCollider(Agent agent, AgentGeometry geometry)
-        {
+    public void DrawCollider(Agent agent, AgentGeometry geometry)
+    {
             Collider.Radius = geometry.Radius;
             Collider.OutlineColor = Color.Yellow;
             Collider.OutlineThickness = 1f;
@@ -71,8 +71,8 @@ namespace Flocking
             _renderTarget.Draw(Collider);
         }
 
-        public void DrawNeighborhoodAreas(Agent agent, AgentGeometry geometry)
-        {
+    public void DrawNeighborhoodAreas(Agent agent, AgentGeometry geometry)
+    {
             Neighborhood.Radius = agent.NeighborhoodRadius;
             Neighborhood.OutlineColor = Color.Red;
             Neighborhood.OutlineThickness = 1f;
@@ -87,5 +87,4 @@ namespace Flocking
             Neighborhood.Origin = new Vector2f(separationArea, separationArea);
             _renderTarget.Draw(Neighborhood);            
         }
-    }
 }

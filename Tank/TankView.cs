@@ -6,38 +6,38 @@ using SFML.Graphics;
 using SFML.System;
 using Stho.SFML.Extensions;
 
-namespace TankGame
+namespace TankGame;
+
+public class TankRenderer
 {
-    public class TankRenderer
-    {
-        //**********************************************************
-        //** fields:
-        //**********************************************************
+    //**********************************************************
+    //** fields:
+    //**********************************************************
 
-        private readonly RenderTarget _renderTarget;
+    private readonly RenderTarget _renderTarget;
       
-        //**********************************************************
-        //** ctors:
-        //**********************************************************
+    //**********************************************************
+    //** ctors:
+    //**********************************************************
 
-        public TankRenderer(RenderTarget renderTarget)
-        {
+    public TankRenderer(RenderTarget renderTarget)
+    {
             _renderTarget = renderTarget;
         }
         
-        //**********************************************************
-        //** methods:
-        //**********************************************************
+    //**********************************************************
+    //** methods:
+    //**********************************************************
         
-        public void Render(Tank tank)
-        {
+    public void Render(Tank tank)
+    {
             RenderBody(tank);
             RenderBarrel(tank);
             RenderDirection(tank);
         }
 
-        public void RenderBody(Tank tank)
-        {
+    public void RenderBody(Tank tank)
+    {
             var shape = new RectangleShape()
             {
                 FillColor = Color.Green,
@@ -52,8 +52,8 @@ namespace TankGame
             _renderTarget.Draw(shape);
         }
         
-        public void RenderBarrel(Tank tank)
-        {
+    public void RenderBarrel(Tank tank)
+    {
             var radius = 12;
             var offset = new Vector2f(0, 0);
             
@@ -78,8 +78,8 @@ namespace TankGame
             _renderTarget.Draw(barrel);
         }
 
-        public void RenderDirection(Tank tank)
-        {
+    public void RenderDirection(Tank tank)
+    {
             var angle = MathUtils.DegreeToRadian(tank.Body.Angle);
             var dir = new Vector2f(
                 (float)Math.Cos(angle),
@@ -94,5 +94,4 @@ namespace TankGame
                 new Vertex(p2, Color.Red) 
             }, 0, 2, PrimitiveType.Lines);
         }
-    }
 }

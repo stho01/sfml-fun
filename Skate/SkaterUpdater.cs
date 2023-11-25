@@ -3,31 +3,31 @@ using SFML.System;
 using SFML.Window;
 using Stho.SFML.Extensions;
 
-namespace Skate
+namespace Skate;
+
+public class SkaterUpdater
 {
-    public class SkaterUpdater
-    {
-        //**********************************************************
-        //** fields:
-        //**********************************************************
+    //**********************************************************
+    //** fields:
+    //**********************************************************
 
-        private readonly Game _game;
+    private readonly Game _game;
           
-        //**********************************************************
-        //** ctor:
-        //**********************************************************
+    //**********************************************************
+    //** ctor:
+    //**********************************************************
 
-        public SkaterUpdater(Game game)
-        {
+    public SkaterUpdater(Game game)
+    {
             _game = game;
         }
           
-        //**********************************************************
-        //** methods:
-        //**********************************************************
+    //**********************************************************
+    //** methods:
+    //**********************************************************
 
-        public void Update(Skater skater)
-        {
+    public void Update(Skater skater)
+    {
             if (Keyboard.IsKeyPressed(Keyboard.Key.A))
                 skater.Angle -= (360f * Timer.DeltaTimeSeconds);
             if (Keyboard.IsKeyPressed(Keyboard.Key.D))
@@ -52,5 +52,4 @@ namespace Skate
             skater.Velocity += a;
             skater.Position += skater.Velocity;
         }
-    }
 }

@@ -3,23 +3,23 @@ using SFML.Graphics;
 using SFML.System;
 using Stho.SFML.Extensions;
 
-namespace CircleIntersection
+namespace CircleIntersection;
+
+public class Game : GameBase
 {
-    public class Game : GameBase
+    public CircleShape c1;
+    public CircleShape c2;
+    public Vertex[] line;
+
+    public Game(RenderWindow window) : base(window) { }
+
+    public float SqrDistanceFromEachOther => (c2.Position - c1.Position).SqrLength();
+    public float SqrRadius => (c1.Radius + c2.Radius) * (c1.Radius + c2.Radius);
+    public bool Colliding => SqrDistanceFromEachOther <= SqrRadius;
+    public int Radius { get; set; } = 60;
+
+    public override void Initialize()
     {
-        public CircleShape c1;
-        public CircleShape c2;
-        public Vertex[] line;
-
-        public Game(RenderWindow window) : base(window) { }
-
-        public float SqrDistanceFromEachOther => (c2.Position - c1.Position).SqrLength();
-        public float SqrRadius => (c1.Radius + c2.Radius) * (c1.Radius + c2.Radius);
-        public bool Colliding => SqrDistanceFromEachOther <= SqrRadius;
-        public int Radius { get; set; } = 60;
-
-        public override void Initialize()
-        {
             c1 = new CircleShape
             {
                 Position = new Vector2f(50, 50),
@@ -41,8 +41,8 @@ namespace CircleIntersection
             };
         }
 
-        protected override void Update()
-        {
+    protected override void Update()
+    {
             c2.Radius = Radius;
             c2.Origin = new Vector2f(Radius, Radius);
             
@@ -59,11 +59,10 @@ namespace CircleIntersection
             line[1] = new Vertex(c2.Position);
         }
 
-        protected override void Render()
-        {
+    protected override void Render()
+    {
             Window.Draw(c2);
             Window.Draw(c1);
             Window.Draw(line, 0, 2, PrimitiveType.Lines);
         }
-    }
 }

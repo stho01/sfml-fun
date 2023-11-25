@@ -5,25 +5,25 @@ using SFML.System;
 using SFML.Window;
 using Stho.SFML.Extensions;
 
-namespace Minesweeper
+namespace Minesweeper;
+
+public class MinesweeperGame : GameBase, IDisposable
 {
-    public class MinesweeperGame : GameBase, IDisposable
-    {
-        //**********************************************************
-        //** fields:
-        //**********************************************************
+    //**********************************************************
+    //** fields:
+    //**********************************************************
 
-        private readonly Cell[,] _cells;
-        private readonly uint _mineCount;
-        private readonly MinesweeperRenderer _renderer;
-        private bool _initialized;
+    private readonly Cell[,] _cells;
+    private readonly uint _mineCount;
+    private readonly MinesweeperRenderer _renderer;
+    private bool _initialized;
 
-        //**********************************************************
-        //** ctor:
-        //**********************************************************
+    //**********************************************************
+    //** ctor:
+    //**********************************************************
         
-        public MinesweeperGame(RenderWindow window, int boardWidth, int boardHeight, uint mineCount) : base(window)
-        {
+    public MinesweeperGame(RenderWindow window, int boardWidth, int boardHeight, uint mineCount) : base(window)
+    {
             _cells = new Cell[boardWidth,boardHeight];
             BoardWidth = boardWidth;
             BoardHeight = boardHeight;
@@ -32,23 +32,23 @@ namespace Minesweeper
             _renderer = new MinesweeperRenderer(this, Window);
         }
           
-        //**********************************************************
-        //** props:
-        //**********************************************************
+    //**********************************************************
+    //** props:
+    //**********************************************************
 
-        public Theme Theme { get; } = new Theme();
-        public int BoardWidth { get; }
-        public int BoardHeight { get; }
-        public Vector2i CellSize { get; private set; }
-        public bool GameOver { get; private set; }
-        public string GameStatus { get; private set; }
+    public Theme Theme { get; } = new Theme();
+    public int BoardWidth { get; }
+    public int BoardHeight { get; }
+    public Vector2i CellSize { get; private set; }
+    public bool GameOver { get; private set; }
+    public string GameStatus { get; private set; }
         
-        //**********************************************************
-        //** methods:
-        //**********************************************************
+    //**********************************************************
+    //** methods:
+    //**********************************************************
 
-        public override void Initialize()
-        {
+    public override void Initialize()
+    {
             _initialized = true;
             Window.SetTitle("Minesweeper");
             Window.SetFramerateLimit(10);
@@ -57,8 +57,8 @@ namespace Minesweeper
             Reset();
         }
 
-        public void Reset()
-        {
+    public void Reset()
+    {
             if (!_initialized) 
                 throw new Exception("Game not initialized...");
             
@@ -73,16 +73,16 @@ namespace Minesweeper
             });
         }
 
-        private void InitializeBoard()
-        {
+    private void InitializeBoard()
+    {
             for (var x = 0; x < BoardWidth; x++)
             for (var y = 0; y < BoardHeight; y++) {
                 _cells[x, y] = new Cell(x, y);
             }            
         }
 
-        private void PlaceMines()
-        {
+    private void PlaceMines()
+    {
             if (BoardWidth * BoardHeight < _mineCount)
                 throw new InvalidOperationException("Mine count cannot be greater that max possible placements");
 
@@ -103,15 +103,15 @@ namespace Minesweeper
             }
         }
 
-        public void ForeachCell(Action<Cell> action)
-        {
+    public void ForeachCell(Action<Cell> action)
+    {
             for (var x = 0; x < BoardWidth; x++) 
             for (var y = 0; y < BoardHeight; y++)
                 action(_cells[x, y]);
         }
 
-        public void ScanAreaAround(Cell cell, Action<Cell> action)
-        {
+    public void ScanAreaAround(Cell cell, Action<Cell> action)
+    {
             var x = cell.X;
             var y = cell.Y;
             
@@ -133,20 +133,20 @@ namespace Minesweeper
             }
         }
 
-        protected override void Update()
-        {
+    protected override void Update()
+    {
             CalculateAndSetCellSize();
         }
 
-        private void EnterGameOver(string status)
-        {
+    private void EnterGameOver(string status)
+    {
             GameOver = true;
             GameStatus = status; 
             ForeachCell((cell) => cell.Revelead = true);  
         }
 
-        private bool RevealCell(Cell cell)
-        {
+    private bool RevealCell(Cell cell)
+    {
             if (cell.Revelead)
                 return cell.IsMine;
             
@@ -157,27 +157,27 @@ namespace Minesweeper
             return cell.IsMine;
         }
 
-        protected override void Render() => _renderer.Render();
+    protected override void Render() => _renderer.Render();
 
-        private void CalculateAndSetCellSize()
-        {
+    private void CalculateAndSetCellSize()
+    {
             CellSize = new Vector2i(
                 (int)(WindowWidth / BoardWidth),    
                 (int)(WindowHeight / BoardHeight)    
             );
         }
 
-        public void Dispose()
-        {
+    public void Dispose()
+    {
             Window.MouseButtonPressed -= HandleMouseClick;
         }
           
-        //**********************************************************
-        //** event handlers
-        //**********************************************************
+    //**********************************************************
+    //** event handlers
+    //**********************************************************
 
-        private void HandleMouseClick(object source, MouseButtonEventArgs args)
-        {
+    private void HandleMouseClick(object source, MouseButtonEventArgs args)
+    {
             if (args.Button != Mouse.Button.Left)
                 return;
             
@@ -194,5 +194,4 @@ namespace Minesweeper
                     EnterGameOver("Congrats comrade!");
             }
         }
-    }
 }

@@ -2,23 +2,23 @@
 using LuaScripting.Models;
 using NLua;
 
-namespace LuaScripting
+namespace LuaScripting;
+
+public sealed class Script : IDisposable
 {
-    public sealed class Script : IDisposable
-    {
-        private readonly GameObject _gameObject;
-        private readonly string _file;
-        private readonly Lua _lua = new Lua();
-        private LuaFunction? _onUpdate;
+    private readonly GameObject _gameObject;
+    private readonly string _file;
+    private readonly Lua _lua = new Lua();
+    private LuaFunction? _onUpdate;
     
-        public Script(GameObject gameObject, string file)
-        {
+    public Script(GameObject gameObject, string file)
+    {
             _gameObject = gameObject;
             _file = file;
         }
     
-        public void Load()
-        {
+    public void Load()
+    {
             _lua.LoadCLRPackage();
 
             const string imports = @"
@@ -39,15 +39,14 @@ namespace LuaScripting
             _onUpdate = _lua.GetFunction("OnUpdate");
         }
 
-        public void Update(float dt)
-        {
+    public void Update(float dt)
+    {
             _onUpdate?.Call(dt);
         }
 
-        public void Dispose()
-        {
+    public void Dispose()
+    {
             _onUpdate = null;
             _lua.Dispose();
         }
-    }
 }

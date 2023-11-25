@@ -2,34 +2,34 @@
 using SFML.System;
 using Stho.SFML.Extensions;
 
-namespace BallCollision
+namespace BallCollision;
+
+public class BallRenderer
 {
-    public class BallRenderer
-    {
           
-        //**********************************************************
-        //** fields:
-        //**********************************************************
+    //**********************************************************
+    //** fields:
+    //**********************************************************
 
-        private readonly RenderTarget _renderTarget;
-        private readonly CircleShape _shape = new CircleShape();
-        private readonly LineShape _line = new LineShape();
+    private readonly RenderTarget _renderTarget;
+    private readonly CircleShape _shape = new CircleShape();
+    private readonly LineShape _line = new LineShape();
         
-        //**********************************************************
-        //** ctors:
-        //**********************************************************
+    //**********************************************************
+    //** ctors:
+    //**********************************************************
 
-        public BallRenderer(RenderTarget renderTarget)
-        {
+    public BallRenderer(RenderTarget renderTarget)
+    {
             _renderTarget = renderTarget;
         }
           
-        //**********************************************************
-        //** methods:
-        //**********************************************************
+    //**********************************************************
+    //** methods:
+    //**********************************************************
 
-        public void Render(Ball ball)
-        {
+    public void Render(Ball ball)
+    {
             var radius = ball.Size / 2;
             _shape.Radius = radius;
             _shape.Position = ball.Position;
@@ -49,5 +49,4 @@ namespace BallCollision
                 new Vertex(_line.P2, Color.Black), 
             }, 0, 2, PrimitiveType.Lines);
         }
-    }
 }

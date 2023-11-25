@@ -4,68 +4,68 @@ using SFML.Graphics.Glsl;
 using SFML.System;
 using SFML.Window;
 
-namespace Stho.SFML.Extensions
+namespace Stho.SFML.Extensions;
+
+public abstract class GameBase
 {
-    public abstract class GameBase
-    {
-        //**********************************************************
-        //** fields:
-        //**********************************************************
+    //**********************************************************
+    //** fields:
+    //**********************************************************
 
-        private readonly RenderWindow _window;
-        private readonly GameFpsRenderer _gameFpsRenderer;
+    private readonly RenderWindow _window;
+    private readonly GameFpsRenderer _gameFpsRenderer;
             
-        //**********************************************************
-        //** events
-        //**********************************************************
+    //**********************************************************
+    //** events
+    //**********************************************************
 
-        public event EventHandler<EventArgs> OnUpdated; 
-        public event EventHandler<EventArgs> OnRendered; 
+    public event EventHandler<EventArgs> OnUpdated; 
+    public event EventHandler<EventArgs> OnRendered; 
         
-        //**********************************************************
-        //** ctor:
-        //**********************************************************
+    //**********************************************************
+    //** ctor:
+    //**********************************************************
         
-        protected GameBase(RenderWindow window)
-        {
+    protected GameBase(RenderWindow window)
+    {
             
             _window = window;
             _window.Closed += OnWindowClosed;
             _gameFpsRenderer = new GameFpsRenderer(window);
         }
           
-        //**********************************************************
-        //** props:
-        //**********************************************************
+    //**********************************************************
+    //** props:
+    //**********************************************************
 
-        public RenderWindow Window => _window;
+    public RenderWindow Window => _window;
         
-        public bool ShowFps
-        {
-            get => _gameFpsRenderer.ShowFps;
-            set => _gameFpsRenderer.ShowFps = value;
-        }
+    public bool ShowFps
+    {
+        get => _gameFpsRenderer.ShowFps;
+        set => _gameFpsRenderer.ShowFps = value;
+    }
 
-        public uint WindowWidth => Window.Size.X;
-        public uint WindowHeight => Window.Size.Y;
-        public Vector2f WindowCenter => new Vector2f(WindowWidth/2, WindowHeight/2);
-        public Color ClearColor { get; set; } = Color.Black;
-        public FloatRect WindowBounds => new FloatRect(0, 0, WindowWidth, WindowHeight);
+    public uint WindowWidth => Window.Size.X;
+    public uint WindowHeight => Window.Size.Y;
+    public Vector2f WindowCenter => new Vector2f(WindowWidth/2, WindowHeight/2);
+    public Color ClearColor { get; set; } = Color.Black;
+    public FloatRect WindowBounds => new FloatRect(0, 0, WindowWidth, WindowHeight);
           
-        //**********************************************************
-        //** abstract methods:
-        //**********************************************************
+    //**********************************************************
+    //** abstract methods:
+    //**********************************************************
 
-        public abstract void Initialize();
-        protected abstract void Update();
-        protected abstract void Render();
+    public abstract void Initialize();
+    protected abstract void Update();
+    protected abstract void Render();
           
-        //**********************************************************
-        //** methods:
-        //**********************************************************
+    //**********************************************************
+    //** methods:
+    //**********************************************************
 
-        public void Start()
-        {
+    public void Start()
+    {
             while (_window.IsOpen)
             {
                 Timer.Update();
@@ -80,20 +80,19 @@ namespace Stho.SFML.Extensions
             }
         }
         
-        public void Stop()
-        {
+    public void Stop()
+    {
             _window.Close();
         }
 
-        public Vector2i GetMousePosition() => Mouse.GetPosition(Window);
+    public Vector2i GetMousePosition() => Mouse.GetPosition(Window);
         
-        //**********************************************************
-        //** event handlers:
-        //**********************************************************
+    //**********************************************************
+    //** event handlers:
+    //**********************************************************
 
-        protected virtual void OnWindowClosed(object source, EventArgs args) 
-        {
+    protected virtual void OnWindowClosed(object source, EventArgs args) 
+    {
             _window.Close();
         }
-    }
 }

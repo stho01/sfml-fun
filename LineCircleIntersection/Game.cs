@@ -4,36 +4,36 @@ using SFML.Graphics;
 using SFML.System;
 using Stho.SFML.Extensions;
 
-namespace LineCircleIntersection
+namespace LineCircleIntersection;
+
+public class Game : GameBase
 {
-    public class Game : GameBase
+          
+    //**********************************************************
+    //** fields:
+    //**********************************************************
+        
+    private FloatLine _line1;
+    private FloatLine _line2;
+    private CircleShape _circleShape;
+    private CircleShape _pointShape;
+    private List<Vector2f> _intersectionPoints; 
+          
+    //**********************************************************
+    //** ctor:
+    //**********************************************************
+        
+    public Game(RenderWindow window) : base(window)
     {
-          
-        //**********************************************************
-        //** fields:
-        //**********************************************************
-        
-        private FloatLine _line1;
-        private FloatLine _line2;
-        private CircleShape _circleShape;
-        private CircleShape _pointShape;
-        private List<Vector2f> _intersectionPoints; 
-          
-        //**********************************************************
-        //** ctor:
-        //**********************************************************
-        
-        public Game(RenderWindow window) : base(window)
-        {
             
         }
           
-        //**********************************************************
-        //** methods:
-        //**********************************************************
+    //**********************************************************
+    //** methods:
+    //**********************************************************
 
-        public override void Initialize()
-        {
+    public override void Initialize()
+    {
             
             _pointShape = new CircleShape(5f)
             {
@@ -55,8 +55,8 @@ namespace LineCircleIntersection
             
         }
 
-        protected override void Update()
-        {
+    protected override void Update()
+    {
             _intersectionPoints = new List<Vector2f>();
             
             var circle = new FloatCircle(_circleShape.Position, _circleShape.Radius);
@@ -67,8 +67,8 @@ namespace LineCircleIntersection
             _intersectionPoints.AddRange(_line2.Intersects(circle));
         }
 
-        protected override void Render()
-        {
+    protected override void Render()
+    {
             Window.Draw(_circleShape);
             
             Window.Draw(new []
@@ -90,5 +90,4 @@ namespace LineCircleIntersection
                 Window.Draw(_pointShape);
             });
         }
-    }
 }

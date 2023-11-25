@@ -1,15 +1,14 @@
 ﻿using System;
 using Stho.SFML.Extensions;
 
-namespace VectorReflection
+namespace VectorReflection;
+
+class Program
 {
-    class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            var sandbox = new Game(WindowFactory.CreateDefault());
-            sandbox.Initialize();
-            sandbox.Start();
-        }
+        var sandbox = new Game(WindowFactory.CreateDefault());
+        sandbox.Initialize();
+        sandbox.Start();
     }
 }

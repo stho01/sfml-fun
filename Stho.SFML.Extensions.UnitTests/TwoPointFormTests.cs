@@ -1,12 +1,12 @@
 ﻿using Xunit;
 
-namespace Stho.SFML.Extensions.UnitTests
+namespace Stho.SFML.Extensions.UnitTests;
+
+public class TwoPointFormTests
 {
-    public class TwoPointFormTests
+    [Fact]
+    public void PointOnLineX_WhenCalled_ReturnCorrectPoint()
     {
-        [Fact]
-        public void PointOnLineX_WhenCalled_ReturnCorrectPoint()
-        {
             var twoPointForm = new TwoPointForm()
             {
                 M = -5,  // slope
@@ -27,9 +27,9 @@ namespace Stho.SFML.Extensions.UnitTests
             Assert.Equal(-4, result3.Y);
         }
         
-        [Fact]
-        public void PointOnLineY_WhenCalled_ReturnCorrectPoint()
-        {
+    [Fact]
+    public void PointOnLineY_WhenCalled_ReturnCorrectPoint()
+    {
             var twoPointForm = new TwoPointForm()
             {
                 M = -5,  // slope
@@ -45,5 +45,4 @@ namespace Stho.SFML.Extensions.UnitTests
             Assert.Equal(3, result2.X);
             Assert.Equal(-4, result2.Y);
         }
-    }
 }

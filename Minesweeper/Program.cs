@@ -3,12 +3,12 @@ using SFML.Graphics;
 using SFML.Window;
 using Stho.SFML.Extensions;
 
-namespace Minesweeper
+namespace Minesweeper;
+
+class Program
 {
-    class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
             var window = WindowFactory.CreateDefault(600, 600);
             var w = 20;
             var h = 20;
@@ -30,5 +30,4 @@ namespace Minesweeper
             game.Initialize();
             game.Start();
         }
-    }
 }

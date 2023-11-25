@@ -3,15 +3,15 @@ using SFML.Graphics;
 using SFML.System;
 using Stho.SFML.Extensions;
 
-namespace SATCollision
+namespace SATCollision;
+
+public class BoxRenderer
 {
-    public class BoxRenderer
-    {
-        private readonly RenderTarget _renderTarget;
-        private readonly ConvexShape _shape;
+    private readonly RenderTarget _renderTarget;
+    private readonly ConvexShape _shape;
         
-        public BoxRenderer(RenderTarget renderTarget)
-        {
+    public BoxRenderer(RenderTarget renderTarget)
+    {
             _renderTarget = renderTarget;
             _shape = new ConvexShape(4);
             _shape.SetPoint(0, new Vector2f(-.5f, -.5f));
@@ -20,8 +20,8 @@ namespace SATCollision
             _shape.SetPoint(3, new Vector2f(-.5f, .5f));
         }
         
-        public void Draw(Box box)
-        {
+    public void Draw(Box box)
+    {
             var scale = new Vector2f(box.Width, box.Height);
             var color = box.Intersected ? Color.Red : Color.Green;
             
@@ -44,8 +44,8 @@ namespace SATCollision
             }, 0, 2, PrimitiveType.Lines);
         }
 
-        private Vector2f RotateVector(Vector2f vec, Vector2f origin, float radians)
-        {
+    private Vector2f RotateVector(Vector2f vec, Vector2f origin, float radians)
+    {
             var d = vec;
 
             return new Vector2f(
@@ -53,5 +53,4 @@ namespace SATCollision
                 (float)(d.X * Math.Sin(radians) + d.Y * Math.Cos(radians))
             );
         }
-    }
 }

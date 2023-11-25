@@ -8,60 +8,60 @@ using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
 
-namespace Stho.SFML.Extensions
+namespace Stho.SFML.Extensions;
+
+public class DebugWindow<TGame> where TGame : GameBase
 {
-    public class DebugWindow<TGame> where TGame : GameBase
+    //**********************************************************
+    //** fields:
+    //**********************************************************
+
+    private RenderWindow _window;
+    private readonly List<Func<TGame, object>> _items = new List<Func<TGame, object>>();
+    private Text _text;
+    private bool _running;
+    private readonly TGame _game;
+    private Action<RenderTarget> DrawCallback;
+    private bool _shouldRender = false;
+
+    //**********************************************************
+    //** ctor:
+    //**********************************************************
+
+    public DebugWindow(TGame game)
     {
-        //**********************************************************
-        //** fields:
-        //**********************************************************
-
-        private RenderWindow _window;
-        private readonly List<Func<TGame, object>> _items = new List<Func<TGame, object>>();
-        private Text _text;
-        private bool _running;
-        private readonly TGame _game;
-        private Action<RenderTarget> DrawCallback;
-        private bool _shouldRender = false;
-
-        //**********************************************************
-        //** ctor:
-        //**********************************************************
-
-        public DebugWindow(TGame game)
-        {
             _game = game;
             Font = Fonts.GetRoboto();
         }
           
-        //**********************************************************
-        //** props:
-        //**********************************************************
+    //**********************************************************
+    //** props:
+    //**********************************************************
 
-        public uint Width { get; set; } = 400;
-        public Vector2f WindowPadding { get; set; } = new Vector2f(5f, 5f);
-        public Vector2f ItemPadding { get; set; } = new Vector2f(0f, 5f);
-        public Font Font { get; set; } 
-        public uint FontSize { get; set; } = 12;
+    public uint Width { get; set; } = 400;
+    public Vector2f WindowPadding { get; set; } = new Vector2f(5f, 5f);
+    public Vector2f ItemPadding { get; set; } = new Vector2f(0f, 5f);
+    public Font Font { get; set; } 
+    public uint FontSize { get; set; } = 12;
           
-        //**********************************************************
-        //** methods:
-        //**********************************************************
+    //**********************************************************
+    //** methods:
+    //**********************************************************
 
-        public void Add(Func<TGame, object> line)
-        {
+    public void Add(Func<TGame, object> line)
+    {
             _items.Add(line);
         }
         
-        public void OnDraw(Action<RenderTarget> drawCallback) => DrawCallback = drawCallback;
+    public void OnDraw(Action<RenderTarget> drawCallback) => DrawCallback = drawCallback;
         
-        public void Show()
-        {
+    public void Show()
+    {
             ThreadPool.QueueUserWorkItem((s) => Start());
         }
 
-        private void Start()
-        {
+    private void Start()
+    {
             if(_running) return;
 
             Init();
@@ -70,8 +70,8 @@ namespace Stho.SFML.Extensions
             _running = true; 
         }
 
-        private void Init()
-        {
+    private void Init()
+    {
             _window = new RenderWindow(new VideoMode(Width, _game.Window.Size.Y), "Debug");
 
             _game.Window.Position = new Vector2i(
@@ -92,8 +92,8 @@ namespace Stho.SFML.Extensions
             _game.OnUpdated += (source, args) => _shouldRender = true;
         }
         
-        private void Render()
-        {
+    private void Render()
+    {
             while (_window.IsOpen)
             {
                 _window.DispatchEvents();
@@ -116,8 +116,8 @@ namespace Stho.SFML.Extensions
             }
         }
 
-        private string[] GetLines()
-        {
+    private string[] GetLines()
+    {
             var lines = new List<string>();
 
             foreach (var item in _items)
@@ -141,5 +141,4 @@ namespace Stho.SFML.Extensions
 
             return lines.ToArray();
         }
-    }
 }

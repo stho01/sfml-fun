@@ -3,32 +3,32 @@ using SFML.Graphics;
 using SFML.System;
 using Stho.SFML.Extensions;
 
-namespace RayCasting
+namespace RayCasting;
+
+public class Game : GameBase
 {
-    public class Game : GameBase
-    {
-        //**********************************************************
-        //** fields:
-        //**********************************************************
+    //**********************************************************
+    //** fields:
+    //**********************************************************
         
-        private readonly List<Shape> _shapes = new List<Shape>();
-        private Ball _ball;
-        private readonly BallRenderer _ballRenderer;
-        private CircleShape _circle;
+    private readonly List<Shape> _shapes = new List<Shape>();
+    private Ball _ball;
+    private readonly BallRenderer _ballRenderer;
+    private CircleShape _circle;
         
-        //**********************************************************
-        //** ctor:
-        //**********************************************************
+    //**********************************************************
+    //** ctor:
+    //**********************************************************
     
-        public Game(RenderWindow window) : base(window)
-        {
+    public Game(RenderWindow window) : base(window)
+    {
             _ballRenderer = new BallRenderer(window);
         }
 
-        public Vector2f? Intersection { get; set; }
+    public Vector2f? Intersection { get; set; }
 
-        public override void Initialize()
-        {
+    public override void Initialize()
+    {
             ShowFps = true;
             CreateShapes();
             
@@ -37,13 +37,13 @@ namespace RayCasting
             };
         }     
 
-        protected override void Update()
-        {
+    protected override void Update()
+    {
             _ball.Position = (Vector2f) GetMousePosition();
         }
 
-        protected override void Render()
-        {
+    protected override void Render()
+    {
             _shapes.ForEach(shape =>
             {
                 if (shape is LineShape line)
@@ -65,14 +65,14 @@ namespace RayCasting
             _ballRenderer.Render(_ball, _shapes.ToArray());
         }
 
-        public void Reset()
-        {
+    public void Reset()
+    {
             _shapes.Clear();
             CreateShapes();
         }
 
-        private void CreateShapes()
-        {
+    private void CreateShapes()
+    {
             for (var i = 0; i < 3; i++)
             {
                 _shapes.Add(new LineShape(
@@ -111,5 +111,4 @@ namespace RayCasting
             
             _shapes.Add(_circle);
         }
-    }
 }

@@ -3,15 +3,15 @@ using SFML.Graphics;
 using SFML.Window;
 using Stho.SFML.Extensions;
 
-namespace LinearEquation
+namespace LinearEquation;
+
+class Program
 {
-    class Program
-    {
-        private static Game _game;
-        private static RenderWindow _window;
+    private static Game _game;
+    private static RenderWindow _window;
         
-        static void Main(string[] args)
-        {
+    static void Main(string[] args)
+    {
             _window = WindowFactory.CreateDefault();
             _game = new Game(_window);
 
@@ -31,12 +31,11 @@ namespace LinearEquation
             _game.Start();
         }
 
-        static void OnKeyPress(object source, KeyEventArgs args)
-        {
+    static void OnKeyPress(object source, KeyEventArgs args)
+    {
             if (args.Code == Keyboard.Key.Num1)
                 _game.IntersectionMode = IntersectionMode.X;
             if (args.Code == Keyboard.Key.Num2)
                 _game.IntersectionMode = IntersectionMode.Y;
         }
-    }
 }

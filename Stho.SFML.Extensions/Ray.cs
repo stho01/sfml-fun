@@ -4,15 +4,15 @@ using System.Linq;
 using SFML.Graphics;
 using SFML.System;
 
-namespace Stho.SFML.Extensions
+namespace Stho.SFML.Extensions;
+
+public class Ray
 {
-    public class Ray
-    {
-        public Vector2f Position { get; set; }
-        public Vector2f Direction { get; set; }
+    public Vector2f Position { get; set; }
+    public Vector2f Direction { get; set; }
         
-        public Vector2f? Cast(Shape[] shapes)
-        {
+    public Vector2f? Cast(Shape[] shapes)
+    {
             var p1 = Position;
             var p2 = Position + (Direction * 100_000_000f);
             var ray = new FloatLine(p1, p2);
@@ -28,8 +28,8 @@ namespace Stho.SFML.Extensions
                 .Aggregate((shortest, x) => x.Item2 < shortest.Item2 ? x : shortest).point;
         }
 
-        private Vector2f[] IntersectionPoints(FloatLine ray, Shape shape)
-        {
+    private Vector2f[] IntersectionPoints(FloatLine ray, Shape shape)
+    {
             switch (shape)
             {
                 case LineShape line:
@@ -44,16 +44,16 @@ namespace Stho.SFML.Extensions
             }
         }
 
-        private Vector2f[] IntersectionPoints(FloatLine ray, LineShape shape)
-        {
+    private Vector2f[] IntersectionPoints(FloatLine ray, LineShape shape)
+    {
             var line = new FloatLine(shape.P1, shape.P2);
             var intersectionPoint = ray.Intersects(line);
 
             return intersectionPoint.HasValue ? new[] {intersectionPoint.Value} : new Vector2f[0];
         }
         
-        private Vector2f[] IntersectionPoints(FloatLine ray, CircleShape shape)
-        {
+    private Vector2f[] IntersectionPoints(FloatLine ray, CircleShape shape)
+    {
             var circle = new FloatCircle(shape.Position, shape.Radius);
 
             var circleDelta = (shape.Position - Position);
@@ -66,8 +66,8 @@ namespace Stho.SFML.Extensions
         }
 
 
-        private Vector2f[] IntersectionPoints(FloatLine ray, RectangleShape shape)
-        {
+    private Vector2f[] IntersectionPoints(FloatLine ray, RectangleShape shape)
+    {
             var l1 = new FloatLine(shape.Position, shape.Position + new Vector2f(shape.Size.X, 0));
             var l2 = new FloatLine(shape.Position, shape.Position + new Vector2f(0, shape.Size.Y));
             var l3 = new FloatLine(
@@ -96,5 +96,4 @@ namespace Stho.SFML.Extensions
                 .Cast<Vector2f>()
                 .ToArray();
         }
-    }
 }

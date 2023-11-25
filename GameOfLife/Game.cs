@@ -7,20 +7,20 @@ using SFML.Window;
 using Stho.SFML.Extensions;
 using Timer = Stho.SFML.Extensions.Timer;
 
-namespace GameOfLife
+namespace GameOfLife;
+
+public enum Mode
 {
-    public enum Mode
-    {
-        Random = 1,
-        MouseInput = 2
-    }
+    Random = 1,
+    MouseInput = 2
+}
     
-    public class Game : GameBase
-    {
-        private RectangleShape _shape;
-        private bool[,] _grid;
-        private int CellSize = 5;
-        private readonly int[,] _neighbours = {
+public class Game : GameBase
+{
+    private RectangleShape _shape;
+    private bool[,] _grid;
+    private int CellSize = 5;
+    private readonly int[,] _neighbours = {
             { 0, -1 }, // North
             { 1, -1 }, // North - West.
             { 1, 0 },  // West
@@ -31,28 +31,28 @@ namespace GameOfLife
             { -1, -1 } // North East
         };
 
-        private const int Frequency = 50; // ms
-        private static readonly Mode Mode = Mode.MouseInput;
-        private Timer.Interval _gameOfLifeUpdateInterval;
+    private const int Frequency = 50; // ms
+    private static readonly Mode Mode = Mode.MouseInput;
+    private Timer.Interval _gameOfLifeUpdateInterval;
             
-        public Game(RenderWindow window) : base(window)
-        {
+    public Game(RenderWindow window) : base(window)
+    {
             Window.SetTitle("Game of Life");
         }
 
-        private int GridWidth => (int)(WindowWidth / CellSize);
-        private int GridHeight => (int)(WindowHeight / CellSize);
+    private int GridWidth => (int)(WindowWidth / CellSize);
+    private int GridHeight => (int)(WindowHeight / CellSize);
         
-        public override void Initialize()
-        {
+    public override void Initialize()
+    {
             _shape = new RectangleShape(new Vector2f(CellSize, CellSize));
             InitGrid();
             _gameOfLifeUpdateInterval = Timer.SetInterval(Frequency, NextGeneration);
             Window.KeyPressed += OnKeyPressed;
         }
 
-        private void InitGrid()
-        {
+    private void InitGrid()
+    {
             _grid = new bool[GridWidth,GridHeight];
             
             for (var x = 0; x < _grid.GetLength(0); x++)
@@ -63,8 +63,8 @@ namespace GameOfLife
             }
         }
         
-        private void OnKeyPressed(object sender, KeyEventArgs args)
-        {
+    private void OnKeyPressed(object sender, KeyEventArgs args)
+    {
             switch (args)
             {
                 case { Code: Keyboard.Key.Space }:
@@ -73,14 +73,14 @@ namespace GameOfLife
             };
         }
 
-        protected override void Update()
-        {
+    protected override void Update()
+    {
             if (Mode == Mode.MouseInput)
                 Paint();
         }
 
-        private void Paint()
-        {
+    private void Paint()
+    {
             if (Mouse.IsButtonPressed(Mouse.Button.Left))
             {
                 _gameOfLifeUpdateInterval.Pause = true;
@@ -95,8 +95,8 @@ namespace GameOfLife
             }
         }
 
-        private void NextGeneration()
-        {
+    private void NextGeneration()
+    {
             var nextGen = new bool[GridWidth,GridHeight];
             
             for (var x = 0; x < _grid.GetLength(0); x++)
@@ -115,8 +115,8 @@ namespace GameOfLife
             _grid = nextGen;
         }
 
-        private int CountAliveNeighbors(bool[,] grid, int x, int y)
-        {
+    private int CountAliveNeighbors(bool[,] grid, int x, int y)
+    {
             var neighboursAlive = 0;
             
             for (var i = 0; i < _neighbours.GetLength(0); i++)
@@ -130,8 +130,8 @@ namespace GameOfLife
             return neighboursAlive;
         }
 
-        protected override void Render()
-        {
+    protected override void Render()
+    {
             for (var x = 0; x < _grid.GetLength(0); x++)
             for (var y = 0; y < _grid.GetLength(1); y++)
             {
@@ -144,5 +144,4 @@ namespace GameOfLife
                 Window.Draw(_shape);
             }
         }
-    }
 }

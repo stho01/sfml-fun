@@ -1,12 +1,12 @@
 ﻿using System;
 using Stho.SFML.Extensions;
 
-namespace Skate
+namespace Skate;
+
+class Program
 {
-    class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
             var window = WindowFactory.CreateDefault();
             var game = new Game(window);
             
@@ -22,5 +22,4 @@ namespace Skate
             game.Initialize();
             game.Start();
         }
-    }
 }

@@ -1,26 +1,25 @@
 ﻿using System.Collections.Generic;
 
-namespace Maze
-{
-    public class Maze
-    {
-        //**********************************************************
-        //** ctor:
-        //**********************************************************
+namespace Maze;
 
-        public Maze(int width, int height)
-        {
+public class Maze
+{
+    //**********************************************************
+    //** ctor:
+    //**********************************************************
+
+    public Maze(int width, int height)
+    {
             Width = width;
             Height = height;
             Cells = new Cell[Width,Height];
         }
           
-        //**********************************************************
-        //** props:
-        //**********************************************************
+    //**********************************************************
+    //** props:
+    //**********************************************************
 
-        public int Width { get; }
-        public int Height { get; }
-        public Cell[,] Cells { get; } 
-    }
+    public int Width { get; }
+    public int Height { get; }
+    public Cell[,] Cells { get; } 
 }

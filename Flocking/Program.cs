@@ -5,17 +5,17 @@ using SFML.Window;
 using Stho.SFML.Extensions;
 using Timer = Stho.SFML.Extensions.Timer;
 
-namespace Flocking
+namespace Flocking;
+
+class Program
 {
-    class Program
+    public const int ScreenWidth = 1600;
+    public const int ScreenHeight = 900;
+    public const int DefaultNumberOfAgents = 300;
+
+
+    static void Main(string[] args)
     {
-        public const int ScreenWidth = 1600;
-        public const int ScreenHeight = 900;
-        public const int DefaultNumberOfAgents = 300;
-
-
-        static void Main(string[] args)
-        {
             var window = new RenderWindow(new VideoMode(ScreenWidth, ScreenHeight), "Flocking");
             var game = new FlockingBehaviour(window, DefaultNumberOfAgents);
             var currentSelectedIndex = 0f;
@@ -61,8 +61,8 @@ namespace Flocking
             game.Start();
         }
 
-        public static void StartDebugScreen(FlockingBehaviour flockingBehaviour)
-        {
+    public static void StartDebugScreen(FlockingBehaviour flockingBehaviour)
+    {
             var debugWindow = new DebugWindow<FlockingBehaviour>(flockingBehaviour)
             {
                 Width = 300,
@@ -80,5 +80,4 @@ namespace Flocking
             
             debugWindow.Show();
         }
-    }
 }

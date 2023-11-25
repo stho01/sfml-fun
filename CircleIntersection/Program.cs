@@ -3,12 +3,12 @@ using SFML.Graphics;
 using SFML.Window;
 using Stho.SFML.Extensions;
 
-namespace CircleIntersection
+namespace CircleIntersection;
+
+class Program
 {
-    class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
             var window = WindowFactory.CreateDefault();
             var game = new Game(window);
             window.KeyPressed += (sender, eventArgs) =>
@@ -27,8 +27,8 @@ namespace CircleIntersection
             game.Start();
         }
 
-        static void CreateDebugWindow(Game game)
-        {    
+    static void CreateDebugWindow(Game game)
+    {    
             var debugWindow = new DebugWindow<Game>(game);
             debugWindow.Add(g => $"Mouse pos {g.GetMousePosition()}");
             debugWindow.Add(g => $"Sqr distance from each other {g.SqrDistanceFromEachOther}");
@@ -36,5 +36,4 @@ namespace CircleIntersection
             debugWindow.Add(g => $"Colliding {g.Colliding}");
             debugWindow.Show();
         }
-    }
 }

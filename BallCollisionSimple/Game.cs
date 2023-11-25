@@ -4,44 +4,44 @@ using SFML.System;
 using SFML.Window;
 using Stho.SFML.Extensions;
 
-namespace BallCollisionSimple
+namespace BallCollisionSimple;
+
+public class Ball
 {
-    public class Ball
+    public Vector2f Velocity { get; set; }
+    public Vector2f Acceleration { get; set; }
+    public Vector2f Position { get; set; }
+    public float Radius { get; set; }
+    public float Mass { get; set; } = 1f;
+
+
+    public void ApplyForce(Vector2f force)
     {
-        public Vector2f Velocity { get; set; }
-        public Vector2f Acceleration { get; set; }
-        public Vector2f Position { get; set; }
-        public float Radius { get; set; }
-        public float Mass { get; set; } = 1f;
-
-
-        public void ApplyForce(Vector2f force)
-        {
             Acceleration += force / Mass;
         }
-    }
+}
     
-    // m v1i + m v2i = m v1f + m v2f
-    // v1f = v1i + v2i - v2f
+// m v1i + m v2i = m v1f + m v2f
+// v1f = v1i + v2i - v2f
     
-    public class Game : GameBase
-    {
-        private Ball _b1 = new Ball();
-        private Ball _b2 = new Ball();
-        private CircleShape _shape = new CircleShape();
-        private FloatLine _line = new FloatLine();
-        private bool _dragging = false;
+public class Game : GameBase
+{
+    private Ball _b1 = new Ball();
+    private Ball _b2 = new Ball();
+    private CircleShape _shape = new CircleShape();
+    private FloatLine _line = new FloatLine();
+    private bool _dragging = false;
         
-        public Game(RenderWindow window) : base(window)
-        {
+    public Game(RenderWindow window) : base(window)
+    {
             
         }
 
-        public FloatCircle C1 => new FloatCircle(_b1.Position, _b1.Radius);
-        public FloatCircle C2 => new FloatCircle(_b2.Position, _b2.Radius);
+    public FloatCircle C1 => new FloatCircle(_b1.Position, _b1.Radius);
+    public FloatCircle C2 => new FloatCircle(_b2.Position, _b2.Radius);
         
-        public override void Initialize()
-        {
+    public override void Initialize()
+    {
             _b1.Position = new Vector2f(400, WindowHeight/2 + 78);
             _b1.Radius = 40;
             //_b1.Velocity = Vector2Extensions.Right * 100;
@@ -53,8 +53,8 @@ namespace BallCollisionSimple
             //_b2.Velocity = Vector2Extensions.Left * 50;
         }
 
-        protected override void Update()
-        {
+    protected override void Update()
+    {
             if (Keyboard.IsKeyPressed(Keyboard.Key.Space)) Initialize();
             
             // mv1 + mv2 = (m1 + m2)vf
@@ -67,8 +67,8 @@ namespace BallCollisionSimple
             HandleMouseInput();
         }
 
-        private void UpdatePositions()
-        {
+    private void UpdatePositions()
+    {
             _b1.Velocity += _b1.Acceleration;
             _b2.Velocity += _b2.Acceleration;
             
@@ -79,8 +79,8 @@ namespace BallCollisionSimple
             _b2.Acceleration = Vector2Extensions.Zero;
         }
 
-        private void CheckBounds(Ball ball)
-        {
+    private void CheckBounds(Ball ball)
+    {
             if (ball.Position.X - ball.Radius < 0f)
             {
                 ball.Position = new Vector2f(ball.Radius, ball.Position.Y);
@@ -103,8 +103,8 @@ namespace BallCollisionSimple
             }
         }
         
-        private void HandleMouseInput()
-        {
+    private void HandleMouseInput()
+    {
             var mousePos = (Vector2f) GetMousePosition();
             if (Mouse.IsButtonPressed(Mouse.Button.Left))
             {
@@ -132,8 +132,8 @@ namespace BallCollisionSimple
             }
         }
 
-        private void ResolveCollision(Ball b1, Ball b2)
-        {
+    private void ResolveCollision(Ball b1, Ball b2)
+    {
             var normal = b2.Position - b1.Position;
             var tangent = new Vector2f(-normal.Y, normal.X);
             var un = normal.Normalize();
@@ -157,8 +157,8 @@ namespace BallCollisionSimple
             b2.Velocity = v2npVec + v2tpVec;
         }
       
-        protected override void Render()
-        {
+    protected override void Render()
+    {
             Draw(_b1, Color.Green);
             Draw(_b2, Color.White);
             
@@ -168,8 +168,8 @@ namespace BallCollisionSimple
             }, 0, 2, PrimitiveType.Lines);
         }
 
-        private void Draw(Ball ball, Color color)
-        {
+    private void Draw(Ball ball, Color color)
+    {
             _shape.Radius = ball.Radius;
             _shape.Position = ball.Position;
             _shape.OutlineColor = color;
@@ -177,5 +177,4 @@ namespace BallCollisionSimple
             _shape.Origin = new Vector2f(ball.Radius, ball.Radius);
             Window.Draw(_shape);
         }
-    }
 }

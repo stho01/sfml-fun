@@ -5,28 +5,28 @@ using SFML.System;
 using SFML.Window;
 using Stho.SFML.Extensions;
 
-namespace AngularRotation
+namespace AngularRotation;
+
+public class Game : GameBase
 {
-    public class Game : GameBase
+    private readonly RectangleShape _shape = new RectangleShape();
+    private float _angularAcceleration = 0f;
+    private float _angularVelocity = 0f;
+    private float _angle = 0;
+
+
+    private Vector2f? _p1 = null;
+    private Vector2f? _p2 = null;
+        
+    private bool _dragging = false;
+        
+    private bool _applyingForce = false;
+    private Vector2f? _pointOnShape = null;
+        
+    public Game(RenderWindow window) : base(window) { }
+
+    public override void Initialize()
     {
-        private readonly RectangleShape _shape = new RectangleShape();
-        private float _angularAcceleration = 0f;
-        private float _angularVelocity = 0f;
-        private float _angle = 0;
-
-
-        private Vector2f? _p1 = null;
-        private Vector2f? _p2 = null;
-        
-        private bool _dragging = false;
-        
-        private bool _applyingForce = false;
-        private Vector2f? _pointOnShape = null;
-        
-        public Game(RenderWindow window) : base(window) { }
-
-        public override void Initialize()
-        {
             _shape.Size = new Vector2f(150, 150);
             _shape.Position = WindowCenter;
             _shape.OutlineThickness = -1;
@@ -34,8 +34,8 @@ namespace AngularRotation
             _shape.Origin = _shape.Size * .5f;
         }
 
-        protected override void Update()
-        {               
+    protected override void Update()
+    {               
             var mousePos = (Vector2f) GetMousePosition();
             if (Mouse.IsButtonPressed(Mouse.Button.Left))
             {
@@ -100,8 +100,8 @@ namespace AngularRotation
             _angularAcceleration = 0f;
         }
 
-        protected override void Render()
-        {
+    protected override void Render()
+    {
             Window.Draw(_shape);
 
             if (_p1.HasValue && _p2.HasValue)
@@ -113,5 +113,4 @@ namespace AngularRotation
                 },0, 2, PrimitiveType.Lines);   
             }
         }
-    }
 }

@@ -1,12 +1,12 @@
 ﻿using SFML.Window;
 using Stho.SFML.Extensions;
 
-namespace Fireworks
+namespace Fireworks;
+
+class Program
 {
-    class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
             var window = WindowFactory.CreateDefault(1200, 950);
             window.SetTitle("Fireworks");
             var game = new Game(window);
@@ -39,5 +39,4 @@ namespace Fireworks
             game.Initialize();
             game.Start();
         }
-    }
 }

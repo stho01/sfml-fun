@@ -3,34 +3,34 @@ using System.Data.SqlTypes;
 using System.Runtime.CompilerServices;
 using SFML.System;
 
-namespace Stho.SFML.Extensions
-{
-    public struct FloatLine
-    {
-        //**********************************************************
-        //** ctors:
-        //**********************************************************
+namespace Stho.SFML.Extensions;
 
-        public FloatLine(float x1, float y1, float x2, float y2) : this(new Vector2f(x1, y1), new Vector2f(x2, y2)) {}
-        public FloatLine(Vector2f p1, Vector2f p2)
-        {
+public struct FloatLine
+{
+    //**********************************************************
+    //** ctors:
+    //**********************************************************
+
+    public FloatLine(float x1, float y1, float x2, float y2) : this(new Vector2f(x1, y1), new Vector2f(x2, y2)) {}
+    public FloatLine(Vector2f p1, Vector2f p2)
+    {
             P1 = p1;
             P2 = p2;
         }
           
-        //**********************************************************
-        //** props:
-        //**********************************************************
+    //**********************************************************
+    //** props:
+    //**********************************************************
 
-        public Vector2f P1 { get; set; }
-        public Vector2f P2 { get; set; }
+    public Vector2f P1 { get; set; }
+    public Vector2f P2 { get; set; }
           
-        //**********************************************************
-        //** methods:
-        //**********************************************************
+    //**********************************************************
+    //** methods:
+    //**********************************************************
 
-        public Vector2f? Intersects(FloatLine line)
-        {
+    public Vector2f? Intersects(FloatLine line)
+    {
             var x1 = line.P1.X;
             var y1 = line.P1.Y;
             var x2 = line.P2.X;
@@ -59,8 +59,8 @@ namespace Stho.SFML.Extensions
             return null;
         }
         
-        public Vector2f[] Intersects(FloatCircle circle)
-        {
+    public Vector2f[] Intersects(FloatCircle circle)
+    {
             var circlePos = new Vector2f(circle.X, circle.Y);
             var r = circle.Radius;
             var p1 = P1 - circlePos; // translate p1 to circle local space
@@ -93,13 +93,13 @@ namespace Stho.SFML.Extensions
             return new[] { intersection1, intersection2 };
         }
 
-        public float Length()
-        {
+    public float Length()
+    {
             return (P2 - P1).Length();
         }
 
-        public Vector2f Center()
-        {
+    public Vector2f Center()
+    {
             var delta = P2 - P1;
             var dir = delta.Normalize();
             var halfLength = delta.Length() * .5f;
@@ -107,16 +107,15 @@ namespace Stho.SFML.Extensions
             return P1 + (dir * halfLength);
         }
 
-        public Vector2f Direction()
-        {
+    public Vector2f Direction()
+    {
             return (P2 - P1).Normalize();
         }
 
-        public Vector2f Reflect(FloatLine mirror)
-        {
+    public Vector2f Reflect(FloatLine mirror)
+    {
             var n = mirror.NormalDirection();
             
             return Direction().Reflect(n);
         }
-    }
 }

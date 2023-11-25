@@ -4,45 +4,45 @@ using SFML.Graphics;
 using SFML.System;
 using Stho.SFML.Extensions;
 
-namespace QTree
+namespace QTree;
+
+public class Game : GameBase
 {
-    public class Game : GameBase
-    {
-        //**********************************************************
-        //** fields:
-        //**********************************************************
+    //**********************************************************
+    //** fields:
+    //**********************************************************
 
-        private readonly int _numberOfParticles;
-        private readonly List<Particle> _particles;
-        private readonly ParticleRenderer _renderer;
-        private QuadTree<Particle> _qtree;
-        private float delay = 0;
+    private readonly int _numberOfParticles;
+    private readonly List<Particle> _particles;
+    private readonly ParticleRenderer _renderer;
+    private QuadTree<Particle> _qtree;
+    private float delay = 0;
         
-        //**********************************************************
-        //** ctor:
-        //**********************************************************
+    //**********************************************************
+    //** ctor:
+    //**********************************************************
 
-        public Game(RenderWindow window, int numberOfParticles) : base(window)
-        {
+    public Game(RenderWindow window, int numberOfParticles) : base(window)
+    {
             _numberOfParticles = numberOfParticles;
             _particles = new List<Particle>();
             _renderer = new ParticleRenderer(window);
         }
           
-        //**********************************************************
-        //** props
-        //**********************************************************
+    //**********************************************************
+    //** props
+    //**********************************************************
 
-        public IEnumerable<Particle> Particles => _particles;
-        public bool RenderQuadTree { get; set; }
-        public int LargestCluster { get; private set; }
+    public IEnumerable<Particle> Particles => _particles;
+    public bool RenderQuadTree { get; set; }
+    public int LargestCluster { get; private set; }
         
-        //**********************************************************
-        //** methods:
-        //**********************************************************
+    //**********************************************************
+    //** methods:
+    //**********************************************************
 
-        public override void Initialize()
-        {
+    public override void Initialize()
+    {
             ShowFps = true;
             
             for (var i = 0; i < _numberOfParticles; i++)
@@ -55,8 +55,8 @@ namespace QTree
             }
         }
 
-        protected override void Update()
-        {
+    protected override void Update()
+    {
             _qtree = new QuadTree<Particle>(new FloatRect(0, 0, Window.Size.X, Window.Size.Y));
             
             _particles.ForEach(p =>
@@ -92,16 +92,16 @@ namespace QTree
             }
         }
 
-        public bool Intersects(Particle p1, Particle p2)
-        {
+    public bool Intersects(Particle p1, Particle p2)
+    {
             var sqrLength = (p2.Position - p1.Position).SqrLength();
             var sqrRadius = (p2.Radius + p1.Radius) * (p2.Radius + p1.Radius);
             
             return sqrLength <= sqrRadius;
         }
 
-        protected override void Render()
-        {
+    protected override void Render()
+    {
             if (RenderQuadTree)
             {
                 var boundaries = _qtree.GetBoundaries();
@@ -122,5 +122,4 @@ namespace QTree
             
             _particles.ForEach(_renderer.Render);
         }
-    }
 }

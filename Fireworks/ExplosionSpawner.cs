@@ -4,43 +4,43 @@ using SFML.Graphics;
 using SFML.System;
 using Stho.SFML.Extensions;
 
-namespace Fireworks
+namespace Fireworks;
+
+public class ExplosionSpawner
 {
-    public class ExplosionSpawner
+    //**********************************************************
+    //** fields:
+    //**********************************************************
+
+    private readonly Game _game;
+    private readonly List<Color> _colorRange = new List<Color>();
+
+    //**********************************************************
+    //** ctor:
+    //**********************************************************
+
+    public ExplosionSpawner(Game game)
     {
-        //**********************************************************
-        //** fields:
-        //**********************************************************
-
-        private readonly Game _game;
-        private readonly List<Color> _colorRange = new List<Color>();
-
-        //**********************************************************
-        //** ctor:
-        //**********************************************************
-
-        public ExplosionSpawner(Game game)
-        {
             _game = game;
             _colorRange.Add(Color.Red);
             _colorRange.Add(Color.Blue);
             _colorRange.Add(Color.Green);
         }
           
-        //**********************************************************
-        //** props:
-        //**********************************************************
+    //**********************************************************
+    //** props:
+    //**********************************************************
 
-        public Range DensityRange { get; set; } = 150..250;
-        public Range LifetimeRange { get; set; } = 1000..1500;
-        public Range StrengthRange { get; set; } = 40..80;
+    public Range DensityRange { get; set; } = 150..250;
+    public Range LifetimeRange { get; set; } = 1000..1500;
+    public Range StrengthRange { get; set; } = 40..80;
         
-        //**********************************************************
-        //** methods:
-        //**********************************************************
+    //**********************************************************
+    //** methods:
+    //**********************************************************
 
-        public void Spawn(Vector2f pos)
-        {
+    public void Spawn(Vector2f pos)
+    {
             var explosion = new Explosion(RandomNumber.Get(DensityRange))
             {
                 Strength = RandomNumber.Get(StrengthRange),
@@ -52,8 +52,8 @@ namespace Fireworks
             _game.AddExplosion(explosion);
         }
         
-        private void InitializeParticles(Explosion explosion)
-        {
+    private void InitializeParticles(Explosion explosion)
+    {
             var lifeTime = RandomNumber.Get(LifetimeRange);
             for (var i = 0; i < explosion.Particles.Length; i++)
             {
@@ -80,5 +80,4 @@ namespace Fireworks
                 };
             }
         }
-    }
 }

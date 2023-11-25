@@ -2,15 +2,15 @@
 using SFML.System;
 using Stho.SFML.Extensions;
 
-namespace RayCasting
-{
-    public class BallRenderer
-    {
-        private readonly RenderTarget _renderTarget;
-        private readonly CircleShape _circle;
+namespace RayCasting;
 
-        public BallRenderer(RenderTarget renderTarget)
-        {
+public class BallRenderer
+{
+    private readonly RenderTarget _renderTarget;
+    private readonly CircleShape _circle;
+
+    public BallRenderer(RenderTarget renderTarget)
+    {
             _renderTarget = renderTarget;
             _circle = new CircleShape(10)
             {
@@ -19,8 +19,8 @@ namespace RayCasting
             };
         }
         
-        public void Render(Ball ball, Shape[] shapes)
-        {
+    public void Render(Ball ball, Shape[] shapes)
+    {
             _circle.Position = ball.Position;
             _renderTarget.Draw(_circle);
             
@@ -29,13 +29,12 @@ namespace RayCasting
                 RenderLine(floatLine);
         }
 
-        private void RenderLine(FloatLine line)
-        {
+    private void RenderLine(FloatLine line)
+    {
             _renderTarget.Draw(new []
             {
                 new Vertex(line.P1),
                 new Vertex(line.P2)
             }, 0, 2, PrimitiveType.Lines);            
         }
-    }
 }

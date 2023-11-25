@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using SFML.Graphics;
 
-namespace Chains
-{
-    public class SegmentRenderer
-    {
-        private readonly RenderTarget _renderTarget;
+namespace Chains;
 
-        private readonly Color[] _colors = new[]
+public class SegmentRenderer
+{
+    private readonly RenderTarget _renderTarget;
+
+    private readonly Color[] _colors = new[]
         {
             Color.Red,
             Color.Magenta,
@@ -16,15 +16,15 @@ namespace Chains
             Color.Green,
         };
 
-        private int _currentColorIndex = 0;
+    private int _currentColorIndex = 0;
 
-        public SegmentRenderer(RenderTarget renderTarget)
-        {
+    public SegmentRenderer(RenderTarget renderTarget)
+    {
             _renderTarget = renderTarget;
         }
         
-        public void Render(Segment segment)
-        {
+    public void Render(Segment segment)
+    {
             var color = _colors[_currentColorIndex];
             
             _renderTarget.Draw(new[]
@@ -37,5 +37,4 @@ namespace Chains
             if (segment.Child != null)
                 Render(segment.Child);
         }
-    }
 }

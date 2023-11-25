@@ -2,65 +2,65 @@
 using SFML.System;
 using Stho.SFML.Extensions;
 
-namespace Maze
+namespace Maze;
+
+public class Game : GameBase
 {
-    public class Game : GameBase
-    {
-        //**********************************************************
-        //** fields:
-        //**********************************************************
+    //**********************************************************
+    //** fields:
+    //**********************************************************
 
-        private readonly Maze _maze;
-        private readonly MazeRenderer _mazeRenderer;
-        private Vector2i _currentPos = new Vector2i(0, 0);
-        private Cell.WallIndex _dir = Cell.WallIndex.Bottom;
+    private readonly Maze _maze;
+    private readonly MazeRenderer _mazeRenderer;
+    private Vector2i _currentPos = new Vector2i(0, 0);
+    private Cell.WallIndex _dir = Cell.WallIndex.Bottom;
         
-        //**********************************************************
-        //** ctor:
-        //**********************************************************
+    //**********************************************************
+    //** ctor:
+    //**********************************************************
 
-        public Game(RenderWindow window, int width, int height) : base(window)
-        {
+    public Game(RenderWindow window, int width, int height) : base(window)
+    {
             Width = width;
             Height = height;
             _maze = new Maze(width, height);
             _mazeRenderer = new MazeRenderer(this, Window);
         }
           
-        //**********************************************************
-        //** props:
-        //**********************************************************
+    //**********************************************************
+    //** props:
+    //**********************************************************
 
-        public int Width { get; }
-        public int Height { get; }
+    public int Width { get; }
+    public int Height { get; }
   
-        //**********************************************************
-        //** methods:
-        //**********************************************************
+    //**********************************************************
+    //** methods:
+    //**********************************************************
 
-        public override void Initialize()
-        {
+    public override void Initialize()
+    {
             ShowFps = true;
             Window.SetFramerateLimit(3);
             InitializeMaze();
         }
 
-        private void InitializeMaze()
-        {
+    private void InitializeMaze()
+    {
             for (var x = 0; x < Width; x++)
             for (var y = 0; y < Height; y++)
                 _maze.Cells[x, y] = new Cell(x, y) { Active = x == 0 && y == 0 };
         }
 
-        protected override void Update()
-        {
+    protected override void Update()
+    {
             var vel = GetVelocity(_dir);
             _currentPos += vel;
             _maze.Cells[_currentPos.X, _currentPos.Y].Visited = true;
         }
 
-        private Vector2i GetVelocity(Cell.WallIndex dir)
-        {
+    private Vector2i GetVelocity(Cell.WallIndex dir)
+    {
             switch (dir)
             {
                 case Cell.WallIndex.Top: return new Vector2i(0, -1);
@@ -71,9 +71,8 @@ namespace Maze
             return new Vector2i();
         }
         
-        protected override void Render()
-        {
+    protected override void Render()
+    {
             _mazeRenderer.Render(_maze);
         }
-    }
 }

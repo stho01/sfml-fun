@@ -3,22 +3,22 @@ using SFML.System;
 using SFML.Window;
 using Stho.SFML.Extensions;
 
-namespace TankGame
+namespace TankGame;
+
+public class Game : GameBase
 {
-    public class Game : GameBase
-    {
-        private TankController _tankController;
-        private Tank _tank;
-        private readonly TankRenderer _tankRenderer;
+    private TankController _tankController;
+    private Tank _tank;
+    private readonly TankRenderer _tankRenderer;
         
-        public Game(RenderWindow window) : base(window)
-        {
+    public Game(RenderWindow window) : base(window)
+    {
             _tankRenderer = new TankRenderer(window);
             _tankController = new TankController(this);
         }
 
-        public override void Initialize()
-        {
+    public override void Initialize()
+    {
             ClearColor = new Color(0xeaeaeaff);
             
             _tank = new Tank {
@@ -31,8 +31,8 @@ namespace TankGame
             };
         }
 
-        protected override void Update()
-        {
+    protected override void Update()
+    {
             _tankController.BarrelLookAtMousePosition(_tank);
             
             if (Keyboard.IsKeyPressed(Keyboard.Key.A))
@@ -51,9 +51,8 @@ namespace TankGame
             _tankController.Update(_tank);
         }
 
-        protected override void Render()
-        {
+    protected override void Render()
+    {
             _tankRenderer.Render(_tank);
         }
-    }
 }
