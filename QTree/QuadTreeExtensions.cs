@@ -6,6 +6,6 @@ public static class QuadTreeExtensions
 {
     public static bool Insert(this QuadTree<Particle> quadTree, Particle particle)
     {
-            return quadTree.Insert(particle.Position, particle);
-        }
+        return quadTree.Insert(particle.Position, particle);
+    }
 }

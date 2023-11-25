@@ -3,16 +3,11 @@ using SFML.System;
 
 namespace Fireworks;
 
-public class Rocket
+public class Rocket(float strength = 100f)
 {
     //**********************************************************
     //** ctor:
     //**********************************************************
-
-    public Rocket(float strength = 100f)
-    {
-            Strength = strength;
-        }
 
     //**********************************************************
     //** props:
@@ -25,13 +20,13 @@ public class Rocket
     public float Fuel { get; set; } = 100f;
     public bool HasFuel => Fuel > 0;
     public float Mass { get; set; }
-    public float Strength { get; }
+    public float Strength { get; } = strength;
     public bool Done { get; set; }
     public float Age { get; set; }
     public float TotalLifetime { get; set; }
     public bool IsDead => Done || Age >= TotalLifetime;
-        
-    public List<Particle> Trail { get; } = new List<Particle>();
+
+    public List<Particle> Trail { get; } = new();
     public float TrailEmitTime { get; set; } = 20; // ms
     public float TrailTimeSinceLastEmit { get; set; } = 0;
 }

@@ -6,11 +6,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Stho.SFML.Extensions\Stho.SFML.Extensions.csproj" />
+        <ProjectReference Include="..\Stho.SFML.Extensions\Stho.SFML.Extensions.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include=".template.config" />
+        <Folder Include=".template.config"/>
     </ItemGroup>
 
 </Project>

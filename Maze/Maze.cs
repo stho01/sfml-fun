@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Maze;
+﻿namespace Maze;
 
 public class Maze
 {
@@ -10,16 +8,16 @@ public class Maze
 
     public Maze(int width, int height)
     {
-            Width = width;
-            Height = height;
-            Cells = new Cell[Width,Height];
-        }
-          
+        Width = width;
+        Height = height;
+        Cells = new Cell[Width, Height];
+    }
+
     //**********************************************************
     //** props:
     //**********************************************************
 
     public int Width { get; }
     public int Height { get; }
-    public Cell[,] Cells { get; } 
+    public Cell[,] Cells { get; }
 }

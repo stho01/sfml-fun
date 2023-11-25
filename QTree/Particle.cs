@@ -1,5 +1,4 @@
-﻿using SFML.Graphics;
-using SFML.System;
+﻿using SFML.System;
 using Stho.SFML.Extensions;
 
 namespace QTree;
@@ -15,16 +14,16 @@ public class Particle
 
     public FloatCircle ToShape()
     {
-            FloatCircle circle = Position;
-            circle.Radius = Radius;
-            return circle;
-        }
+        FloatCircle circle = Position;
+        circle.Radius = Radius;
+        return circle;
+    }
 
     public bool Intersects(Particle p2)
     {
-            var c1 = new FloatCircle(Position, Radius);
-            var c2 = new FloatCircle(p2.Position, p2.Radius);
+        var c1 = new FloatCircle(Position, Radius);
+        var c2 = new FloatCircle(p2.Position, p2.Radius);
 
-            return c1.Intersects(c2);
-        }
+        return c1.Intersects(c2);
+    }
 }

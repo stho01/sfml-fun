@@ -1,28 +1,19 @@
-﻿using System;
-using SFML.System;
+﻿using RayCasting;
 using SFML.Window;
 using Stho.SFML.Extensions;
 
-namespace RayCasting;
+var window = WindowFactory.CreateDefault();
+var game = new Game(window);
 
-class Program
+window.KeyPressed += (sender, eventArgs) =>
 {
-    static void Main(string[] args)
-    {
-            var window = WindowFactory.CreateDefault();
-            var game = new Game(window);
+    if (eventArgs.Code == Keyboard.Key.R)
+        game.Reset();
+};
 
-            window.KeyPressed += (sender, eventArgs) =>
-            {
-                if (eventArgs.Code == Keyboard.Key.R)
-                    game.Reset();
-            };
-            
-            // var debugWindow = new DebugWindow<Game>(game);
-            // debugWindow.Add(g => $"Intersects {g.Intersection}");
-            // debugWindow.Show();
-            
-            game.Initialize();
-            game.Start();
-        }
-}
+// var debugWindow = new DebugWindow<Game>(game);
+// debugWindow.Add(g => $"Intersects {g.Intersection}");
+// debugWindow.Show();
+
+game.Initialize();
+game.Start();

@@ -1,21 +1,15 @@
 ﻿namespace Minesweeper;
 
-public class Cell
+public class Cell(int x, int y)
 {
     private int _neighborMines = 0;
-        
-    public Cell(int x, int y)
-    {
-            X = x;
-            Y = y;
-        }
-          
+
     //**********************************************************
     //** method:
     //**********************************************************
 
-    public int X { get; }
-    public int Y { get; }
+    public int X { get; } = x;
+    public int Y { get; } = y;
     public bool IsMine { get; set; }
     public bool Revelead { get; set; }
 
@@ -24,5 +18,4 @@ public class Cell
         get => IsMine ? -1 : _neighborMines;
         set => _neighborMines = value;
     }
-        
 }

@@ -14,21 +14,15 @@ using Timer = Stho.SFML.Extensions.Timer;
 
 namespace PhysixSimulation;
 
-public class Game : GameBase
+public class Game(RenderWindow window) : GameBase(window)
 {
-    private readonly GameFpsRenderer _gameFpsRenderer;
-    private readonly World _world;
-    private List<Entity> _entities = new List<Entity>();
-    private Vector2f _cameraPosition = new Vector2f(0, 0);
+    private readonly GameFpsRenderer _gameFpsRenderer = new(window);
+    private readonly World _world = new(new Vector2(0f, -10f));
+    private readonly List<Entity> _entities = [];
+    private Vector2f _cameraPosition = new(0, 0);
     private const float Scale = 10f;
-    private Random _random = new Random(DateTime.Now.Millisecond);
-        
-    public Game(RenderWindow window) : base(window)
-    {
-        _gameFpsRenderer = new GameFpsRenderer(window);
-        _world = new World(new Vector2(0f, -10f));
-    }
-        
+    private readonly Random _random = new(DateTime.Now.Millisecond);
+
     public override void Initialize()
     {
         _cameraPosition = new Vector2f(WindowWidth / 2f,WindowHeight / 2f);
@@ -96,25 +90,6 @@ public class Game : GameBase
         if (Keyboard.IsKeyPressed(Keyboard.Key.D)) _cameraPosition.X += 1f;
         if (Keyboard.IsKeyPressed(Keyboard.Key.S)) _cameraPosition.Y += 1f;
         if (Keyboard.IsKeyPressed(Keyboard.Key.W)) _cameraPosition.Y -= 1f;
-
-            
-            
-            
-        // var screenRect = new FloatRect(
-        //     new Vector2f(0f,0f),
-        //     new Vector2f(WindowWidth, WindowHeight));
-        // foreach (var entity in _entities.ToArray())
-        // {
-        //     var pos = entity.Body.GetPosition() * Scale;
-        //     var screenPos = new Vector2f(pos.X, -pos.Y) + _cameraPosition;
-        //     
-        //     if (!screenRect.Contains(screenPos.X, screenPos.Y))
-        //     {
-        //         _world.DestroyBody(entity.Body);
-        //         _entities.Remove(entity);
-        //     }
-        // }
-        // Console.WriteLine($"Entities: {_entities.Count}");
     }
 
     protected override void Render()
@@ -123,8 +98,6 @@ public class Game : GameBase
 
         foreach(var entity in _entities)
         {
-            entity.Age += Timer.DeltaTimeSeconds;
-                
             var pos = entity.Body.GetPosition() * Scale;
                 
             entity.Shape.Position = new Vector2f(pos.X, -pos.Y) + _cameraPosition;
@@ -143,5 +116,4 @@ public class Entity
 {
     public Body Body { get; set; }
     public RectangleShape Shape { get; set; }
-    public float Age { get; set; } = 0f;
 }

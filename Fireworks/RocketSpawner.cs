@@ -4,31 +4,16 @@ using Stho.SFML.Extensions;
 
 namespace Fireworks;
 
-public class RocketSpawner
+public class RocketSpawner(Game game)
 {
-    //**********************************************************
-    //** fields:
-    //**********************************************************
-        
-    private readonly Game _game;
-
-    //**********************************************************
-    //** ctor:
-    //**********************************************************
-                
-    public RocketSpawner(Game game)
-    {
-            _game = game;
-        }
-
     //**********************************************************
     //** props:
     //**********************************************************
 
-    public Range StrengthRange { get; set; } = new Range(22, 27);
-    public Range MassRange { get; set; } = new Range(10, 15);
-    public Range FuelRange { get; set; } = new Range(50, 75);
-    public Range TotalLifeTime { get; set; } = new Range(500, 1500);
+    public Range StrengthRange { get; set; } = new(22, 27);
+    public Range MassRange { get; set; } = new(10, 15);
+    public Range FuelRange { get; set; } = new(50, 75);
+    public Range TotalLifeTime { get; set; } = new(500, 1500);
 
     //**********************************************************
     //** methods:
@@ -36,30 +21,30 @@ public class RocketSpawner
 
     public void SpawnOnEarthSurface()
     {
-            var angle = MathUtils.DegreeToRadian(RandomNumber.Get(0, 360));
-            var dir = new Vector2f(
-                (float) Math.Cos(angle),
-                (float) Math.Sin(angle)
-            );
-            var position = _game.Earth.Position + dir * (_game.Earth.Radius + 10);
+        var angle = MathUtils.DegreeToRadian(RandomNumber.Get(0, 360));
+        var dir = new Vector2f(
+            (float)Math.Cos(angle),
+            (float)Math.Sin(angle)
+        );
+        var position = game.Earth.Position + dir * (game.Earth.Radius + 10);
 
-            var randomAngle = angle + RandomNumber.GetFloat(-1, 1) * Math.PI * .13f;
-            
-            // Just to make it more interesting.      
-            var randomDir = new Vector2f(
-                (float) Math.Cos(randomAngle),
-                (float) Math.Sin(randomAngle)
-            );
+        var randomAngle = angle + RandomNumber.GetFloat(-1, 1) * Math.PI * .13f;
 
-            var rocket = new Rocket(RandomNumber.Get(StrengthRange))
-            {
-                Position = position,
-                Direction = randomDir,
-                Mass = RandomNumber.Get(MassRange),
-                Fuel = RandomNumber.Get(FuelRange),
-                TotalLifetime = RandomNumber.Get(TotalLifeTime)
-            }; 
-            
-            _game.AddRocket(rocket);
-        }
+        // Just to make it more interesting.      
+        var randomDir = new Vector2f(
+            (float)Math.Cos(randomAngle),
+            (float)Math.Sin(randomAngle)
+        );
+
+        var rocket = new Rocket(RandomNumber.Get(StrengthRange))
+        {
+            Position = position,
+            Direction = randomDir,
+            Mass = RandomNumber.Get(MassRange),
+            Fuel = RandomNumber.Get(FuelRange),
+            TotalLifetime = RandomNumber.Get(TotalLifeTime)
+        };
+
+        game.AddRocket(rocket);
+    }
 }

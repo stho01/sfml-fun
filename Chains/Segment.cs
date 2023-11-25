@@ -2,14 +2,9 @@
 
 namespace Chains;
 
-public class Segment
+public class Segment(int length)
 {
-    public Segment(int length)
-    {
-            Length = length;
-        }
-        
-    public int Length { get; }
+    public int Length { get; } = length;
     public Vector2f P1 { get; set; }
     public Vector2f P2 { get; set; }
     public Segment Child { get; set; }

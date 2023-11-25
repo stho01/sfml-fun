@@ -3,16 +3,11 @@ using SFML.System;
 
 namespace Fireworks;
 
-public class Explosion
+public class Explosion(int density)
 {
     //**********************************************************
     //** ctor:
     //**********************************************************
-        
-    public Explosion(int density)
-    {
-            Particles = new Particle[density];
-        }
 
     //**********************************************************
     //** props:
@@ -20,7 +15,7 @@ public class Explosion
 
     public float Strength { get; set; } = 1f;
     public Vector2f Position { get; set; }
-    public Particle[] Particles { get; }
+    public Particle[] Particles { get; } = new Particle[density];
     public bool Done => Particles.All(p => p.IsDead);
 
     //**********************************************************

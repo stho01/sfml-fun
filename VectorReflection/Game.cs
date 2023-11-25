@@ -6,20 +6,18 @@ using Stho.SFML.Extensions;
 
 namespace VectorReflection;
 
-public class Game : GameBase
+public class Game(RenderWindow window) : GameBase(window)
 {
-    private FloatLine _ray;
     private FloatLine _mirror;
     private float _mirrorAngle = 90f;
+    private FloatLine _ray;
     private int _selectedPoint = 0;
-        
-    public Game(RenderWindow window) : base(window) { }
 
     public override void Initialize()
     {
         _ray = new FloatLine(
             WindowWidth, WindowHeight,
-            WindowWidth/2, WindowHeight/2
+            WindowWidth / 2, WindowHeight / 2
         );
         _mirror = new FloatLine();
     }
@@ -27,16 +25,13 @@ public class Game : GameBase
     protected override void Update()
     {
         UpdateMirror();
-            
-        if (Keyboard.IsKeyPressed(Keyboard.Key.Space))
-        {
-            _mirrorAngle += 180 * Timer.DeltaTimeSeconds;
-        }
+
+        if (Keyboard.IsKeyPressed(Keyboard.Key.Space)) _mirrorAngle += 180 * Timer.DeltaTimeSeconds;
 
         if (Mouse.IsButtonPressed(Mouse.Button.Left))
         {
-            _ray.P1 = (Vector2f) GetMousePosition();
-                
+            _ray.P1 = (Vector2f)GetMousePosition();
+
             _ray.P2 = _ray.Intersects(_mirror) ?? _ray.P2;
         }
     }
@@ -46,15 +41,15 @@ public class Game : GameBase
         var mirrorDirection = new Vector2f(
             (float)Math.Cos(MathUtils.DegreeToRadian(_mirrorAngle)),
             (float)Math.Sin(MathUtils.DegreeToRadian(_mirrorAngle))
-        ); 
+        );
         var center = new Vector2f(WindowWidth / 2, WindowHeight / 2);
         var mirror = new FloatLine(
-            center + (mirrorDirection * 1000),
-            center + (mirrorDirection * -1000));
-            
+            center + mirrorDirection * 1000,
+            center + mirrorDirection * -1000);
+
         _mirror = mirror;
     }
-        
+
     protected override void Render()
     {
         RenderLine(_ray, Color.White);
@@ -62,7 +57,7 @@ public class Game : GameBase
 
         var normalDir = _mirror.NormalDirection();
         var lineCenter = _mirror.Center();
-        var normal = new FloatLine(lineCenter, lineCenter + (normalDir * 1000));
+        var normal = new FloatLine(lineCenter, lineCenter + normalDir * 1000);
         RenderLine(normal, Color.Green);
 
         var intersectionPoint = _ray.Intersects(_mirror);
@@ -70,8 +65,8 @@ public class Game : GameBase
         {
             var reflectedDir = _ray.Reflect(_mirror);
             var reflection = new FloatLine(
-                intersectionPoint.Value, 
-                intersectionPoint.Value + (reflectedDir * 1000)
+                intersectionPoint.Value,
+                intersectionPoint.Value + reflectedDir * 1000
             );
             RenderLine(reflection, Color.White);
         }
@@ -79,10 +74,10 @@ public class Game : GameBase
 
     private void RenderLine(FloatLine line, Color color)
     {
-        Window.Draw(new []
+        Window.Draw(new[]
         {
             new Vertex(line.P1, color),
-            new Vertex(line.P2, color), 
+            new Vertex(line.P2, color)
         }, 0, 2, PrimitiveType.Lines);
     }
 }

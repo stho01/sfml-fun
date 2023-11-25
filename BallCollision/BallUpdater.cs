@@ -5,29 +5,14 @@ using Stho.SFML.Extensions;
 
 namespace BallCollision;
 
-public class BallUpdater
+public class BallUpdater(Game game)
 {
-    //**********************************************************
-    //** fields:
-    //**********************************************************
-
-    private readonly Game _game;
-
-    //**********************************************************
-    //** ctors:
-    //**********************************************************
-
-    public BallUpdater(Game game)
-    {
-        _game = game;
-    }
-
     //**********************************************************
     //** props:
     //**********************************************************
 
-    public Vector2f Gravity { get; set; } = new Vector2f(0, 1f);
-    public Vector2f Wind { get; set; } = new Vector2f(10f, 0);
+    public Vector2f Gravity { get; set; } = new(0, 1f);
+    public Vector2f Wind { get; set; } = new(10f, 0);
     public float Restitution { get; set; } = 0.9f; // Works as a fake restitution when collision is happening.
 
     //**********************************************************
@@ -61,16 +46,16 @@ public class BallUpdater
             ball.Velocity *= Restitution;
         }
 
-        if (ball.Position.X + radius > _game.WindowWidth)
+        if (ball.Position.X + radius > game.WindowWidth)
         {
-            ball.Position = new Vector2f(_game.WindowWidth - radius, ball.Position.Y);
+            ball.Position = new Vector2f(game.WindowWidth - radius, ball.Position.Y);
             ball.Velocity = new Vector2f(-ball.Velocity.X, ball.Velocity.Y);
             ball.Velocity *= Restitution;
         }
 
-        if (ball.Position.Y + radius > _game.WindowHeight)
+        if (ball.Position.Y + radius > game.WindowHeight)
         {
-            ball.Position = new Vector2f(ball.Position.X, _game.WindowHeight - radius);
+            ball.Position = new Vector2f(ball.Position.X, game.WindowHeight - radius);
             ball.Velocity = new Vector2f(ball.Velocity.X, -ball.Velocity.Y);
             ball.Velocity *= Restitution;
         }
@@ -83,7 +68,7 @@ public class BallUpdater
         // // the other ball.
         var updatedVelocities = new List<(Ball, Vector2f)>();
 
-        foreach (var other in _game.Balls)
+        foreach (var other in game.Balls)
         {
             if (other != ball && Intersects(ball, other))
             {

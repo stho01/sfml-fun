@@ -2,32 +2,25 @@
 
 namespace Fireworks;
 
-public class ExplosionRenderer
+public class ExplosionRenderer(RenderTarget target, ParticleRenderer particleRenderer)
 {
     //**********************************************************
     //** fields:
     //**********************************************************
 
-    private readonly RenderTarget _target;
-    private readonly ParticleRenderer _particleRenderer;
-          
+    private readonly RenderTarget _target = target;
+
     //**********************************************************
     //** ctor:
     //**********************************************************
 
-    public ExplosionRenderer(RenderTarget target, ParticleRenderer particleRenderer)
-    {
-            _target = target;
-            _particleRenderer = particleRenderer;
-        }
-          
     //**********************************************************
     //** methods:
     //**********************************************************
 
     public void Render(Explosion explosion)
     {
-            foreach (var explosionParticle in explosion.Particles)
-                _particleRenderer.Render(explosionParticle);
-        }
+        foreach (var explosionParticle in explosion.Particles)
+            particleRenderer.Render(explosionParticle);
+    }
 }

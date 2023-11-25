@@ -1,6 +1,5 @@
 ﻿using System;
 using SFML.Graphics;
-using SFML.Graphics.Glsl;
 using SFML.System;
 using SFML.Window;
 
@@ -8,38 +7,28 @@ namespace Stho.SFML.Extensions;
 
 public abstract class GameBase
 {
+    private readonly GameFpsRenderer _gameFpsRenderer;
     //**********************************************************
     //** fields:
     //**********************************************************
 
-    private readonly RenderWindow _window;
-    private readonly GameFpsRenderer _gameFpsRenderer;
-            
-    //**********************************************************
-    //** events
-    //**********************************************************
-
-    public event EventHandler<EventArgs> OnUpdated; 
-    public event EventHandler<EventArgs> OnRendered; 
-        
     //**********************************************************
     //** ctor:
     //**********************************************************
-        
+
     protected GameBase(RenderWindow window)
     {
-            
-            _window = window;
-            _window.Closed += OnWindowClosed;
-            _gameFpsRenderer = new GameFpsRenderer(window);
-        }
-          
+        Window = window;
+        Window.Closed += OnWindowClosed;
+        _gameFpsRenderer = new GameFpsRenderer(window);
+    }
+
     //**********************************************************
     //** props:
     //**********************************************************
 
-    public RenderWindow Window => _window;
-        
+    public RenderWindow Window { get; }
+
     public bool ShowFps
     {
         get => _gameFpsRenderer.ShowFps;
@@ -48,10 +37,17 @@ public abstract class GameBase
 
     public uint WindowWidth => Window.Size.X;
     public uint WindowHeight => Window.Size.Y;
-    public Vector2f WindowCenter => new Vector2f(WindowWidth/2, WindowHeight/2);
+    public Vector2f WindowCenter => new(WindowWidth / 2, WindowHeight / 2);
     public Color ClearColor { get; set; } = Color.Black;
-    public FloatRect WindowBounds => new FloatRect(0, 0, WindowWidth, WindowHeight);
-          
+    public FloatRect WindowBounds => new(0, 0, WindowWidth, WindowHeight);
+
+    //**********************************************************
+    //** events
+    //**********************************************************
+
+    public event EventHandler<EventArgs> OnUpdated;
+    public event EventHandler<EventArgs> OnRendered;
+
     //**********************************************************
     //** abstract methods:
     //**********************************************************
@@ -59,40 +55,43 @@ public abstract class GameBase
     public abstract void Initialize();
     protected abstract void Update();
     protected abstract void Render();
-          
+
     //**********************************************************
     //** methods:
     //**********************************************************
 
     public void Start()
     {
-            while (_window.IsOpen)
-            {
-                Timer.Update();
-                _window.DispatchEvents();
-                _window.Clear(ClearColor);
-                Update();
-                OnUpdated?.Invoke(this, EventArgs.Empty);
-                Render();
-                OnRendered?.Invoke(this, EventArgs.Empty);
-                _gameFpsRenderer.Render();
-                _window.Display();
-            }
+        while (Window.IsOpen)
+        {
+            Timer.Update();
+            Window.DispatchEvents();
+            Window.Clear(ClearColor);
+            Update();
+            OnUpdated?.Invoke(this, EventArgs.Empty);
+            Render();
+            OnRendered?.Invoke(this, EventArgs.Empty);
+            _gameFpsRenderer.Render();
+            Window.Display();
         }
-        
+    }
+
     public void Stop()
     {
-            _window.Close();
-        }
+        Window.Close();
+    }
 
-    public Vector2i GetMousePosition() => Mouse.GetPosition(Window);
-        
+    public Vector2i GetMousePosition()
+    {
+        return Mouse.GetPosition(Window);
+    }
+
     //**********************************************************
     //** event handlers:
     //**********************************************************
 
-    protected virtual void OnWindowClosed(object source, EventArgs args) 
+    protected virtual void OnWindowClosed(object source, EventArgs args)
     {
-            _window.Close();
-        }
+        Window.Close();
+    }
 }

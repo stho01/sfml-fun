@@ -52,7 +52,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameOfLife", "GameOfLife\Ga
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuaScripting", "LuaScripting\LuaScripting.csproj", "{FA06F565-309F-4516-8033-7DE487CBFC45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Box2DIntegration", "Box2DIntegration\Box2DIntegration.csproj", "{808EF3C6-FCA8-4782-B0BF-0D1A7C352516}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Box2DIntegration", "Box2DIntegration\Box2DIntegration.csproj", "{1B6E4B98-2A92-4F2D-B613-775CE645DAE3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -164,9 +164,9 @@ Global
 		{FA06F565-309F-4516-8033-7DE487CBFC45}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA06F565-309F-4516-8033-7DE487CBFC45}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA06F565-309F-4516-8033-7DE487CBFC45}.Release|Any CPU.Build.0 = Release|Any CPU
-		{808EF3C6-FCA8-4782-B0BF-0D1A7C352516}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{808EF3C6-FCA8-4782-B0BF-0D1A7C352516}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{808EF3C6-FCA8-4782-B0BF-0D1A7C352516}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{808EF3C6-FCA8-4782-B0BF-0D1A7C352516}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B6E4B98-2A92-4F2D-B613-775CE645DAE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B6E4B98-2A92-4F2D-B613-775CE645DAE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B6E4B98-2A92-4F2D-B613-775CE645DAE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B6E4B98-2A92-4F2D-B613-775CE645DAE3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -4,7 +4,7 @@ namespace Minesweeper;
 
 public class Theme
 {
-    public Color UnrevealedCellColor { get; set; } = new Color(0x848E99FF);
+    public Color UnrevealedCellColor { get; set; } = new(0x848E99FF);
     public Color RevealedCellColor { get; set; } = Color.White;
     public Color CellStrokeColor { get; set; } = Color.Black;
     public int CellStrokeWidth { get; set; } = -1;

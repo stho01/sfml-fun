@@ -9,6 +9,6 @@ public class GameObject
 
     public override string ToString()
     {
-            return $"GameObject {{ Tag = {Tag}, Position = {Position} }}";
-        }
+        return $"GameObject {{ Tag = {Tag}, Position = {Position} }}";
+    }
 }

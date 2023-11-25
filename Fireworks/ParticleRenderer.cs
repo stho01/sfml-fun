@@ -10,14 +10,13 @@ public enum ParticleFade
     Exponential
 }
     
-public class ParticleRenderer
+public class ParticleRenderer(RenderTarget renderTarget)
 {
     //**********************************************************
     //** fields:
     //**********************************************************
-    
-    private readonly RenderTarget _renderTarget;
-    public readonly CircleShape _particle = new CircleShape(1f)
+
+    private readonly CircleShape _particle = new(1f)
     {
         Origin = new Vector2f(1f, 1f)
     };
@@ -26,11 +25,6 @@ public class ParticleRenderer
     //** ctor:
     //**********************************************************
 
-    public ParticleRenderer(RenderTarget renderTarget)
-    {
-            _renderTarget = renderTarget;
-        }
-          
     //**********************************************************
     //** props:
     //**********************************************************
@@ -64,6 +58,6 @@ public class ParticleRenderer
                 particle.B, 
                 (byte)opacity);
             
-            _renderTarget.Draw(_particle);
+            renderTarget.Draw(_particle);
         }
 }

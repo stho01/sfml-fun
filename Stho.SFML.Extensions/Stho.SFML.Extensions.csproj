@@ -5,14 +5,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="SFML.Graphics" Version="2.5.0" />
-      <PackageReference Include="SFML.System" Version="2.5.0" />
+        <PackageReference Include="SFML.Graphics" Version="2.5.0"/>
+        <PackageReference Include="SFML.System" Version="2.5.0"/>
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="Assets\Roboto-Regular.ttf">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
+        <None Update="Assets\Roboto-Regular.ttf">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>
