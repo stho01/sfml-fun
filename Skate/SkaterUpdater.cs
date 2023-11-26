@@ -20,9 +20,9 @@ public class SkaterUpdater(Game game)
     public void Update(Skater skater)
     {
         if (Keyboard.IsKeyPressed(Keyboard.Key.A))
-            skater.Angle -= (360f * Timer.DeltaTimeSeconds);
+            skater.Angle -= (float)(360.0 * Timer.DeltaTimeSeconds);
         if (Keyboard.IsKeyPressed(Keyboard.Key.D))
-            skater.Angle += (360f * Timer.DeltaTimeSeconds);
+            skater.Angle += (float)(360.0 * Timer.DeltaTimeSeconds);
 
         var rad = MathUtils.DegreeToRadian(skater.Angle - 90);
         var dir = new Vector2f(

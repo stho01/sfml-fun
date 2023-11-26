@@ -27,7 +27,7 @@ public class BallUpdater(Game game)
             ball.ApplyForce(Wind);
 
         ball.Velocity += ball.Acceleration;
-        ball.Position += ball.Velocity * Timer.DeltaTimeSeconds;
+        ball.Position += ball.Velocity * (float)Timer.DeltaTimeSeconds;
 
         CheckBoundary(ball);
         CheckBallCollisions(ball);

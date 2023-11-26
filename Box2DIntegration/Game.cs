@@ -34,7 +34,6 @@ public class Game(RenderWindow window) : GameBase(window)
         ground.Shape.OutlineColor = Color.Cyan;
         _entities.Add(ground);
             
-            
         _entities.Add(CreateEntity(0f,0f, 6f,6f, BodyType.Dynamic));
         _entities.Add(CreateEntity(-20f,10f, 10f,15f, BodyType.Dynamic));
         _entities.Add(CreateEntity(20f,10f, 10f,10f, BodyType.Dynamic));

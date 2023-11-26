@@ -4,18 +4,11 @@ using Stho.SFML.Extensions;
 
 namespace Chains;
 
-public class Game : GameBase
+public class Game(RenderWindow window) : GameBase(window)
 {
-    private readonly SegmentUpdater _segmentUpdater;
-    private readonly SegmentRenderer _segmentRenderer;
+    private readonly SegmentRenderer _segmentRenderer = new(window);
     private Segment _head;
     private const int ChainLength = 1;
-
-    public Game(RenderWindow window) : base(window)
-    {
-        _segmentUpdater = new SegmentUpdater(this);
-        _segmentRenderer = new SegmentRenderer(window);
-    }
 
     public override void Initialize()
     {

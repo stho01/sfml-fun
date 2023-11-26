@@ -26,7 +26,7 @@ public class Game(RenderWindow window) : GameBase(window)
     {
         UpdateMirror();
 
-        if (Keyboard.IsKeyPressed(Keyboard.Key.Space)) _mirrorAngle += 180 * Timer.DeltaTimeSeconds;
+        if (Keyboard.IsKeyPressed(Keyboard.Key.Space)) _mirrorAngle += 180 * (float)Timer.DeltaTimeSeconds;
 
         if (Mouse.IsButtonPressed(Mouse.Button.Left))
         {

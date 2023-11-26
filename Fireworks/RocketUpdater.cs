@@ -32,7 +32,7 @@ public class RocketUpdater(Game game, ExplosionSpawner explosionSpawner)
 
     private void UpdateAge(Rocket rocket)
     {
-        rocket.Age += Timer.DeltaTimeMilliseconds;
+        rocket.Age += (float)Timer.DeltaTimeMilliseconds;
     }
 
     private void UpdatePosition(Rocket rocket)
@@ -43,16 +43,16 @@ public class RocketUpdater(Game game, ExplosionSpawner explosionSpawner)
         if (rocket.HasFuel)
             force = rocket.Direction.Normalize() * rocket.Strength;
 
-        rocket.Acceleration = ((force + gravity) / rocket.Mass) * Timer.DeltaTimeSeconds;
+        rocket.Acceleration = ((force + gravity) / rocket.Mass) * (float)Timer.DeltaTimeSeconds;
         rocket.Velocity += rocket.Acceleration;
-        rocket.Position += rocket.Velocity * Timer.DeltaTimeMilliseconds;
+        rocket.Position += rocket.Velocity * (float)Timer.DeltaTimeMilliseconds;
     }
 
     private void UpdateTrail(Rocket rocket)
     {
-        rocket.Trail.ForEach(p => { p.Age += Timer.DeltaTimeMilliseconds; });
+        rocket.Trail.ForEach(p => { p.Age += (float)Timer.DeltaTimeMilliseconds; });
         rocket.Trail.RemoveAll(p => p.IsDead);
-        rocket.TrailTimeSinceLastEmit += Timer.DeltaTimeMilliseconds;
+        rocket.TrailTimeSinceLastEmit += (float)Timer.DeltaTimeMilliseconds;
 
         if (rocket.HasFuel && rocket.TrailTimeSinceLastEmit >= rocket.TrailEmitTime)
         {
@@ -88,6 +88,6 @@ public class RocketUpdater(Game game, ExplosionSpawner explosionSpawner)
 
     private void UseFuel(Rocket rocket)
     {
-        rocket.Fuel = Math.Max(0f, rocket.Fuel - (200 * Timer.DeltaTimeSeconds)); // fuel lasts 1 sec
+        rocket.Fuel = Math.Max(0f, rocket.Fuel - (200 * (float)Timer.DeltaTimeSeconds)); // fuel lasts 1 sec
     }
 }

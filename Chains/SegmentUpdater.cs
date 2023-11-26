@@ -3,10 +3,8 @@ using Stho.SFML.Extensions;
 
 namespace Chains;
 
-public class SegmentUpdater(Game game)
+public static class SegmentUpdater
 {
-    private readonly Game _game = game;
-
     public static void SetPosition(Segment segment, Vector2f pos)
     {
         segment.P1 = pos;

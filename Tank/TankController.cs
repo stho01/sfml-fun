@@ -8,12 +8,12 @@ public class TankController(Game game)
 {
     public void RotateBodyClockWise(Tank tank)
     {
-        tank.Body.Angle += tank.BodySteeringStrength * Timer.DeltaTimeSeconds;
+        tank.Body.Angle += tank.BodySteeringStrength * (float)Timer.DeltaTimeSeconds;
     }
 
     public void RotateBodyAntiClockWise(Tank tank)
     {
-        tank.Body.Angle -= tank.BodySteeringStrength * Timer.DeltaTimeSeconds;
+        tank.Body.Angle -= tank.BodySteeringStrength * (float)Timer.DeltaTimeSeconds;
     }
 
     public void BarrelLookAtMousePosition(Tank tank)
@@ -46,7 +46,7 @@ public class TankController(Game game)
     public void Update(Tank tank)
     {
         tank.Velocity += tank.Acceleration;
-        tank.Position += tank.Velocity * Timer.DeltaTimeSeconds;
+        tank.Position += tank.Velocity * (float)Timer.DeltaTimeSeconds;
         tank.Acceleration = new Vector2f();
     }
 

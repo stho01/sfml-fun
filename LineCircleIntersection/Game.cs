@@ -46,7 +46,7 @@ public class Game(RenderWindow window) : GameBase(window)
     protected override void Update()
     {
         _intersectionPoints = new List<Vector2f>();
-
+        
         var circle = new FloatCircle(_circleShape.Position, _circleShape.Radius);
 
         // _line.P2 = (Vector2f) GetMousePosition();

@@ -106,7 +106,7 @@ public class Game : GameBase
 
     private void IncrementRocketSpawnTimer()
     {
-        CurrentSpawnTimeAccumulator += Timer.DeltaTimeMilliseconds;
+        CurrentSpawnTimeAccumulator += (float)Timer.DeltaTimeMilliseconds;
     }
 
     private void SpawnRocketsIfTime()

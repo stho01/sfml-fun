@@ -35,7 +35,7 @@ public class Block
     public void Update()
     {
         Velocity += Acceleration;
-        Position += Velocity * Timer.DeltaTimeSeconds;
+        Position += Velocity * (float)Timer.DeltaTimeSeconds;
         Acceleration = new Vector2f();
     }
 }

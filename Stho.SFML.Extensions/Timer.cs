@@ -10,17 +10,17 @@ public static class Timer
     //** fields:
     //**********************************************************
 
-    private static long? _previous;
+    private static long _previous = -1;
 
-    private static readonly List<Interval> _intervals = new();
+    private static readonly List<Interval> Intervals = [];
 
     //**********************************************************
     //** props:
     //**********************************************************
 
-    public static float DeltaTime { get; private set; }
-    public static float DeltaTimeSeconds => DeltaTime / 10_000_000;
-    public static float DeltaTimeMilliseconds => DeltaTime / 10_000;
+    public static TimeSpan DeltaTime { get; private set; }
+    public static double DeltaTimeSeconds => DeltaTime.TotalSeconds; // / 10_000_000;
+    public static double DeltaTimeMilliseconds => DeltaTime.TotalMilliseconds; // DeltaTime / 10_000;
     public static int Fps { get; private set; }
 
     //**********************************************************
@@ -31,58 +31,57 @@ public static class Timer
     {
         var now = Stopwatch.GetTimestamp();
 
-        DeltaTime = now - _previous.GetValueOrDefault(now);
+        DeltaTime = _previous == -1 
+            ? TimeSpan.Zero 
+            : Stopwatch.GetElapsedTime(_previous);
 
         _previous = now;
 
         Fps = (int)(1f / DeltaTimeSeconds);
 
-        _intervals.ForEach(x =>
+
+        foreach (var interval in Intervals)
         {
-            if (!x.Pause) x.UpdateInterval();
-        });
+            if (!interval.Pause) 
+                interval.UpdateInterval();
+        }
     }
 
     public static Interval SetInterval(int ms, Action callback)
     {
         var interval = new Interval(ms, callback);
-        _intervals.Add(interval);
+        Intervals.Add(interval);
         return interval;
     }
 
     public static void ClearInterval(Interval interval)
     {
-        _intervals.Remove(interval);
+        Intervals.Remove(interval);
     }
 
-    public class Interval
+    public sealed class Interval
     {
         private readonly Action _callback;
-        private float _elapsed;
-        private int _ms;
+        private TimeSpan _elapsed;
+        private TimeSpan _time;
 
         internal Interval(int ms, Action callback)
         {
-            _ms = ms;
+            _elapsed = TimeSpan.Zero;
+            _time = TimeSpan.FromMilliseconds(ms);
             _callback = callback;
-        }
-
-        public int Ms
-        {
-            get => _ms;
-            set => _ms = Math.Max(0, value);
         }
 
         public bool Pause { get; set; }
 
         public void UpdateInterval()
         {
-            _elapsed += DeltaTimeMilliseconds;
-            if (_elapsed < _ms)
+            _elapsed += DeltaTime;
+            if (_elapsed < _time)
                 return;
-
+            
             _callback.Invoke();
-            _elapsed = 0f;
+            _elapsed -= _time;
         }
     }
 }

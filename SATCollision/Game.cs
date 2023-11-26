@@ -24,12 +24,12 @@ public class Game(RenderWindow window) : GameBase(window)
         var mousePos = GetMousePosition();
         _box2.Position = new Vector2f(mousePos.X, mousePos.Y);
 
-        if (Keyboard.IsKeyPressed(Keyboard.Key.A)) _boxController.Rotate(_box2, 360 * Timer.DeltaTimeSeconds);
+        if (Keyboard.IsKeyPressed(Keyboard.Key.A)) _boxController.Rotate(_box2, 360 * (float)Timer.DeltaTimeSeconds);
         ;
-        if (Keyboard.IsKeyPressed(Keyboard.Key.D)) _boxController.Rotate(_box2, -360 * Timer.DeltaTimeSeconds);
+        if (Keyboard.IsKeyPressed(Keyboard.Key.D)) _boxController.Rotate(_box2, -360 * (float)Timer.DeltaTimeSeconds);
         ;
 
-        _boxController.Rotate(_box1, 10 * Timer.DeltaTimeSeconds);
+        _boxController.Rotate(_box1, 10 * (float)Timer.DeltaTimeSeconds);
 
         var intersects = _boxController.SatCollision(_box1, _box2);
         _box1.Intersected = intersects;

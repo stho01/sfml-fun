@@ -40,7 +40,7 @@ public class Game(RenderWindow window) : GameBase(window)
     {
         _angularAcceleration = (float)(-0.01f * Math.Sin(_angle));
         _angularVelocity += _angularAcceleration;
-        _angle += _angularVelocity * Timer.DeltaTimeSeconds;
+        _angle += _angularVelocity * (float)Timer.DeltaTimeSeconds;
 
         var bobX = (float)(_origin.X + _armLength * Math.Sin(_angle));
         var bobY = (float)(_origin.Y + _armLength * Math.Cos(_angle));

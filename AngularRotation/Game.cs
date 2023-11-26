@@ -76,15 +76,13 @@ public class Game(RenderWindow window) : GameBase(window)
                 _angularAcceleration += (float)torque;
             }
 
-
             _p1 = null;
             _p2 = null;
             _dragging = false;
         }
 
-
         _angularVelocity += _angularAcceleration;
-        _angle += _angularVelocity * Timer.DeltaTimeSeconds;
+        _angle += _angularVelocity * (float)Timer.DeltaTimeSeconds;
         _shape.Rotation = _angle;
         _angularAcceleration = 0f;
     }

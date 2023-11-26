@@ -28,7 +28,7 @@ public class AgentUpdater(FlockingBehaviour flockingBehaviour)
     {
         agent.Acceleration = Flock(agent);
         agent.Velocity = LimitMagnitude(agent.Acceleration + agent.Velocity, MaxSpeed);
-        agent.Pos += agent.Velocity * Timer.DeltaTimeSeconds;
+        agent.Pos += agent.Velocity * (float)Timer.DeltaTimeSeconds;
 
         Wraparound(agent);
     }

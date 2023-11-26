@@ -54,7 +54,7 @@ public class Game(RenderWindow window, int numberOfParticles) : GameBase(window)
             _qtree.Insert(p);
         });
 
-        delay += Timer.DeltaTimeMilliseconds;
+        delay += (float)Timer.DeltaTimeMilliseconds;
         if (delay >= 200)
         {
             _particles.ForEach(p => { p.Position = p.OriginalPosition + RandomNumber.Vector(-5, 5); });

@@ -67,7 +67,7 @@ public class Game(RenderWindow window) : GameBase(window)
 
     protected override void Update()
     {
-        _time += Timer.DeltaTimeMilliseconds;
+        _time += (float)Timer.DeltaTimeMilliseconds;
         if (_time > SpawnRate)
         {
             Spawn();
@@ -86,7 +86,7 @@ public class Game(RenderWindow window) : GameBase(window)
                             && !IntersectOther(c);
 
                 if (c.Growing)
-                    c.Radius += GrowRate * Timer.DeltaTimeSeconds;
+                    c.Radius += GrowRate * (float)Timer.DeltaTimeSeconds;
             });
     }
 

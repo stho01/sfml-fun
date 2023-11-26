@@ -66,8 +66,8 @@ public class Game(RenderWindow window) : GameBase(window)
         _b1.Velocity += _b1.Acceleration;
         _b2.Velocity += _b2.Acceleration;
 
-        _b1.Position += _b1.Velocity * Timer.DeltaTimeSeconds;
-        _b2.Position += _b2.Velocity * Timer.DeltaTimeSeconds;
+        _b1.Position += _b1.Velocity * (float)Timer.DeltaTimeSeconds;
+        _b2.Position += _b2.Velocity * (float)Timer.DeltaTimeSeconds;
 
         _b1.Acceleration = Vector2Extensions.Zero;
         _b2.Acceleration = Vector2Extensions.Zero;

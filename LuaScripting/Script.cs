@@ -32,7 +32,7 @@ public sealed class Script(GameObject gameObject, string file) : IDisposable
         _onUpdate = _lua.GetFunction("OnUpdate");
     }
 
-    public void Update(float dt)
+    public void Update(double dt)
     {
         _onUpdate?.Call(dt);
     }
