@@ -1,8 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
+        <Title>STHO SFML template</Title>
         <OutputType>Exe</OutputType>
         <TargetFramework>net8.0</TargetFramework>
+        <PackageType>Template</PackageType>
+        <PackageVersion>1.0</PackageVersion>
+        <PackageId>Stho.SFML.Template</PackageId>
+        <PackageTags>dotnet-new;templates;</PackageTags>
+        <IncludeContentInPack>true</IncludeContentInPack>
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+        <ContentTargetFolders>content</ContentTargetFolders>
     </PropertyGroup>
 
     <ItemGroup>
@@ -11,6 +19,7 @@
 
     <ItemGroup>
         <Folder Include=".template.config"/>
+        <Content Include="templates\**\*" Exclude="templates\**\bin\**;templates\**\obj\**" />
     </ItemGroup>
 
 </Project>

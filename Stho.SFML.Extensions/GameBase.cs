@@ -7,11 +7,12 @@ namespace Stho.SFML.Extensions;
 
 public abstract class GameBase
 {
-    private readonly GameFpsRenderer _gameFpsRenderer;
     //**********************************************************
     //** fields:
     //**********************************************************
 
+    private readonly GameFpsRenderer _gameFpsRenderer;
+    
     //**********************************************************
     //** ctor:
     //**********************************************************
@@ -62,6 +63,8 @@ public abstract class GameBase
 
     public void Start()
     {
+        GC.Collect();  
+        
         while (Window.IsOpen)
         {
             Timer.Update();
