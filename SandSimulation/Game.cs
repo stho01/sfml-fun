@@ -18,12 +18,15 @@ public class Game(RenderWindow window, int tileSize) : GameBase(window)
     public override void Initialize()
     {
         ClearColor = Color.Black;
+        ShowFps = true;
         
         _grid = new Vector2f?[TilesX, TilesY];
         _shape = new RectangleShape {
             Size = new Vector2f(tileSize, tileSize),
             FillColor = new Color(239, 228, 176),
         };
+
+        Timer.SetInterval(16, FixedUpdate);
     }
 
     protected override void Update()
@@ -47,13 +50,16 @@ public class Game(RenderWindow window, int tileSize) : GameBase(window)
                 }    
             }
         }
-        
+    }
+
+    private void FixedUpdate()
+    {
         for (var i = 0; i < _grains.Count; i++)
         {
             var oldPosition = _grains[i];
             var oldTilePosition = ToTilePosition(oldPosition);
-            
-            var newPosition = _grains[i] + new Vector2f(0, 750) * (float)Timer.DeltaTimeSeconds;
+
+            var newPosition = _grains[i] + new Vector2f(0, 10);
             var newTilePosition = ToTilePosition(newPosition);
             
             var grainAtNewPosition = GetGrain(newTilePosition);
