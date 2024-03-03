@@ -1,0 +1,17 @@
+﻿{
+  "Texture": "chess2.png",
+  "Sprites": {
+    "rook-dark": { "left": 0, "top": 0, "width": 100, "height": 100 },
+    "bishop-dark": { "left": 100, "top": 0, "width": 100, "height": 100 },
+    "queen-dark": { "left": 200, "top": 0, "width": 100, "height": 100 },
+    "king-dark": { "left": 300, "top": 0, "width": 100, "height": 100 },
+    "knight-dark": { "left": 400, "top": 0, "width": 100, "height": 100 },
+    "pawn-dark": { "left": 500, "top": 0, "width": 100, "height": 100 },
+    "rook-light": { "left": 0, "top": 100, "width": 100, "height": 100 },
+    "bishop-light": { "left": 100, "top": 100, "width": 100, "height": 100 },
+    "queen-light": { "left": 200, "top": 100, "width": 100, "height": 100 },
+    "king-light": { "left": 300, "top": 100, "width": 100, "height": 100 },
+    "knight-light": { "left": 400, "top": 100, "width": 100, "height": 100 },
+    "pawn-light": { "left": 500, "top": 100, "width": 100, "height": 100 }
+  }
+}

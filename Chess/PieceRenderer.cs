@@ -1,21 +1,35 @@
 ﻿using SFML.Graphics;
 using SFML.System;
+using Stho.SFML.Extensions;
 
 namespace Chess;
 
 public class PieceRenderer(RenderTarget renderTarget, SpriteAtlas spriteAtlas)
 {
-    private CircleShape _shape = new(10f);
     public Vector2f Scale { get; set; } = new(1, 1);
     
-    public void Render(Piece piece, Vector2f position)
+    public void Render(Board board, Piece piece)
     {        
         var sprite = GetSprite(piece);
         
-        if (sprite != null) {
-            sprite.Position = position;
+        if (sprite != null)
+        {
+            var spriteCenter = Scale.Multiply(GetSpriteCenter(sprite));
+            
+            sprite.Position = 
+                board.CellSize.Multiply(piece.Position) 
+                + (board.CellSize / 2) 
+                + board.Position 
+                - spriteCenter;
+            
             renderTarget.Draw(sprite);    
         }
+    }
+
+    private static Vector2f GetSpriteCenter(Sprite sprite)
+    {
+        var dim = new Vector2f(sprite.TextureRect.Width, sprite.TextureRect.Height);
+        return dim / 2;
     }
 
     private Sprite? GetSprite(Piece piece)
@@ -23,7 +37,7 @@ public class PieceRenderer(RenderTarget renderTarget, SpriteAtlas spriteAtlas)
         var name = GetSpriteName(piece);
         var sprite = spriteAtlas.GetSprite(name);
 
-        if (sprite is not null)
+        if (sprite is not null) 
         {
             sprite.Scale = Scale;    
         }

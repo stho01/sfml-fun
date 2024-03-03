@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using SFML.Graphics;
+﻿using SFML.Graphics;
 using SFML.System;
 using Stho.SFML.Extensions;
 using Color = SFML.Graphics.Color;
@@ -18,10 +17,8 @@ public class BoardRenderer(RenderTarget renderTarget, Game game)
         CharacterSize = 14,
         FillColor = Color.White
     };
+    
     private Sprite? _boardSprite;
-    // private readonly Rectangle[] _cells = new Rectangle[64];
-    
-    
     public Color BorderColor { get; set; } = new(0x2c1604ff);
     public Color DarkColor { get; set; } = new(0x683914ff);
     public Color LightColor { get; set; } = Color.White;
@@ -32,8 +29,7 @@ public class BoardRenderer(RenderTarget renderTarget, Game game)
         shape.Size = new Vector2f(1f, 1f);
         var renderTexture = new RenderTexture(8,8);
         
-        for (var i = 0; i < 64; i++)
-        {
+        for (var i = 0; i < 64; i++) {
             var x = i % 8;
             var y = i / 8;
             shape.FillColor = IsDarkTile(x, y) ? DarkColor : LightColor;
@@ -45,63 +41,54 @@ public class BoardRenderer(RenderTarget renderTarget, Game game)
         _boardSprite = new Sprite(texture);
     }
 
-    public void Render(Board board, Vector2f position, Vector2f size)
+    public void Render(Board board)
     {
-        _border.Size = size;
-        _border.Position = position;
+        _border.Size = board.Size;
+        _border.Position = board.Position;
         _border.OutlineColor = BorderColor;
         renderTarget.Draw(_border);    
         
-        var cellSize = size / 8f;
         if (_boardSprite != null) {
-            _boardSprite.Scale = cellSize;
-            _boardSprite.Position = position;
+            _boardSprite.Scale = board.CellSize;
+            _boardSprite.Position = board.Position;
             renderTarget.Draw(_boardSprite);
         }
-
-        /*
+        
         var mousePosition = game.GetMousePosition();
         for (var i = 0; i < 64; i++)
         {
-            var x = i % 8;
-            var y = i / 8;
-            var boundingRect = new Rectangle {
-                X = (int)(x * cellSize.X + position.X),
-                Y = (int)(y * cellSize.Y + position.Y),
-                Width = (int)cellSize.X,
-                Height = (int)cellSize.Y
-            };
-
+            var boundingRect = board.GetBoundingBox(i);
             if (!boundingRect.Contains(mousePosition.ToPoint())) 
                 continue;
             
             _mouseHover = new RectangleShape {
-                Size = cellSize,
+                Size = board.CellSize,
                 Position = new Vector2f(boundingRect.X, boundingRect.Y) 
             };
-            _mouseHover.FillColor = Color.Black;
-            // _mouseHover.FillColor =
-            //     !IsDarkTile(x, y)
-            //         ? new Color(255, 255, 255, 100)
-            //         : new Color(0, 0, 0, 100);
+            _mouseHover.FillColor =
+                IsDarkTile(i)
+                    ? new Color(0, 0, 0, 100)
+                    : new Color(255, 255, 255, 100);
+            
+            break;
         }
+        
         if (_mouseHover is not null)
         {
             renderTarget.Draw(_mouseHover);
             _mouseHover = null;
         }
-        */
         
         for (var i = 0; i < 8; i++)
         {
             var number = 8 - i;
             _text.DisplayedString = number.ToString();
-            _text.Position = new Vector2f(-20, (i * cellSize.Y) + (cellSize.Y / 2f - _text.CharacterSize / 2f)) + position ;
+            _text.Position = new Vector2f(-20, (i * board.CellSize.Y) + (board.CellSize.Y / 2f - _text.CharacterSize / 2f)) + board.Position ;
             renderTarget.Draw(_text);
 
             var character = (char)(i + 0x41);
             _text.DisplayedString = character.ToString();
-            _text.Position = new Vector2f((i * cellSize.X) + (cellSize.X / 2 - _text.CharacterSize / 2f), size.Y + 10) + position; 
+            _text.Position = new Vector2f((i * board.CellSize.X) + (board.CellSize.X / 2 - _text.CharacterSize / 2f), board.Size.Y + 10) + board.Position; 
             renderTarget.Draw(_text);
         }
     }
@@ -112,6 +99,7 @@ public class BoardRenderer(RenderTarget renderTarget, Game game)
         var y = index / 8;
         return IsDarkTile(x, y);
     }
+    
     private static bool IsDarkTile(int x, int y)
     {
         var adder = y - 1 % 2;
