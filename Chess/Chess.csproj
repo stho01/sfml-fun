@@ -11,4 +11,10 @@
       <ProjectReference Include="..\Stho.SFML.Extensions\Stho.SFML.Extensions.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="Assets\chess.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

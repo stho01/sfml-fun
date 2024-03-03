@@ -2,23 +2,19 @@
 
 public class Board
 {
-    public readonly IPiece[] _cells = new IPiece[64];
+    public readonly Piece[] _cells = new Piece[64];
 
-    public IEnumerable<IPiece> Cells => _cells.ToArray();
+    public Piece[] Cells => _cells;
 
-    public IPiece GetCell(int x, int y)
+    public Piece GetCell(int x, int y)
     {
-        if (IsBetween(x, -1..8) && IsBetween(y, -1..8))
-        {
-            var index = y * 8 + x;
-            return _cells[index];    
-        }
+        if (!InRange(x) || !InRange(y))
+            throw new InvalidOperationException("Out of range");
+        
+        var index = y * 8 + x;
+        return _cells[index];    
     }
 
-
-    private bool IsBetween(int value, Range minMax)
-    {
-        return value > minMax.Start.Value 
-            && value < minMax.End.Value;
-    } 
+    private static bool InRange(int value) 
+        => value is >= 0 and < 8;
 }
