@@ -101,6 +101,5 @@ public class Board
         foreach (var cell in _cells)
             cell.Piece = null;
     }
-
 }
 

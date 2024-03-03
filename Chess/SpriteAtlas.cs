@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using System.Text.Json;
+﻿using System.Text.Json;
 using SFML.Graphics;
 
 namespace Chess;
@@ -8,7 +7,6 @@ public class SpriteAtlas
 {
     private Texture? _texture;
     private readonly Dictionary<string, Sprite> _sprites = new();
-
     private readonly JsonSerializerOptions _options = new() { PropertyNameCaseInsensitive = true };
     
     public void LoadTexture(string texture)
@@ -41,8 +39,6 @@ public class SpriteAtlas
     }
 
     private static string NormalizeName(string name) => name.Trim().ToLower();
-
-
 }
 
 public class SpriteAtlasDefinition

@@ -23,29 +23,11 @@ public class Game : GameBase
     public override void Initialize()
     {
         Window.SetFramerateLimit(30);
-        ClearColor = new Color(0x222222ff);
-        ShowFps = true;
+        ClearColor = new Color(0x21100Eff);
         
         _board.Size = new Vector2f(WindowWidth, WindowHeight) * 0.8f;
         _board.Position = WindowCenter - _board.Size / 2;
-
         _spriteAtlas.Load("chess2");
-        
-        // Type[] spriteOrder = [
-        //     typeof(Rook),
-        //     typeof(Bishop),
-        //     typeof(Queen),
-        //     typeof(King),
-        //     typeof(Knight),
-        //     typeof(Pawn)
-        // ];
-        // for (var i = 0; i < spriteOrder.Length; i++) {
-        //     var pieceType = spriteOrder[i];
-        //     var x = i * 300;
-        //     var name = pieceType.Name;
-        //     _spriteAtlas.Define($"{name}-{PieceColor.Dark}", x, 0, 300, 400);
-        //     _spriteAtlas.Define($"{name}-{PieceColor.Light}", x, 400, 300, 400);
-        // }
         _boardRenderer.Initialize();
         
         SetupGame();
