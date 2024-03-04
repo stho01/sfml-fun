@@ -11,6 +11,7 @@ public class Game : GameBase
     private readonly BoardRenderer _boardRenderer;
     private readonly PieceRenderer _pieceRenderer;
     private readonly SpriteAtlas _spriteAtlas = new();
+    private bool _leftMouseClickedLastFrame;
 
     public Game(RenderWindow window) : base(window)
     {
@@ -29,7 +30,6 @@ public class Game : GameBase
         _board.Position = WindowCenter - _board.Size / 2;
         _spriteAtlas.Load("chess2");
         _boardRenderer.Initialize();
-        
         SetupGame();
     }
 
@@ -65,8 +65,28 @@ public class Game : GameBase
     {
         if (Mouse.IsButtonPressed(Mouse.Button.Left))
         {
+            if (_leftMouseClickedLastFrame) {
+                return;
+            }
             
+            var position = _board.PositionFromScreenCoords(GetMousePosition());
+            
+            if (_board.SelectedCell is null)
+                _board.SelectCell(position);
+            else if(_board.IsSelectedCell(position))
+                _board.DeselectCell();
+            else 
+                _board.MoveSelectedPiece(position);
+            
+            _leftMouseClickedLastFrame = true;
         }
+        else
+        {
+            _leftMouseClickedLastFrame = false;
+        }
+        
+        if (Keyboard.IsKeyPressed(Keyboard.Key.Space))
+            SetupGame();
     }
 
     protected override void Render()

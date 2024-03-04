@@ -1,13 +1,14 @@
 ﻿using System.Drawing;
 using SFML.System;
+using Stho.SFML.Extensions;
 
 namespace Chess;
 
 public class Board
 {
-    private const int MaxTileCount = 8;
+    public const int MaxTileCount = 8;
     private readonly Cell[] _cells = new Cell[64];
-
+    
     public Board()
     {
         for (var x = 0; x < MaxTileCount; x++)
@@ -19,18 +20,13 @@ public class Board
     }
     
     public IEnumerable<Cell> Cells => _cells;
+    public Cell? SelectedCell { get; private set; } 
     public Vector2f Position { get; set; } = new(0f, 0f);
     public Vector2f Size { get; set; } = new(600f, 600f);
     public Vector2f CellSize => Size / MaxTileCount;
 
-    public Cell? GetCellByScreenPosition(Vector2i pos) => GetCellByScreenPosition(pos.X, pos.Y);
-    public Cell? GetCellByScreenPosition(int x, int y)
-    {
-        var xn = (int)((x - Position.X) / Size.X * MaxTileCount);
-        var yn = (int)((y - Position.Y) / Size.Y * MaxTileCount);
-        return GetCell(xn, yn);
-    }
 
+    public Cell? GetCell(Vector2i position) => GetCell(position.X, position.Y);
     public Cell? GetCell(int x, int y)
     {
         if (!InRange(x) || !InRange(y))
@@ -40,27 +36,16 @@ public class Board
         return _cells[index];    
     }
 
-    public bool PlacePieceByScreenPosition(Vector2i pos, Piece piece) =>
-        PlacePieceByScreenPosition(pos.X, pos.Y, piece);
-    public bool PlacePieceByScreenPosition(int x, int y, Piece piece)
-    {
-        var cell = GetCellByScreenPosition(x, y);
-        if (cell != null) {
-            cell.Piece = piece;
-            cell.Piece.Position = new Vector2i(cell.X, cell.Y);
-            return true;
-        }
-        return false;
-    }
-    
     public bool PlacePiece(int x, int y, Piece piece)
     {
         var cell = GetCell(x, y);
-        if (cell != null) {
+        
+        if (cell != null) 
+        {
             cell.Piece = piece;
-            cell.Piece.Position = new Vector2i(cell.X, cell.Y);
             return true;
         }
+        
         return false;
     }
 
@@ -90,9 +75,21 @@ public class Board
     
     public class Cell(int x, int y)
     {
-        public int X { get; } = x;
-        public int Y { get; } = y;
-        public Piece? Piece { get; set; }
+        private Piece? _piece = null;
+        
+        public Vector2i Position { get; } = new(x, y);
+
+        public Piece? Piece
+        {
+            get => _piece;
+            set 
+            {
+                _piece = value;
+                if (_piece is not null)
+                    _piece.Position = Position;
+            }
+        }
+        
         public bool IsOccupied => Piece is not null;
     }
 
@@ -101,5 +98,69 @@ public class Board
         foreach (var cell in _cells)
             cell.Piece = null;
     }
+
+    public static bool MovePiece(Cell? sourceCell, Cell? destinationCell)
+    {
+        if (sourceCell is { IsOccupied: true } && destinationCell is not null)
+        {
+            var sourcePiece = sourceCell.Piece!;
+            var destPiece = destinationCell.Piece;
+
+            if (!destinationCell.IsOccupied || (destPiece != null && destPiece.Color != sourcePiece.Color))
+            {
+                var piece = sourceCell.Piece!;
+                destinationCell.Piece = piece;
+                sourceCell.Piece = null;
+                return true;    
+            }
+        }
+        return false;
+    }
+
+    public bool MoveSelectedPiece(Vector2i position)
+    {
+        if (MovePiece(SelectedCell, GetCell(position)))
+        {
+            SelectedCell = null;
+            return true;
+        }
+        
+        return false;
+    }
+    
+    public void SelectCell(Vector2i position)
+    {
+        var cell = GetCell(position);
+        if (cell is { IsOccupied: true })
+            SelectedCell = cell;
+    }
+
+    public bool IsSelectedCell(Vector2i position)
+    {
+        var cell = GetCell(position);
+        return cell == SelectedCell;
+    }
+
+    public void DeselectCell()
+    {
+        SelectedCell = null;
+    }
+    
+    public Vector2i PositionFromScreenCoords(Vector2i screenCoords)
+    {
+        var xn = (int)((screenCoords.X - Position.X) / Size.X * MaxTileCount);
+        var yn = (int)((screenCoords.Y - Position.Y) / Size.Y * MaxTileCount);
+        
+        return new(xn, yn);
+    }
+
+    public Vector2i PositionToScreenCoords(Vector2i boardPosition)
+    {
+        var xn = (int)(boardPosition.X / 8f * Size.X + Position.X);
+        var yn = (int)(boardPosition.Y / 8f * Size.Y + Position.Y);
+        return new(xn, yn);
+    }
+
+    
 }
 
