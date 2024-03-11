@@ -22,7 +22,37 @@ public class Board
     public Vector2f Position { get; set; } = new(0f, 0f);
     public Vector2f Size { get; set; } = new(600f, 600f);
     public Vector2f CellSize => Size / MaxTileCount;
-
+    public Piece KingWhite { get; } = new(PieceType.King, PieceColor.White);
+    public Piece KingBlack { get; } = new(PieceType.King, PieceColor.Black);
+    
+    public void Setup()
+    {
+        Clear();
+        PlacePiece(0, 0, new Piece(PieceType.Rook, PieceColor.Black));
+        PlacePiece(1, 0, new Piece(PieceType.Knight, PieceColor.Black));
+        PlacePiece(2, 0, new Piece(PieceType.Bishop, PieceColor.Black));
+        PlacePiece(3, 0, new Piece(PieceType.Queen, PieceColor.Black));
+        PlacePiece(4, 0, KingBlack);
+        PlacePiece(5, 0, new Piece(PieceType.Bishop, PieceColor.Black));
+        PlacePiece(6, 0, new Piece(PieceType.Knight, PieceColor.Black));
+        PlacePiece(7, 0, new Piece(PieceType.Rook, PieceColor.Black));
+        
+        for (var i = 0; i < MaxTileCount; i++)
+        {
+            PlacePiece(i, 1, new Piece(PieceType.Pawn, PieceColor.Black));
+            PlacePiece(i, 6, new Piece(PieceType.Pawn, PieceColor.White));
+        } 
+        
+        PlacePiece(0, 7, new Piece(PieceType.Rook, PieceColor.White));
+        PlacePiece(1, 7, new Piece(PieceType.Knight, PieceColor.White));
+        PlacePiece(2, 7, new Piece(PieceType.Bishop, PieceColor.White));
+        PlacePiece(3, 7, new Piece(PieceType.Queen, PieceColor.White));
+        PlacePiece(4, 7, KingWhite);
+        PlacePiece(5, 7, new Piece(PieceType.Bishop, PieceColor.White));
+        PlacePiece(6, 7, new Piece(PieceType.Knight, PieceColor.White));
+        PlacePiece(7, 7, new Piece(PieceType.Rook, PieceColor.White));
+    }
+    
     public Cell? GetCell(Vector2i position) => GetCell(position.X, position.Y);
     public Cell? GetCell(int x, int y)
     {
@@ -121,26 +151,6 @@ public class Board
         return new(xn, yn);
     }
     
-    public class Cell(int x, int y)
-    {
-        private Piece? _piece = null;
-        
-        public Vector2i Position { get; } = new(x, y);
-
-        public Piece? Piece
-        {
-            get => _piece;
-            set 
-            {
-                _piece = value;
-                _piece?.SetPosition(Position);
-            }
-        }
-
-        public override string ToString()
-        {
-            return $"Cell {{ Pos = {Position}, Piece = {Piece} }}";
-        }
-    }
+    public Cell[] GetOppositeColorCells(PieceColor color)
+        => _cells.Where(cell => cell.Piece is not null && cell.Piece.Color != color).ToArray();
 }
-

@@ -18,10 +18,8 @@ public enum PieceType
     King
 }
 
-public class Piece(PieceType type, PieceColor color)
+public sealed class Piece(PieceType type, PieceColor color) 
 {
-  
-    
     public Vector2i Position { get; private set; }
     public PieceType PieceType { get; } = type;
     public PieceColor Color { get; } = color;
@@ -32,8 +30,6 @@ public class Piece(PieceType type, PieceColor color)
         Position = position;
         MoveCounter++;
     }
-    
-    
 
     public override string ToString() {
         return $"Piece {{ Pos={Position}, PieceType={PieceType}, Color={Color}, MoveCounter={MoveCounter} }}";

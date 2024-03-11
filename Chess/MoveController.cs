@@ -4,9 +4,9 @@ namespace Chess;
 
 public class MoveController(Game game)
 {
-    private Board.Cell? _selectedCell; 
+    private Cell? _selectedCell; 
     
-    public Board.Cell? SelectedCell
+    public Cell? SelectedCell
     {
         get => _selectedCell;
         
@@ -20,20 +20,31 @@ public class MoveController(Game game)
         } 
     }
     
-    public Board.Cell[]? SelectedCellEligibleMoves { get; private set; } 
+    public Cell[]? SelectedCellEligibleMoves { get; private set; } 
   
     public bool MoveSelectedPiece(Vector2i position)
     {
         if (SelectedCellEligibleMoves?.All(cell => cell.Position != position) ?? true)
             return false;
-        
+
+        if (SelectedCell is not { Piece: not null }) 
+            return false;
+
+        if (SelectedCell.Piece.PieceType == PieceType.King && CheckForCheckAtPosition(position))
+            return false;
+            
         if (game.Board.MovePiece(SelectedCell, game.Board.GetCell(position)))
         {
             SelectedCell = null;
             return true;
         }
-        
         return false;
+    }
+    
+    public Cell[] GetAllOppositeMoves(PieceColor color)
+    {
+        var enemyPieces = game.Board.GetOppositeColorCells(color);
+        return enemyPieces.SelectMany(cell => GetEligibleMoves(cell.Piece!)).ToArray();
     }
     
     public void SelectCell(Vector2i position)
@@ -55,9 +66,9 @@ public class MoveController(Game game)
     {
         SelectedCell = null;
     }
-      
+    
     // ReSharper disable once ReturnTypeCanBeEnumerable.Local
-    private Board.Cell[] GetEligibleMoves(Piece piece)
+    public Cell[] GetEligibleMoves(Piece piece)
     {
         var moves = piece.PieceType switch {
             PieceType.Pawn => PawnMoves(piece),
@@ -71,7 +82,7 @@ public class MoveController(Game game)
         return moves.ToArray();
     }
 
-    private IEnumerable<Board.Cell> PawnMoves(Piece piece)
+    private IEnumerable<Cell> PawnMoves(Piece piece)
     {
         var board = game.Board;
         var yDir = piece.Color == PieceColor.Black ? 1 : -1;
@@ -86,11 +97,11 @@ public class MoveController(Game game)
             yield return attack2!;
     }
 
-    private IEnumerable<Board.Cell> KingMoves(Piece piece)
+    private IEnumerable<Cell> KingMoves(Piece piece)
     {
         var board = game.Board;
         
-        Board.Cell?[] moves = [
+        Cell?[] moves = [
             board.GetCell(piece.Position + new Vector2i(-1, -1)),
             board.GetCell(piece.Position + new Vector2i( 0, -1)),
             board.GetCell(piece.Position + new Vector2i( 1, -1)),
@@ -103,10 +114,10 @@ public class MoveController(Game game)
 
         return moves
             .Where(x => x is not null && (x.Piece == null || x.Piece.Color != piece.Color))
-            .Cast<Board.Cell>();
+            .Cast<Cell>();
     }
 
-    private IEnumerable<Board.Cell> RookMoves(Piece piece)
+    private IEnumerable<Cell> RookMoves(Piece piece)
     {
         return GetCellsInDirection(piece, new Vector2i(0, -1))
             .Concat(GetCellsInDirection(piece, new Vector2i(0, 1)))
@@ -114,7 +125,7 @@ public class MoveController(Game game)
             .Concat(GetCellsInDirection(piece, new Vector2i(1, 0)));
     }
     
-    private IEnumerable<Board.Cell> BishopMoves(Piece piece)
+    private IEnumerable<Cell> BishopMoves(Piece piece)
     {
         return GetCellsInDirection(piece, new Vector2i(-1, -1))
             .Concat(GetCellsInDirection(piece, new Vector2i(1, -1)))
@@ -122,16 +133,16 @@ public class MoveController(Game game)
             .Concat(GetCellsInDirection(piece, new Vector2i(-1, 1)));
     }
     
-    private IEnumerable<Board.Cell> QueenMoves(Piece piece)
+    private IEnumerable<Cell> QueenMoves(Piece piece)
     {
         return BishopMoves(piece).Concat(RookMoves(piece));
     }
 
-    private IEnumerable<Board.Cell> KnightMoves(Piece piece)
+    private IEnumerable<Cell> KnightMoves(Piece piece)
     {
         var board = game.Board;
         
-        Board.Cell?[] cells = [
+        Cell?[] cells = [
             board.GetCell(piece.Position + new Vector2i( 1, -2)),
             board.GetCell(piece.Position + new Vector2i( 2, -1)),
             board.GetCell(piece.Position + new Vector2i( 2,  1)),
@@ -144,10 +155,10 @@ public class MoveController(Game game)
         
         return cells
             .Where(x => x is not null && (x.Piece == null || x.Piece.Color != piece.Color))
-            .Cast<Board.Cell>();
+            .Cast<Cell>();
     }
  
-    private IEnumerable<Board.Cell> GetCellsInDirection(Piece piece, Vector2i dir)
+    private IEnumerable<Cell> GetCellsInDirection(Piece piece, Vector2i dir)
     {
         var board = game.Board;
         
@@ -165,5 +176,18 @@ public class MoveController(Game game)
             
             yield return cell;
         }
+    }
+    
+    public bool CheckForCheck()
+    {
+        var king = game.CurrentPlayer == PieceColor.White ? game.Board.KingWhite : game.Board.KingBlack;
+        var enemyMoves = GetAllOppositeMoves(game.CurrentPlayer);
+        return enemyMoves.Any(cell => cell.Piece == king);
+    }
+    
+    private bool CheckForCheckAtPosition(Vector2i position)
+    {
+        var enemyMoves = GetAllOppositeMoves(game.CurrentPlayer);
+        return enemyMoves.Any(cell => cell.Position == position);
     }
 }
