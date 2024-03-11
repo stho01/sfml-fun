@@ -7,16 +7,11 @@ namespace Chess;
 
 public class BoardRenderer(RenderTarget renderTarget, Game game)
 {
-    private readonly RectangleShape _border = new() {
-        OutlineThickness = 35
-    };
-    private readonly RectangleShape _selectedCell = new()
-    {
-        FillColor = new Color(0x00000000),
-        OutlineColor = new Color(0xC2653CFF),
-        OutlineThickness = 4,
-    };
-    private RectangleShape? _mouseHover;
+    private readonly RectangleShape _border = new() { OutlineThickness = 35 };
+    private readonly RectangleShape _mouseHover = new();
+    private static readonly string[] Numbers = ["1","2","3","4","5","6","7","8"];
+    private static readonly string[] Letters = ["A","B","C","D","E","F","G","H"];
+    
     private readonly Text _text = new() {
         Font = Fonts.Roboto,
         CharacterSize = 14,
@@ -68,50 +63,25 @@ public class BoardRenderer(RenderTarget renderTarget, Game game)
             if (!boundingRect.Contains(mousePosition.ToPoint())) 
                 continue;
             
-            _mouseHover = new RectangleShape {
-                Size = board.CellSize,
-                Position = new Vector2f(boundingRect.X, boundingRect.Y) 
-            };
+            _mouseHover.Size = board.CellSize;
+            _mouseHover.Position = new Vector2f(boundingRect.X, boundingRect.Y);
             _mouseHover.FillColor =
                 IsDarkTile(i)
                     ? new Color(0, 0, 0, 100)
                     : new Color(255, 255, 255, 100);
-            
+            renderTarget.Draw(_mouseHover);
             break;
         }
-        
-        if (_mouseHover is not null)
-        {
-            renderTarget.Draw(_mouseHover);
-            _mouseHover = null;
-        }
-        
+     
         for (var i = 0; i < Board.MaxTileCount; i++)
         {
-            var number = Board.MaxTileCount - i;
-            _text.DisplayedString = number.ToString();
+            _text.DisplayedString = Numbers[i];
             _text.Position = new Vector2f(-20, i * board.CellSize.Y + (board.CellSize.Y / 2f - _text.CharacterSize / 2f)) + board.Position ;
             renderTarget.Draw(_text);
 
-            var character = (char)(i + 0x41);
-            _text.DisplayedString = character.ToString();
+            _text.DisplayedString = Letters[i];
             _text.Position = new Vector2f(i * board.CellSize.X + (board.CellSize.X / 2 - _text.CharacterSize / 2f), board.Size.Y + 10) + board.Position; 
             renderTarget.Draw(_text);
-        }
-
-        if (board.SelectedCell is not null)
-        {
-            var screenPosition = board.PositionToScreenCoords(board.SelectedCell.Position);
-            const int padding = 2;
-            
-            _selectedCell.Position = new Vector2f(
-                screenPosition.X + (_selectedCell.OutlineThickness + padding) / 2f,
-                screenPosition.Y + (_selectedCell.OutlineThickness + padding) / 2f);
-            _selectedCell.Size = new Vector2f(
-                board.CellSize.X - (_selectedCell.OutlineThickness + padding),
-                board.CellSize.Y - (_selectedCell.OutlineThickness + padding));
-            
-            renderTarget.Draw(_selectedCell);
         }
     }
 

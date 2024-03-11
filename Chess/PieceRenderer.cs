@@ -7,6 +7,17 @@ namespace Chess;
 public class PieceRenderer(RenderTarget renderTarget, SpriteAtlas spriteAtlas)
 {
     public Vector2f Scale { get; set; } = new(1, 1);
+
+    private readonly Dictionary<(PieceType, PieceColor), string> _spriteNames = new();
+
+    public void Initialize()
+    {
+        foreach (var pieceType in Enum.GetValues<PieceType>())
+        foreach (var pieceColor in Enum.GetValues<PieceColor>())
+        {
+            _spriteNames.Add((pieceType, pieceColor), SpriteAtlas.NormalizeName($"{pieceType}-{pieceColor}"));
+        }
+    }
     
     public void Render(Board board, Piece piece)
     {        
@@ -34,19 +45,11 @@ public class PieceRenderer(RenderTarget renderTarget, SpriteAtlas spriteAtlas)
 
     private Sprite? GetSprite(Piece piece)
     {
-        var name = GetSpriteName(piece);
-        var sprite = spriteAtlas.GetSprite(name);
+        var sprite = spriteAtlas.GetSprite(_spriteNames[(piece.PieceType, piece.Color)]);
 
         if (sprite is not null) 
-        {
             sprite.Scale = Scale;    
-        }
 
         return sprite;
-    }
-    private static string GetSpriteName(Piece piece)
-    {
-        var name = piece.GetType().Name;
-        return $"{name}-{piece.Color}";
     }
 }

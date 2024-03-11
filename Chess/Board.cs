@@ -1,6 +1,5 @@
 ﻿using System.Drawing;
 using SFML.System;
-using Stho.SFML.Extensions;
 
 namespace Chess;
 
@@ -20,11 +19,9 @@ public class Board
     }
     
     public IEnumerable<Cell> Cells => _cells;
-    public Cell? SelectedCell { get; private set; } 
     public Vector2f Position { get; set; } = new(0f, 0f);
     public Vector2f Size { get; set; } = new(600f, 600f);
     public Vector2f CellSize => Size / MaxTileCount;
-
 
     public Cell? GetCell(Vector2i position) => GetCell(position.X, position.Y);
     public Cell? GetCell(int x, int y)
@@ -34,6 +31,18 @@ public class Board
         
         var index = y * MaxTileCount + x;
         return _cells[index];    
+    }
+
+    public bool TryGetCell(Vector2i position, out Cell? cell)
+    {
+        cell = GetCell(position);
+        return cell is not null;
+    }
+
+    public bool TryGetEnemyCell(Vector2i position, PieceColor color, out Cell? cell)
+    {
+        cell = GetCell(position);
+        return cell is { Piece: not null } && cell.Piece.Color != color;
     }
 
     public bool PlacePiece(int x, int y, Piece piece)
@@ -58,8 +67,8 @@ public class Board
         var y = index / MaxTileCount;
         return GetBoundingBox(x, y);
     }
-    
-    public Rectangle GetBoundingBox(int x, int y)
+
+    private Rectangle GetBoundingBox(int x, int y)
     {
         if (!InRange(x) || !InRange(y))
             throw new InvalidOperationException("Out of range");
@@ -72,26 +81,6 @@ public class Board
             Height = (int)CellSize.Y
         };
     }
-    
-    public class Cell(int x, int y)
-    {
-        private Piece? _piece = null;
-        
-        public Vector2i Position { get; } = new(x, y);
-
-        public Piece? Piece
-        {
-            get => _piece;
-            set 
-            {
-                _piece = value;
-                if (_piece is not null)
-                    _piece.Position = Position;
-            }
-        }
-        
-        public bool IsOccupied => Piece is not null;
-    }
 
     public void Clear() 
     {
@@ -99,14 +88,14 @@ public class Board
             cell.Piece = null;
     }
 
-    public static bool MovePiece(Cell? sourceCell, Cell? destinationCell)
+    public bool MovePiece(Cell? sourceCell, Cell? destinationCell)
     {
-        if (sourceCell is { IsOccupied: true } && destinationCell is not null)
+        if (sourceCell is { Piece: not null } && destinationCell is not null)
         {
             var sourcePiece = sourceCell.Piece!;
             var destPiece = destinationCell.Piece;
 
-            if (!destinationCell.IsOccupied || (destPiece != null && destPiece.Color != sourcePiece.Color))
+            if (destinationCell is { Piece: null } || (destPiece != null && destPiece.Color != sourcePiece.Color))
             {
                 var piece = sourceCell.Piece!;
                 destinationCell.Piece = piece;
@@ -117,35 +106,6 @@ public class Board
         return false;
     }
 
-    public bool MoveSelectedPiece(Vector2i position)
-    {
-        if (MovePiece(SelectedCell, GetCell(position)))
-        {
-            SelectedCell = null;
-            return true;
-        }
-        
-        return false;
-    }
-    
-    public void SelectCell(Vector2i position)
-    {
-        var cell = GetCell(position);
-        if (cell is { IsOccupied: true })
-            SelectedCell = cell;
-    }
-
-    public bool IsSelectedCell(Vector2i position)
-    {
-        var cell = GetCell(position);
-        return cell == SelectedCell;
-    }
-
-    public void DeselectCell()
-    {
-        SelectedCell = null;
-    }
-    
     public Vector2i PositionFromScreenCoords(Vector2i screenCoords)
     {
         var xn = (int)((screenCoords.X - Position.X) / Size.X * MaxTileCount);
@@ -160,7 +120,27 @@ public class Board
         var yn = (int)(boardPosition.Y / 8f * Size.Y + Position.Y);
         return new(xn, yn);
     }
-
     
+    public class Cell(int x, int y)
+    {
+        private Piece? _piece = null;
+        
+        public Vector2i Position { get; } = new(x, y);
+
+        public Piece? Piece
+        {
+            get => _piece;
+            set 
+            {
+                _piece = value;
+                _piece?.SetPosition(Position);
+            }
+        }
+
+        public override string ToString()
+        {
+            return $"Cell {{ Pos = {Position}, Piece = {Piece} }}";
+        }
+    }
 }
 

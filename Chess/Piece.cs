@@ -4,61 +4,38 @@ namespace Chess;
 
 public enum PieceColor
 {
-    Light = 0,
-    Dark = 1
+    White = 0,
+    Black = 1
 }
 
-public abstract class Piece(PieceColor color)
+public enum PieceType
 {
-    public Vector2i Position { get; set; }
-    public PieceColor Color { get; set; } = color;
-    public abstract bool Move(int x, int y);
+    Pawn,
+    Bishop,
+    Knight,
+    Rook,
+    Queen,
+    King
 }
 
-public class Pawn(PieceColor color) : Piece(color)
+public class Piece(PieceType type, PieceColor color)
 {
-    public override bool Move(int x, int y)
+  
+    
+    public Vector2i Position { get; private set; }
+    public PieceType PieceType { get; } = type;
+    public PieceColor Color { get; } = color;
+    public int MoveCounter { get; private set; }
+
+    public void SetPosition(Vector2i position)
     {
-        throw new NotImplementedException();
+        Position = position;
+        MoveCounter++;
     }
-}
+    
+    
 
-public class Bishop(PieceColor color) : Piece(color)
-{
-    public override bool Move(int x, int y)
-    {
-        throw new NotImplementedException();
-    }
-}
-
-public class Knight(PieceColor color) : Piece(color)
-{
-    public override bool Move(int x, int y)
-    {
-        throw new NotImplementedException();
-    }
-}
-
-public class Rook(PieceColor color) : Piece(color)
-{
-    public override bool Move(int x, int y)
-    {
-        throw new NotImplementedException();
-    }
-}
-
-public class Queen(PieceColor color) : Piece(color)
-{
-    public override bool Move(int x, int y)
-    {
-        throw new NotImplementedException();
-    }
-}
-
-public class King(PieceColor color) : Piece(color)
-{
-    public override bool Move(int x, int y)
-    {
-        throw new NotImplementedException();
+    public override string ToString() {
+        return $"Piece {{ Pos={Position}, PieceType={PieceType}, Color={Color}, MoveCounter={MoveCounter} }}";
     }
 }

@@ -38,7 +38,7 @@ public class SpriteAtlas
         _sprites[NormalizeName(name)] = new Sprite(_texture, new IntRect(left, top, width, height));        
     }
 
-    private static string NormalizeName(string name) => name.Trim().ToLower();
+    public static string NormalizeName(string name) => name.Trim().ToLower();
 }
 
 public class SpriteAtlasDefinition
