@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using SFML.System;
 
 namespace Stho.SFML.Extensions;
@@ -182,5 +183,15 @@ public static class Vector2Extensions
     {
         var d = vec.Normalize();
         return d - 2 * d.Dot(normal) * normal;
+    }
+
+
+    public static Point ToPoint(this Vector2i vec)
+    {
+        return new Point(vec.X, vec.Y);
+    }
+    public static Point ToPoint(this Vector2f vec)
+    {
+        return ToPoint((Vector2i)vec);
     }
 }
