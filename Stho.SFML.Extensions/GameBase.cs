@@ -12,7 +12,7 @@ public abstract class GameBase
     //**********************************************************
 
     private readonly GameFpsRenderer _gameFpsRenderer;
-    
+
     //**********************************************************
     //** ctor:
     //**********************************************************
@@ -22,6 +22,10 @@ public abstract class GameBase
         Window = window;
         Window.Closed += OnWindowClosed;
         _gameFpsRenderer = new GameFpsRenderer(window);
+        window.Resized += OnWindowResized;
+        WindowWidth = window.Size.X;
+        WindowHeight = window.Size.Y;
+        WindowCenter = new Vector2f(WindowWidth / 2f, WindowHeight / 2f);
     }
 
     //**********************************************************
@@ -36,9 +40,9 @@ public abstract class GameBase
         set => _gameFpsRenderer.ShowFps = value;
     }
 
-    public uint WindowWidth => Window.Size.X;
-    public uint WindowHeight => Window.Size.Y;
-    public Vector2f WindowCenter => new(WindowWidth / 2, WindowHeight / 2);
+    public uint WindowWidth { get; private set; }
+    public uint WindowHeight { get; private set; }
+    public Vector2f WindowCenter { get; private set; }
     public Color ClearColor { get; set; } = Color.Black;
     public FloatRect WindowBounds => new(0, 0, WindowWidth, WindowHeight);
 
@@ -96,5 +100,13 @@ public abstract class GameBase
     protected virtual void OnWindowClosed(object source, EventArgs args)
     {
         Window.Close();
+    }
+
+    protected virtual void OnWindowResized(object source, SizeEventArgs args)
+    {
+        WindowWidth = args.Width;
+        WindowHeight = args.Height;
+        WindowCenter = new Vector2f(WindowWidth / 2f, WindowHeight / 2f);
+        Window.SetView(new View(WindowCenter, new Vector2f(WindowWidth, WindowHeight)));
     }
 }
