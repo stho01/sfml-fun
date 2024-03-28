@@ -1,31 +1,66 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 using SFML.Graphics;
 using SFML.System;
 using Stho.SFML.Extensions;
+using Color = SFML.Graphics.Color;
 
 namespace Hexmap;
 
 public class Game(RenderWindow window) : GameBase(window)
 {
+    private const int Size = 35;
+    private const int Radius = 10;
     private readonly HexShape _hex = new(50) {
         FillColor = Color.Transparent,
         OutlineColor = Color.Red,
         OutlineThickness = 1
     };
-    
     private readonly List<Hexagon> _hexagons = [];
+    private readonly List<Hexagon> _ring = [];
+    private CubeCoordinate? _hovered;
     
     public override void Initialize()
     {
-        _hexagons.Add(new Hexagon { Size = 50, Coordinates = (0,0,0) });
-        _hexagons.Add(new Hexagon { Size = 50, Coordinates = (1,0,1) });
-        _hexagons.Add(new Hexagon { Size = 50, Coordinates = (0,1,1) });
+        var center = CubeCoordinate.Zero;
+        _hexagons.Add(new Hexagon { Size = Size, Coordinates = center });
+
+        var range = 
+            CubeCoordinate
+                .GetRange(CubeCoordinate.Zero, Radius)
+                .Select(c => new Hexagon { Size = Size, Coordinates = c });
+        
+        _hexagons.AddRange(range);
+
+        // var ring = CubeCoordinate.GetRing(CubeCoordinate.Zero, 5)
+        //     .Select(c => new Hexagon { Size = Size, Coordinates = c });
+        // _ring.AddRange(ring);
+
     }
+
+    // private static IEnumerable<CubeCoordinate> CubeRing(CubeCoordinate center, int radius) 
+    // {
+    //     var cursor = center + CubeCoordinate.East * radius;
+    //     yield return cursor;
+    //     
+    //     for (var i = 0; i < 6; i++)
+    //     for (var j = 0; j < radius; j++)
+    //     {
+    //         cursor = cursor.GetNeighbor((CubeCoordinate.Direction)i);
+    //         yield return cursor;
+    //     }
+    // }
 
     protected override void Update()
     {
-        
+        _hovered = null;
+        var hovered = Hexagon.GetCoordinates(Size, GetMousePosition() - (Vector2i)WindowCenter);
+        var distance = (int)CubeCoordinate.Distance(CubeCoordinate.Zero, hovered);
+
+        if (distance <= Radius)
+            _hovered = hovered.Round();
     }
 
     protected override void Render()
@@ -33,64 +68,25 @@ public class Game(RenderWindow window) : GameBase(window)
         foreach (var hexagon in _hexagons)
         {
             _hex.Position = hexagon.Position + WindowCenter;
-            Window.Draw(_hex);    
+            _hex.Size = hexagon.Size;
+            _hex.FillColor = Color.Transparent;
+            Window.Draw(_hex);
         }
-    }
-}
 
-
-public class Hexagon
-{
-    private static readonly float CubeSquared = MathF.Sqrt(3);
-    private readonly CubeCoordinate _cubeCoordinate;
-    private float _size;
-
-    public CubeCoordinate Coordinates
-    {
-        get => _cubeCoordinate;
-        init
+        foreach (var hexagon in _ring)
         {
-            _cubeCoordinate = value;
-            UpdatePosition();
+            _hex.Position = hexagon.Position + WindowCenter;
+            _hex.Size = hexagon.Size;
+            _hex.FillColor = Color.Blue;
+            Window.Draw(_hex);
         }
-    }
-
-    public float Size
-    {
-        get => _size;
-        set
+        
+        if (_hovered.HasValue)
         {
-            _size = value;
-            UpdateDimensions();
-            UpdatePosition();
+            _hex.Position = Hexagon.GetPosition(Size, _hovered.Value) + WindowCenter;
+            _hex.Size = Size;
+            _hex.FillColor = Color.Green;
+            Window.Draw(_hex);
         }
     }
-
-    public float Width { get; private set; }
-    public float Height { get; private set; }
-    public Vector2f Position { get; private set; }
-
-
-    private void UpdateDimensions()
-    {
-        Width = CubeSquared * _size;
-        Height = 1.5F * _size;
-    }
-    
-    private void UpdatePosition()
-    {
-        var x = _size * (CubeSquared * Coordinates.Q + CubeSquared / 2 * Coordinates.R);
-        var y = _size * (1.5F * Coordinates.R);
-        Position = new Vector2f(x, y);
-    }
 }
-
-public readonly record struct CubeCoordinate(float Q, float R, float S)
-{
-    public static readonly CubeCoordinate Zero = new();
-    public static readonly CubeCoordinate NorthWest = (0, -1, 1);
-
-    public static implicit operator CubeCoordinate((float, float, float) values) 
-        => new(values.Item1, values.Item2, values.Item3);
-}
-
