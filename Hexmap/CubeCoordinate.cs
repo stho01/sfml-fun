@@ -59,13 +59,13 @@ public readonly record struct CubeCoordinate(float Q, float R, float S)
         }
     }
     
-    public static IEnumerable<CubeCoordinate> GetRange(CubeCoordinate center, int n)
+    public static IEnumerable<CubeCoordinate> GetRange(int n)
     {
         for (var q = -n; q <= n; q++)
         for (var r = Math.Max(-n, -q-n); r <= Math.Min(n, -q+n); r++)
         {
             var s = -q - r;
-            var coords = center + new CubeCoordinate(q, r, s);
+            var coords = new CubeCoordinate(q, r, s);
             yield return coords;
         }
     }

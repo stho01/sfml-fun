@@ -11,10 +11,11 @@ public class DrawingCirclesState : IState
     private int _currentRing = 0;
     private Timer.Interval _interval;
     
-    private readonly HexShape _hex = new(50) {
-        FillColor = Color.Blue,
+    private readonly HexagonShape _hexagon = new(50) {
+        FillColor = Theme.BlueFill,
+        OutlineColor = Theme.BlueOutline,
         OutlineThickness = 1,
-        Size = Game.HexSize
+        Size = Game.HexagonSize
     };
 
     public string Name => "Drawing Circles";
@@ -24,7 +25,7 @@ public class DrawingCirclesState : IState
         for (var i = 0; i <= Game.GridRadius; i++)
         {
             var rings = CubeCoordinate.GetRing(CubeCoordinate.Zero, i)
-                .Select(coords => new Hexagon { Size = Game.HexSize, Coordinates = coords })
+                .Select(coords => new Hexagon { Size = Game.HexagonSize, Coordinates = coords })
                 .ToArray();
             
             _rings.Add(rings);
@@ -50,9 +51,9 @@ public class DrawingCirclesState : IState
     {
         foreach (var hexagon in _rings[_currentRing])
         {
-            _hex.Position = hexagon.Position + game.WindowCenter;
-            _hex.Size = hexagon.Size;
-            target.Draw(_hex);
+            _hexagon.Position = hexagon.Position + game.WindowCenter;
+            _hexagon.Size = hexagon.Size;
+            target.Draw(_hexagon);
         }
     }
 }

@@ -4,13 +4,13 @@ using SFML.System;
 
 namespace Hexmap;
 
-public class HexShape : Shape
+public class HexagonShape : Shape
 {
     private const int PointCount = 6;
     private readonly Vector2f[] _vertices = new Vector2f[PointCount];
     private int _size;
     
-    public HexShape(int size)
+    public HexagonShape(int size)
     {
         Size = size;
     }

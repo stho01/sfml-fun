@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using SFML.Graphics;
+using SFML.System;
 using Stho.SFML.Extensions;
 
 namespace Hexmap;
@@ -8,10 +9,13 @@ namespace Hexmap;
 public sealed class StateMachine(Game game)
 {
     private readonly Dictionary<Type, StateProxy> _states = new();
-    private IState? _current;
-    private Text _name = new()
+    private StateProxy _current;
+    
+    private readonly Text _name = new()
     {
-        Font = Fonts.Roboto
+        Font = Fonts.Roboto,
+        FillColor = Color.Black,
+        Position = new Vector2f(10f,10f)
     };
 
     public void AddState(IState state)

@@ -7,10 +7,10 @@ namespace Hexmap.States;
 public sealed class DrawingLinesState : IState
 {
     private List<CubeCoordinate> _line = []; 
-    private readonly HexShape _hex = new(50) {
-        FillColor = Color.Blue,
-        OutlineThickness = 1,
-        Size = Game.HexSize
+    private readonly HexagonShape _hexagon = new(Game.HexagonSize) {
+        FillColor = Theme.BlueFill,
+        OutlineColor = Theme.BlueOutline,
+        OutlineThickness = 1
     };
 
     public string? Name => "Drawing lines";
@@ -29,8 +29,8 @@ public sealed class DrawingLinesState : IState
     {
         foreach (var coords in _line)
         {
-            _hex.Position = Hexagon.GetPosition(Game.HexSize, coords) + game.WindowCenter;
-            target.Draw(_hex);
+            _hexagon.Position = Hexagon.GetPosition(Game.HexagonSize, coords) + game.WindowCenter;
+            target.Draw(_hexagon);
         }
     }
 }

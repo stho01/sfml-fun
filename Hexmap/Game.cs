@@ -12,13 +12,15 @@ namespace Hexmap;
 
 public class Game : GameBase
 {
-    public const int HexSize = 35;
+    public const int HexagonSize = 35;
     public const int GridRadius = 10;
-    private readonly HexShape _hex = new(50) {
-        FillColor = Color.Transparent,
-        OutlineColor = Color.Red,
+
+    private readonly HexagonShape _hexagon = new(50) {
+        FillColor = Theme.DefaultFill,
+        OutlineColor = Theme.DefaultFill,
         OutlineThickness = 1
     };
+    
     private readonly List<Hexagon> _hexagons = [];
     private readonly StateMachine _stateMachine;
 
@@ -31,18 +33,19 @@ public class Game : GameBase
     
     public override void Initialize()
     {
+        ClearColor = Color.White;
         _stateMachine.AddState(new DrawingCirclesState());
         _stateMachine.AddState(new DrawingLinesState());
         _stateMachine.Load<DrawingLinesState>();
         
         
         var center = CubeCoordinate.Zero;
-        _hexagons.Add(new Hexagon { Size = HexSize, Coordinates = center });
+        _hexagons.Add(new Hexagon { Size = HexagonSize, Coordinates = center });
 
         var range = 
             CubeCoordinate
-                .GetRange(CubeCoordinate.Zero, GridRadius)
-                .Select(c => new Hexagon { Size = HexSize, Coordinates = c });
+                .GetRange(GridRadius)
+                .Select(c => new Hexagon { Size = HexagonSize, Coordinates = c });
         
         _hexagons.AddRange(range);
     }
@@ -50,7 +53,7 @@ public class Game : GameBase
     protected override void Update()
     {
         Hovered = null;
-        var hovered = Hexagon.GetCoordinates(HexSize, GetMousePosition() - (Vector2i)WindowCenter);
+        var hovered = Hexagon.GetCoordinates(HexagonSize, GetMousePosition() - (Vector2i)WindowCenter);
         var distance = (int)CubeCoordinate.Distance(CubeCoordinate.Zero, hovered);
 
         if (distance <= GridRadius)
@@ -69,20 +72,22 @@ public class Game : GameBase
     {
         foreach (var hexagon in _hexagons)
         {
-            _hex.Position = hexagon.Position + WindowCenter;
-            _hex.Size = hexagon.Size;
-            _hex.FillColor = hexagon.Coordinates == CubeCoordinate.Zero ? Color.Magenta : Color.Transparent;
-            Window.Draw(_hex);
+            _hexagon.Position = hexagon.Position + WindowCenter;
+            _hexagon.Size = hexagon.Size;
+            _hexagon.FillColor = hexagon.Coordinates == CubeCoordinate.Zero ? Theme.MagentaFill : Theme.DefaultFill;
+            _hexagon.OutlineColor = Theme.DefaultOutline;
+            _hexagon.OutlineThickness = 1;
+            Window.Draw(_hexagon);
         }
 
         _stateMachine.Draw(Window);
         
         if (Hovered.HasValue)
         {
-            _hex.Position = Hexagon.GetPosition(HexSize, Hovered.Value) + WindowCenter;
-            _hex.Size = HexSize;
-            _hex.FillColor = Color.Green;
-            Window.Draw(_hex);
+            _hexagon.Position = Hexagon.GetPosition(HexagonSize, Hovered.Value) + WindowCenter;
+            _hexagon.Size = HexagonSize;
+            _hexagon.FillColor = Theme.GreenFill;
+            Window.Draw(_hexagon);
         }
     }
 }
