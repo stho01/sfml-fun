@@ -16,8 +16,9 @@ public class DrawingCirclesState : IState
         OutlineThickness = 1,
         Size = Game.HexSize
     };
-    
-    
+
+    public string Name => "Drawing Circles";
+
     public void Load(Game game)
     {
         for (var i = 0; i <= Game.GridRadius; i++)
@@ -33,9 +34,14 @@ public class DrawingCirclesState : IState
         });    
     }
 
-    public void Suspend(Game game)
+    public void Pause(Game game)
     {
         _interval.Pause = true;
+    }
+    
+    public void Resume(Game game)
+    {
+        _interval.Pause = false;
     }
 
     public void Update(Game game) { }

@@ -4,6 +4,7 @@ using System.Linq;
 using Hexmap.States;
 using SFML.Graphics;
 using SFML.System;
+using SFML.Window;
 using Stho.SFML.Extensions;
 using Color = SFML.Graphics.Color;
 
@@ -54,6 +55,12 @@ public class Game : GameBase
 
         if (distance <= GridRadius)
             Hovered = hovered.Round();
+        
+        
+        if (Keyboard.IsKeyPressed(Keyboard.Key.F1))
+            _stateMachine.Load<DrawingCirclesState>();
+        else if(Keyboard.IsKeyPressed(Keyboard.Key.F2))
+            _stateMachine.Load<DrawingLinesState>();
         
         _stateMachine.Update();
     }

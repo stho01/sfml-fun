@@ -12,9 +12,11 @@ public sealed class DrawingLinesState : IState
         OutlineThickness = 1,
         Size = Game.HexSize
     };
-    
+
+    public string? Name => "Drawing lines";
     public void Load(Game game) { }
-    public void Suspend(Game game) { }
+    public void Pause(Game game) { }
+    public void Resume(Game game) { }
     public void Update(Game game)
     {
         if (game.Hovered.HasValue)
