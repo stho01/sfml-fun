@@ -52,7 +52,7 @@ public readonly record struct CubeCoordinate(float Q, float R, float S)
     
     public static IEnumerable<CubeCoordinate> GetRing(CubeCoordinate center, int radius) 
     {
-        var cursor = center + East * radius;
+        var cursor = center + NorthWest * radius;
         yield return cursor;
         
         for (var i = 0; i < 6; i++)
@@ -107,7 +107,6 @@ public readonly record struct CubeCoordinate(float Q, float R, float S)
             a.S * b);
     public static CubeCoordinate operator *(float a, CubeCoordinate b) => b * a;
     
-
     public enum Direction
     {
         East = 0,

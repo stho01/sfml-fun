@@ -19,8 +19,9 @@ public class Game(RenderWindow window) : GameBase(window)
         OutlineThickness = 1
     };
     private readonly List<Hexagon> _hexagons = [];
-    private readonly List<Hexagon> _ring = [];
+    private readonly List<Hexagon[]> _rings = [];
     private CubeCoordinate? _hovered;
+    private int _currentRing = 0;
     
     public override void Initialize()
     {
@@ -34,24 +35,19 @@ public class Game(RenderWindow window) : GameBase(window)
         
         _hexagons.AddRange(range);
 
-        // var ring = CubeCoordinate.GetRing(CubeCoordinate.Zero, 5)
-        //     .Select(c => new Hexagon { Size = Size, Coordinates = c });
-        // _ring.AddRange(ring);
+        for (var i = 0; i <= Radius; i++)
+        {
+            var rings = CubeCoordinate.GetRing(CubeCoordinate.Zero, i)
+                .Select(c => new Hexagon { Size = Size, Coordinates = c })
+                .ToArray();
+            
+            _rings.Add(rings);
+        }
 
+        Timer.SetInterval(250, () => {
+            _currentRing = (_currentRing + 1) % _rings.Count;
+        });
     }
-
-    // private static IEnumerable<CubeCoordinate> CubeRing(CubeCoordinate center, int radius) 
-    // {
-    //     var cursor = center + CubeCoordinate.East * radius;
-    //     yield return cursor;
-    //     
-    //     for (var i = 0; i < 6; i++)
-    //     for (var j = 0; j < radius; j++)
-    //     {
-    //         cursor = cursor.GetNeighbor((CubeCoordinate.Direction)i);
-    //         yield return cursor;
-    //     }
-    // }
 
     protected override void Update()
     {
@@ -69,11 +65,11 @@ public class Game(RenderWindow window) : GameBase(window)
         {
             _hex.Position = hexagon.Position + WindowCenter;
             _hex.Size = hexagon.Size;
-            _hex.FillColor = Color.Transparent;
+            _hex.FillColor = hexagon.Coordinates == CubeCoordinate.Zero ? Color.Magenta : Color.Transparent;
             Window.Draw(_hex);
         }
 
-        foreach (var hexagon in _ring)
+        foreach (var hexagon in _rings[_currentRing])
         {
             _hex.Position = hexagon.Position + WindowCenter;
             _hex.Size = hexagon.Size;
