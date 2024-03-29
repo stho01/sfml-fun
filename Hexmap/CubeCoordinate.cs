@@ -6,7 +6,6 @@ namespace Hexmap;
 public readonly record struct CubeCoordinate(float Q, float R, float S)
 {
     public static readonly CubeCoordinate Zero = new();
-    
     public static readonly CubeCoordinate East = (1, 0, -1);
     public static readonly CubeCoordinate SouthEast = (0, 1, -1);
     public static readonly CubeCoordinate SouthWest = (-1, 1, 0);
@@ -27,7 +26,11 @@ public readonly record struct CubeCoordinate(float Q, float R, float S)
     }
 
     public CubeCoordinate Round() => Round(this);
-    
+
+    public static CubeCoordinate FromAxial(float q, float r)
+    {
+        return (q, r, -q-r);
+    }
     
     public static float Distance(CubeCoordinate a, CubeCoordinate b)
     {
@@ -103,14 +106,22 @@ public readonly record struct CubeCoordinate(float Q, float R, float S)
         return (q, r, s);
     }
 
-    public static implicit operator CubeCoordinate((float, float, float) values) 
-        => new(values.Item1, values.Item2, values.Item3);
-
+    public static implicit operator CubeCoordinate((float q, float r, float s) values) 
+        => new(values.q, values.r, values.s);
+    public static implicit operator CubeCoordinate((float q, float r) values) 
+        => new(values.q, values.r, -values.q - values.r);
+    
+    
     public static CubeCoordinate operator +(CubeCoordinate a, CubeCoordinate b) =>
         new(a.Q + b.Q,
             a.R + b.R,
             a.S + b.S);
 
+    public static CubeCoordinate operator -(CubeCoordinate a) =>
+        new(-a.Q,
+            -a.R,
+            -a.S);
+    
     public static CubeCoordinate operator -(CubeCoordinate a, CubeCoordinate b) =>
         new(a.Q - b.Q,
             a.R - b.R,

@@ -21,7 +21,7 @@ public sealed class DrawingLinesState : IState
     {
         if (game.Hovered.HasValue)
         {
-            _line = CubeCoordinate.GetLine(CubeCoordinate.Zero, game.Hovered.Value).ToList();
+            _line = CubeCoordinate.GetLine(CubeCoordinate.NorthWest * 3, game.Hovered.Value).ToList();
         }
     }
 
