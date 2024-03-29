@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
+using Hexmap.States;
 using SFML.Graphics;
 using SFML.System;
 using Stho.SFML.Extensions;
@@ -9,54 +9,53 @@ using Color = SFML.Graphics.Color;
 
 namespace Hexmap;
 
-public class Game(RenderWindow window) : GameBase(window)
+public class Game : GameBase
 {
-    private const int Size = 35;
-    private const int Radius = 10;
+    public const int HexSize = 35;
+    public const int GridRadius = 10;
     private readonly HexShape _hex = new(50) {
         FillColor = Color.Transparent,
         OutlineColor = Color.Red,
         OutlineThickness = 1
     };
     private readonly List<Hexagon> _hexagons = [];
-    private readonly List<Hexagon[]> _rings = [];
-    private CubeCoordinate? _hovered;
-    private int _currentRing = 0;
+    private readonly StateMachine _stateMachine;
+
+    public Game(RenderWindow window) : base(window)
+    {
+        _stateMachine = new StateMachine(this);
+    }
+    
+    public CubeCoordinate? Hovered { get; private set; }
     
     public override void Initialize()
     {
+        _stateMachine.AddState(new DrawingCirclesState());
+        _stateMachine.AddState(new DrawingLinesState());
+        _stateMachine.Load<DrawingLinesState>();
+        
+        
         var center = CubeCoordinate.Zero;
-        _hexagons.Add(new Hexagon { Size = Size, Coordinates = center });
+        _hexagons.Add(new Hexagon { Size = HexSize, Coordinates = center });
 
         var range = 
             CubeCoordinate
-                .GetRange(CubeCoordinate.Zero, Radius)
-                .Select(c => new Hexagon { Size = Size, Coordinates = c });
+                .GetRange(CubeCoordinate.Zero, GridRadius)
+                .Select(c => new Hexagon { Size = HexSize, Coordinates = c });
         
         _hexagons.AddRange(range);
-
-        for (var i = 0; i <= Radius; i++)
-        {
-            var rings = CubeCoordinate.GetRing(CubeCoordinate.Zero, i)
-                .Select(c => new Hexagon { Size = Size, Coordinates = c })
-                .ToArray();
-            
-            _rings.Add(rings);
-        }
-
-        Timer.SetInterval(250, () => {
-            _currentRing = (_currentRing + 1) % _rings.Count;
-        });
     }
 
     protected override void Update()
     {
-        _hovered = null;
-        var hovered = Hexagon.GetCoordinates(Size, GetMousePosition() - (Vector2i)WindowCenter);
+        Hovered = null;
+        var hovered = Hexagon.GetCoordinates(HexSize, GetMousePosition() - (Vector2i)WindowCenter);
         var distance = (int)CubeCoordinate.Distance(CubeCoordinate.Zero, hovered);
 
-        if (distance <= Radius)
-            _hovered = hovered.Round();
+        if (distance <= GridRadius)
+            Hovered = hovered.Round();
+        
+        _stateMachine.Update();
     }
 
     protected override void Render()
@@ -69,18 +68,12 @@ public class Game(RenderWindow window) : GameBase(window)
             Window.Draw(_hex);
         }
 
-        foreach (var hexagon in _rings[_currentRing])
-        {
-            _hex.Position = hexagon.Position + WindowCenter;
-            _hex.Size = hexagon.Size;
-            _hex.FillColor = Color.Blue;
-            Window.Draw(_hex);
-        }
+        _stateMachine.Draw(Window);
         
-        if (_hovered.HasValue)
+        if (Hovered.HasValue)
         {
-            _hex.Position = Hexagon.GetPosition(Size, _hovered.Value) + WindowCenter;
-            _hex.Size = Size;
+            _hex.Position = Hexagon.GetPosition(HexSize, Hovered.Value) + WindowCenter;
+            _hex.Size = HexSize;
             _hex.FillColor = Color.Green;
             Window.Draw(_hex);
         }

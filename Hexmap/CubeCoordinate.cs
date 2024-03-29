@@ -13,7 +13,6 @@ public readonly record struct CubeCoordinate(float Q, float R, float S)
     public static readonly CubeCoordinate West = (-1, 0, 1);
     public static readonly CubeCoordinate NorthWest = (0, -1, 1);
     public static readonly CubeCoordinate NorthEast = (1, -1, 0);
-    
 
     public CubeCoordinate GetNeighbor(Direction direction)
     {
@@ -37,6 +36,27 @@ public readonly record struct CubeCoordinate(float Q, float R, float S)
         max = MathF.Max(max, MathF.Abs(d.R));
         max = MathF.Max(max, MathF.Abs(d.S));
         return max;
+    }
+
+    private static float LinearLerp(float a, float b, float t) => a + (b - a) * t;
+
+    public static CubeCoordinate Lerp(CubeCoordinate a, CubeCoordinate b, float t)
+    {
+        return new(
+            LinearLerp(a.Q, b.Q, t),
+            LinearLerp(a.R, b.R, t),
+            LinearLerp(a.S, b.S, t));
+    }
+
+    public static IEnumerable<CubeCoordinate> GetLine(CubeCoordinate a, CubeCoordinate b)
+    {
+        var distance = Distance(a, b);
+        
+        for (var i = 0; i < distance; i++)
+        {
+            var t = 1.0f/distance * i;
+            yield return Round(Lerp(a, b, t));
+        }
     }
     
     public static IEnumerable<CubeCoordinate> GetRange(CubeCoordinate center, int n)
