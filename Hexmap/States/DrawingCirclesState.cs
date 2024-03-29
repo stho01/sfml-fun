@@ -1,15 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using SFML.Graphics;
-using Stho.SFML.Extensions;
 
 namespace Hexmap.States;
 
 public class DrawingCirclesState : IState
 {
     private readonly List<Hexagon[]> _rings = [];
-    private int _currentRing = 0;
-    private Timer.Interval _interval;
+    private int _currentRing;
     
     private readonly HexagonShape _hexagon = new(50) {
         FillColor = Theme.BlueFill,
@@ -30,22 +28,24 @@ public class DrawingCirclesState : IState
             
             _rings.Add(rings);
         }
-        _interval = Timer.SetInterval(250, () => {
-            _currentRing = (_currentRing + 1) % _rings.Count;
-        });    
     }
 
     public void Pause(Game game)
     {
-        _interval.Pause = true;
     }
     
     public void Resume(Game game)
     {
-        _interval.Pause = false;
     }
 
-    public void Update(Game game) { }
+    public void Update(Game game)
+    {
+        if (game.Hovered != null)
+        {
+            var d = CubeCoordinate.Distance(CubeCoordinate.Zero, game.Hovered.Value);
+            _currentRing = (int)d;
+        }
+    }
 
     public void Draw(Game game, RenderTarget target)
     {
