@@ -10,7 +10,7 @@ public class AgentUpdater(FlockingBehaviour flockingBehaviour)
     //**********************************************************
 
     public float AlignmentAmount = 1f;
-    public float SeparationAmount = 1.5f;
+    public float SeparationAmount = 1.9f;
     public float CohesionAmount = 1f;
     public float MaxSteeringForce = .95f;
 

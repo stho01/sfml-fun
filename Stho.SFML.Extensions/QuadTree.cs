@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using SFML.Graphics;
 using SFML.System;
 
@@ -11,16 +12,12 @@ public class QuadTree<T>(FloatRect boundary)
     //** fields:
     //**********************************************************
 
-    private readonly FloatRect _boundary = boundary;
-    private readonly List<DataHolder> _data = new();
+    private FloatRect _boundary = boundary;
+    private readonly List<Node> _nodes = [];
     private QuadTree<T> _northEast;
     private QuadTree<T> _northWest;
     private QuadTree<T> _southEast;
     private QuadTree<T> _southWest;
-
-    //**********************************************************
-    //** ctor:
-    //**********************************************************
 
     //**********************************************************
     //** props:
@@ -28,32 +25,39 @@ public class QuadTree<T>(FloatRect boundary)
 
     public uint BoundaryCapacity { get; set; } = 4;
 
+    private bool IsLeaf => _northEast == null;
+
     //**********************************************************
     //** methods:
     //**********************************************************
 
     public bool Insert(Vector2f vector, T data)
     {
-        if (!_boundary.Contains(vector.X, vector.Y))
-            return false;
+        var node = new Node {
+            Point = vector,
+            Data  = data
+        };
 
-        if (_data.Count < BoundaryCapacity && _northWest == null)
-        {
-            _data.Add(new DataHolder
-            {
-                Point = vector,
-                Data = data
-            });
+        return Insert(node);
+    }
+
+    private bool Insert(Node node)
+    {
+        if (!_boundary.Contains(node.Point.X, node.Point.Y))
+            return false;
+        
+        if (_nodes.Count < BoundaryCapacity && IsLeaf) {
+            _nodes.Add(node);
             return true;
         }
 
-        if (_northWest == null)
+        if (IsLeaf)
             Subdivide();
 
-        if (_northEast.Insert(vector, data)) return true;
-        if (_northWest.Insert(vector, data)) return true;
-        if (_southEast.Insert(vector, data)) return true;
-        if (_southWest.Insert(vector, data)) return true;
+        if (_northEast.Insert(node)) return true;
+        if (_northWest.Insert(node)) return true;
+        if (_southEast.Insert(node)) return true;
+        if (_southWest.Insert(node)) return true;
 
         return false;
     }
@@ -63,7 +67,7 @@ public class QuadTree<T>(FloatRect boundary)
         var width = _boundary.Width / 2;
         var height = _boundary.Height / 2;
 
-        _northWest = new QuadTree<T>(new FloatRect(_boundary.Left, _boundary.Top, width, height))
+        _northWest = new QuadTree<T>(new FloatRect(_boundary.Left, _boundary.Top, width, height)) 
         {
             BoundaryCapacity = BoundaryCapacity
         };
@@ -78,10 +82,19 @@ public class QuadTree<T>(FloatRect boundary)
             BoundaryCapacity = BoundaryCapacity
         };
 
-        _southWest = new QuadTree<T>(new FloatRect(_boundary.Left, _boundary.Top + height, width, height))
-        {
+        _southWest = new QuadTree<T>(new FloatRect(_boundary.Left, _boundary.Top + height, width, height)) {
             BoundaryCapacity = BoundaryCapacity
         };
+
+        // distribute nodes to divided cells.
+        foreach (var node in _nodes) 
+        {
+            _northEast.Insert(node);
+            _northWest.Insert(node);
+            _southEast.Insert(node);
+            _southWest.Insert(node);
+        }
+        _nodes.Clear();
     }
 
     public T[] QueryRange(FloatCircle boundary)
@@ -94,10 +107,10 @@ public class QuadTree<T>(FloatRect boundary)
         );
 
         if (!_boundary.Intersects(rect))
-            return Array.Empty<T>();
+            return [];
 
         var inRange = new List<T>();
-        _data.ForEach(datum =>
+        _nodes.ForEach(datum =>
         {
             if (boundary.Contains(datum.Point.X, datum.Point.Y))
                 inRange.Add(datum.Data);
@@ -120,7 +133,7 @@ public class QuadTree<T>(FloatRect boundary)
 
         var inRange = new List<T>();
 
-        _data.ForEach(datum =>
+        _nodes.ForEach(datum =>
         {
             if (boundary.Contains(datum.Point.X, datum.Point.Y))
                 inRange.Add(datum.Data);
@@ -157,9 +170,9 @@ public class QuadTree<T>(FloatRect boundary)
     //** inner classes:
     //**********************************************************
 
-    private class DataHolder
+    private class Node
     {
-        public Vector2f Point { get; set; }
-        public T Data { get; set; }
+        public Vector2f Point { get; init; }
+        public T Data { get; init; }
     }
 }

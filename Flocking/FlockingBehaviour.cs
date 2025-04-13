@@ -18,10 +18,11 @@ public class FlockingBehaviour : GameBase
 
     public FlockingBehaviour(RenderWindow window, int numberOfAgents) : base(window)
     {
-        _numberOfAgents = numberOfAgents;
-        _agentUpdater = new AgentUpdater(this);
-        _agentRenderer = new AgentRenderer(this, window);
-        _agents = new List<Agent>();
+        base.ShowFps     = true;
+        _numberOfAgents  = numberOfAgents;
+        _agentUpdater    = new AgentUpdater(this);
+        _agentRenderer   = new AgentRenderer(this, window);
+        _agents          = new List<Agent>();
         _gameFpsRenderer = new GameFpsRenderer(window);
     }
 
@@ -29,7 +30,7 @@ public class FlockingBehaviour : GameBase
     public bool ShowNeighborhood { get; set; } = true;
     public Agent SelectedAgent { get; private set; }
     public List<Agent> Agents => _agents;
-    public bool RenderQuadTree { get; set; }
+    public bool RenderQuadTree { get; set; } = true;
     public bool UseQuadTree { get; set; } = true;
     public uint QuadTreeCapacity { get; set; } = 4;
 
@@ -142,7 +143,7 @@ public class FlockingBehaviour : GameBase
             _agents.ForEach(a => _qtree.Insert(a.Pos, a));
         }
 
-        _agents.ForEach(a =>
+        _agents.ForEach(a => 
         {
             _agentUpdater.Update(a);
             _agentRenderer.Render(a);

@@ -63,7 +63,7 @@ public static class Timer
     {
         private readonly Action _callback;
         private TimeSpan _elapsed;
-        private TimeSpan _time;
+        private readonly TimeSpan _time;
 
         internal Interval(int ms, Action callback)
         {
