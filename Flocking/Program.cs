@@ -9,8 +9,8 @@ namespace Flocking;
 
 class Program
 {
-    public const int ScreenWidth = 1600;
-    public const int ScreenHeight = 900;
+    public const int ScreenWidth = 1920;
+    public const int ScreenHeight = 1080;
     public const int DefaultNumberOfAgents = 300;
 
 

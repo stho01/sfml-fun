@@ -22,7 +22,7 @@ public class GameFpsRenderer
 
         _fpsText.DisplayedString = $"FPS: {Timer.Fps.ToString()}";
         _fpsText.Position = new Vector2f(5f, 5f);
-        _fpsText.CharacterSize = 18;
+        _fpsText.CharacterSize = 32;
         _fpsText.FillColor = Color.Red;
 
         _renderTarget.Draw(_fpsText);
